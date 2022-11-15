@@ -107,7 +107,7 @@ def attractions():
 		close(c, cursor)
 		print('here')
 
-@app.route("/api/attractions/<attractionId>")
+@app.route("/api/attraction/<attractionId>")
 def useIdFindAttraction(attractionId):
 	try:
 		c = conn()
