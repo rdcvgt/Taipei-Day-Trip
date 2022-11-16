@@ -53,7 +53,7 @@ def attractions():
 	attArray = []
 	if (keyword == None):
 		i = startAtt +1
-		while (i < startAtt+12): 
+		while (i < startAtt+13): 
 			sql = 'SELECT A.*, Cat.category FROM attraction as A INNER JOIN attraction_category as Cat ON A.att_id = Cat.att_id where A.id = %s'
 			startAttFrom = (i, )
 			try:
@@ -124,9 +124,9 @@ def attractions():
 		if (keyword != None):
 			nextpage = int(page)+1 if int(page)+1 <= (len(result) //12) else None
 		attractions = jsonify({
-				'nextpage': nextpage,
-				'data': attArray
-			})
+			'nextpage': nextpage,
+			'data': attArray
+		})
 		return attractions
 
 	finally:
