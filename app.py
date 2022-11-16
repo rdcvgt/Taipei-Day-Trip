@@ -1,9 +1,7 @@
 from flask import *
 import json
-import mysql.connector
-from mysql.connector import pooling  
-from data.connect_to_db import conn, selectDb, close
-from data.error_message import errorMessage
+from modules.connect_to_db import conn, selectDb, close
+from modules.error_message import errorMessage
 
 app=Flask(__name__)
 app.config["JSON_AS_ASCII"]=False
@@ -39,73 +37,100 @@ def attractions():
 	c = conn()
 	cursor = selectDb(c)
 	try:	
-		startAtt = int(page)*12 +1
+		startAtt = int(page)*12
 		sql = 'select count(id) from attraction'
 		cursor.execute(sql)
-		result = cursor.fetchone()
+		totalData = cursor.fetchone()
 		
 	except:
 		close(c, cursor)
 		return errorMessage("請輸入正確頁數"), 500
 
-
-	if (startAtt > result[0]):
+	if (startAtt+1 > totalData[0]):
 		close(c, cursor)
 		return errorMessage("已無資料可顯示"), 500
-		
 
-	i = startAtt
 	attArray = []
-	while (i < startAtt+12):
-		if (keyword == None):
+	if (keyword == None):
+		i = startAtt +1
+		while (i < startAtt+12): 
 			sql = 'SELECT A.*, Cat.category FROM attraction as A INNER JOIN attraction_category as Cat ON A.att_id = Cat.att_id where A.id = %s'
 			startAttFrom = (i, )
-		
-		if (keyword != None):
-			sql = "SELECT A.*, Cat.category FROM attraction as A INNER JOIN attraction_category as Cat ON A.att_id = Cat.att_id where A.id = %s and (A.name like %s or Cat.category = %s)"
-			startAttFrom = (i, '%'+keyword+'%', keyword)
-		
+			try:
+				cursor.execute(sql, startAttFrom)
+				result = cursor.fetchone()
+			except:
+				close(c, cursor)
+				return errorMessage("關鍵字或頁數有誤"), 500
+
+			if (not result):
+				break
+			
+			attraction = {
+				'id': result[0],
+				'name': result[2],
+				'category': result[10],
+				'description': result[8],
+				'address':result[3],
+				'direction': result[5],
+				'mrt': result[4],
+				'lat': float(result[7]),
+				'lng': float(result[6]),
+				'images': eval(result[9])
+			}
+
+			attArray.append(attraction)
+			i+= 1
+				
+	if (keyword != None):
+		i = startAtt
+		sql = "SELECT A.*, Cat.category FROM attraction as A INNER JOIN attraction_category as Cat ON A.att_id = Cat.att_id where (A.name like %s or Cat.category = %s)"
+		startAttFrom = ('%'+keyword+'%', keyword)
+
 		try:
 			cursor.execute(sql, startAttFrom)
-			result = cursor.fetchone()
+			result = cursor.fetchall()
 		except:
 			close(c, cursor)
 			return errorMessage("關鍵字或頁數有誤"), 500
 
-		if (not result):
-			i+= 1
-			continue
-		
-		attraction = {
-			'id': result[0],
-			'name': result[2],
-			'category': result[10],
-			'description': result[8],
-			'address':result[3],
-			'direction': result[5],
-			'mrt': result[4],
-			'lat': float(result[7]),
-			'lng': float(result[6]),
-			'images': eval(result[9])
-		}
+		while (i < startAtt+12): 
+			if (i > len(result)-1):
+				break
+			
+			attraction = {
+				'id': result[i][0],
+				'name': result[i][2],
+				'category': result[i][10],
+				'description': result[i][8],
+				'address':result[i][3],
+				'direction': result[i][5],
+				'mrt': result[i][4],
+				'lat': float(result[i][7]),
+				'lng': float(result[i][6]),
+				'images': eval(result[i][9])
+			}
 
-		attArray.append(attraction)
-		i+= 1
-	
+			attArray.append(attraction)
+			i+= 1
+
 	if (attArray == []):
 		close(c, cursor)
 		return errorMessage("查無資料"), 500
 	
 	try:
+		if (keyword == None):
+			nextpage = int(page)+1 if int(page)+1 <= (totalData[0] //12) else None
+		if (keyword != None):
+			nextpage = int(page)+1 if int(page)+1 <= (len(result) //12) else None
 		attractions = jsonify({
-			'nextpage': int(page)+1,
-			'data': attArray
-		})
+				'nextpage': nextpage,
+				'data': attArray
+			})
 		return attractions
 
 	finally:
 		close(c, cursor)
-		print('here')
 
 @app.route("/api/attraction/<attractionId>")
 def useIdFindAttraction(attractionId):
