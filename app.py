@@ -50,69 +50,43 @@ def attractions():
 		close(c, cursor)
 		return errorMessage("已無資料可顯示"), 500
 
-	attArray = []
 	if (keyword == None):
-		i = startAtt +1
-		while (i < startAtt+13): 
-			sql = 'SELECT A.*, Cat.category FROM attraction as A INNER JOIN attraction_category as Cat ON A.att_id = Cat.att_id where A.id = %s'
-			startAttFrom = (i, )
-			try:
-				cursor.execute(sql, startAttFrom)
-				result = cursor.fetchone()
-			except:
-				close(c, cursor)
-				return errorMessage("關鍵字或頁數有誤"), 500
+		sql = 'SELECT A.*, Cat.category FROM attraction as A INNER JOIN attraction_category as Cat ON A.att_id = Cat.att_id limit %s, 12'
+		startAttFrom = (startAtt, )
+		start = 0
+		end = 13
 
-			if (not result):
-				break
-			
-			attraction = {
-				'id': result[0],
-				'name': result[2],
-				'category': result[10],
-				'description': result[8],
-				'address':result[3],
-				'direction': result[5],
-				'mrt': result[4],
-				'lat': float(result[7]),
-				'lng': float(result[6]),
-				'images': eval(result[9])
-			}
-
-			attArray.append(attraction)
-			i+= 1
-				
 	if (keyword != None):
-		i = startAtt
 		sql = "SELECT A.*, Cat.category FROM attraction as A INNER JOIN attraction_category as Cat ON A.att_id = Cat.att_id where (A.name like %s or Cat.category = %s)"
 		startAttFrom = ('%'+keyword+'%', keyword)
+		start = startAtt
+		end = startAtt+12
 
-		try:
-			cursor.execute(sql, startAttFrom)
-			result = cursor.fetchall()
-		except:
-			close(c, cursor)
-			return errorMessage("關鍵字或頁數有誤"), 500
-
-		while (i < startAtt+12): 
-			if (i > len(result)-1):
+	try:
+		cursor.execute(sql, startAttFrom)
+		result = cursor.fetchall()
+		attArray = []
+		while (start < end): 
+			if (start > len(result)-1):
 				break
-			
 			attraction = {
-				'id': result[i][0],
-				'name': result[i][2],
-				'category': result[i][10],
-				'description': result[i][8],
-				'address':result[i][3],
-				'direction': result[i][5],
-				'mrt': result[i][4],
-				'lat': float(result[i][7]),
-				'lng': float(result[i][6]),
-				'images': eval(result[i][9])
+				'id': result[start][0],
+				'name': result[start][2],
+				'category': result[start][10],
+				'description': result[start][8],
+				'address':result[start][3],
+				'direction': result[start][5],
+				'mrt': result[start][4],
+				'lat': float(result[start][7]),
+				'lng': float(result[start][6]),
+				'images': eval(result[start][9])
 			}
 
 			attArray.append(attraction)
-			i+= 1
+			start+= 1
+	except:
+		close(c, cursor)
+		return errorMessage("關鍵字或頁數有誤"), 500
 
 	if (attArray == []):
 		close(c, cursor)
