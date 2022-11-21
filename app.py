@@ -48,7 +48,7 @@ def attractions():
 
 	if (startAtt+1 > totalData[0]):
 		close(c, cursor)
-		return errorMessage("已無資料可顯示"), 500
+		return errorMessage("已經沒有更多景點囉"), 500
 
 	if (keyword == None):
 		sql = 'SELECT A.*, Cat.category FROM attraction as A INNER JOIN attraction_category as Cat ON A.att_id = Cat.att_id limit %s, 12'
@@ -108,6 +108,7 @@ def attractions():
 
 @app.route("/api/attraction/<attractionId>")
 def useIdFindAttraction(attractionId):
+	print(attractionId, 'hey')
 	try:
 		c = conn()
 		cursor = selectDb(c)
