@@ -78,6 +78,7 @@
 }
 .navBarContainer .navTitle {
   color: #489;
+  text-decoration: none;
 }
 .navBarContainer .navBarBtn {
   display: flex;

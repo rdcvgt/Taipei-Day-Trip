@@ -37,35 +37,41 @@ function clickList() {
 clickList()
 
 /* 利用關鍵字去 fetch 資料 */
-keywordSearched = 0 //防止搜尋關鍵字時，pages 的資料再載入
-function keyword(pageNum) {
+let keyword = ""//防止搜尋關鍵字時，pages 的資料再載入
+const regex = /[%^&'',;=?$\x22]/
+function getKeyword(pageNum) {
 	const searchBar = document.querySelector('.searchBar')
 	const searchBtn = document.querySelector('.searchBtn')
 
 	searchBtn.addEventListener('click', (e) => {
-		keywordSearched++
 		keyword = searchBar.value
-		fetch(`/api/attractions?page=${pageNum}&keyword=${keyword}`)
-			.then(res => res.json())
-			.then(data => attClean(data))
+		if (regex.test(keyword)) {
+			document.querySelector('.attractionGroup').innerHTML = ''
+			document.querySelector('.endMessage').innerHTML = ''
+			showEndMessage(`找不到與「${keyword}」相關的景點`)
+		} else {
+			fetch(`/api/attractions?page=${pageNum}&keyword=${keyword}`)
+				.then(res => res.json())
+				.then(data => attClean(data, keyword))
+		}
 	})
 }
-keyword(pageNum = 0)
+getKeyword(pageNum = 0)
 
 
 /* 清除原有景點再載入 */
-function attClean(data) {
+function attClean(data, keyword) {
 	document.querySelector('.attractionGroup').innerHTML = ''
 	document.querySelector('.endMessage').innerHTML = ''
+
 	if (data.error === true) {
-		loadMoreAtt(null)
+		showEndMessage(`找不到與「${keyword}」相關的景點`)
 		return
 	}
 	loadAttractions(data)
-
 }
 
-/* 顯示 page 0 的資料 */
+/* 載入 page 的資料 */
 function loadAttractions(data) {
 	attArray = data.data
 	str = ``
@@ -87,12 +93,11 @@ function loadAttractions(data) {
 	}
 	document.querySelector('.attractionGroup').innerHTML += str
 
-
 	let nextpage = data.nextpage
 	if (nextpage !== null) {
 		scrollDown(data.nextpage)
 	} else (
-		loadMoreAtt(null) //沒有下一頁
+		showEndMessage('已經沒有更多景點囉！')
 	)
 
 }
@@ -100,59 +105,45 @@ function loadAttractions(data) {
 /* 判斷是否已到頁尾 */
 function scrollDown(pageNum) {
 	let observer = new IntersectionObserver((entry) => {
-		if (pageNum === null) {
-			loadMoreAtt(null)
-			observer.unobserve(
-				document.querySelector('.footer')
-			);
-			return
-		}
 
-		//如果有下一頁而且已經抵達頁尾
-		if (pageNum !== null && entry[0].intersectionRatio
-			&& keywordSearched === 0 && document.readyState === 'complete'
+		if (entry[0].intersectionRatio && document.readyState === 'complete'
 		) {
-			loadMoreAtt(pageNum)
+			PageAttractions(pageNum)
 			//呼叫函式後就停止觀察，避免重複載入
 			observer.unobserve(
 				document.querySelector('.footer')
 			);
 		}
-
 	});
-
-	if (pageNum !== null) {
-		observer.observe(document.querySelector('.footer'))
-	}
-
-
+	observer.observe(document.querySelector('.footer'))
 }
 
-/* 載入下一頁資訊 */
-function loadMoreAtt(pageNum) {
-	if (pageNum === null) {
-		const endMessage = document.querySelector('.endMessage')
-		let endAtt = document.createElement('div')
-		endAtt.innerText = '已經沒有更多景點囉！'
-		endAtt.classList.add('endAtt', 'contentBold')
-		endMessage.appendChild(endAtt)
-		return
-	}
-
-	if (pageNum !== null) {
-		//抓取 page 的資料
-		PageAttractions(pageNum)
-	}
-
-}
 
 /* 抓取 page 的資料 */
-function PageAttractions(pageNum) {
-	fetch(`/api/attractions?page=${pageNum}`)
-		.then((res) => res.json())
-		.then(data => loadAttractions(data))
+function PageAttractions(pageNum = 0) {
+	//如果沒有 keyword 才以 page 搜尋
+	if (!keyword) {
+		fetch(`/api/attractions?page=${pageNum}`)
+			.then((res) => res.json())
+			.then(data => loadAttractions(data))
+
+	} else {
+		fetch(`/api/attractions?page=${pageNum}&keyword=${keyword}`)
+			.then((res) => res.json())
+			.then(data => loadAttractions(data))
+	}
+
 }
 //首頁預設爲 0
 window.addEventListener("load", () => {
-	PageAttractions(pageNum = 0)
+	PageAttractions(0)
 });
+
+/* 頁尾訊息 */
+function showEndMessage(message) {
+	const endMessage = document.querySelector('.endMessage')
+	let endAtt = document.createElement('div')
+	endAtt.innerText = message
+	endAtt.classList.add('endAtt', 'contentBold')
+	endMessage.appendChild(endAtt)
+}
