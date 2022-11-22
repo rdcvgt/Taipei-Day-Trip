@@ -56,6 +56,8 @@ function getKeyword(pageNum) {
 	const searchBtn = document.querySelector('.searchBtn')
 
 	searchBtn.addEventListener('click', (e) => {
+		keywordPageNum = 0
+		console.log(keywordPageNum)
 		keyword = searchBar.value
 		if (regex.test(keyword) || keyword === "") {
 			cleanNode()
@@ -102,9 +104,8 @@ function pageAttractions(pageNumber) {
 
 /* 抓取 keyword 的資料 */
 function keywordAttractions(keywordPageNum) {
-	pageNum++
 	//如果有 keyword
-	fetch(`/api/attractions?page=${pageNum}&keyword=${keyword}`)
+	fetch(`/api/attractions?page=${keywordPageNum}&keyword=${keyword}`)
 		.then((res) => res.json())
 		.then(data => {
 			if (data.error === true) { return }
@@ -139,6 +140,7 @@ function loadAttractions(data) {
 
 	}
 	let nextpage = data.nextpage
+	console.log('nextpage', nextpage)
 	if (nextpage === null) {
 		showEndMessage('已經沒有更多景點囉！')
 		return
@@ -155,6 +157,7 @@ function scrollDown() {
 		//以是否有 keyword 作爲判斷
 		if (keyword && entry[0].intersectionRatio && document.readyState === 'complete'
 		) {
+			console.log('hello')
 			keywordPageNum++
 			keywordAttractions(keywordPageNum)
 			observer.unobserve(
