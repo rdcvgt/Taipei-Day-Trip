@@ -100,6 +100,10 @@ body
 	background-color: $primary70
 	cursor: pointer
 	position: relative
+	// transition: 0.1s
+
+	&:active
+		background-color: $primary50
 
 	.searchImg
 		position: absolute
@@ -121,11 +125,16 @@ body
 	justify-content: center
 
 .attContainer
+	// transition: 0.2s
 	width: 270px
 	height: 242px
 	border-radius: 5px
 	overflow: hidden
 	border: 1px solid $secondary20
+	cursor: pointer
+
+	&:hover .attImg
+		filter: brightness(115%);
 	
 
 	.attMain
@@ -134,6 +143,7 @@ body
 		height: 197px
 		
 		.attImg
+			transition: 0.3s
 			overflow: hidden
 			display: block
 			width: 100%

@@ -50,8 +50,6 @@ def attractions():
 				C ON A.att_id = C.att_id where (A.name like %s or C.category = %s) limit %s, 13'''
 		startAttFrom = ('%'+keyword+'%', keyword, startAtt)
 
-
-
 	try:
 		c = conn()
 		cursor = selectDb(c)

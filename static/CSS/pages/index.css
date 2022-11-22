@@ -156,6 +156,9 @@ body {
   cursor: pointer;
   position: relative;
 }
+.searchBtn:active {
+  background-color: #ade;
+}
 .searchBtn .searchImg {
   position: absolute;
   left: 50%;
@@ -180,6 +183,10 @@ body {
   border-radius: 5px;
   overflow: hidden;
   border: 1px solid #e8e8e8;
+  cursor: pointer;
+}
+.attContainer:hover .attImg {
+  filter: brightness(115%);
 }
 .attContainer .attMain {
   position: relative;
@@ -187,6 +194,7 @@ body {
   height: 197px;
 }
 .attContainer .attMain .attImg {
+  transition: 0.3s;
   overflow: hidden;
   display: block;
   width: 100%;
