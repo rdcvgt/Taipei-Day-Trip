@@ -11,20 +11,18 @@ function closeBox() {
 	boxBG.style.display = 'none'
 }
 
+
 /* 載入輸入欄位景點分類 */
 fetch('/api/categories')
 	.then((res) => res.json())
 	.then(data => loadCategories(data))
 
-const categoryList = document.querySelector('.categoryList')
 function loadCategories(data) {
 	const cat = data.data
 
 	for (i = 0; i < cat.length; i++) {
-		let list = document.createElement('div')
-		list.classList.add('list', 'categoryListMedium')
-		list.innerText = cat[i]
-		categoryList.appendChild(list)
+		let str = `<div class="list categoryListMedium">${cat[i]}</div>`
+		document.querySelector('.categoryList').insertAdjacentHTML("beforeend", str)
 	}
 }
 
@@ -36,8 +34,22 @@ function clickList() {
 }
 clickList()
 
-/* 利用關鍵字去 fetch 資料 */
-let keyword = ""//防止搜尋關鍵字時，pages 的資料再載入
+/* 清除網頁中的景點資料 */
+function cleanNode() {
+	const attractionGroup = document.querySelector('.attractionGroup')
+	const endMessage = document.querySelector('.endMessage')
+	const endAtt = document.querySelector('.endAtt')
+	while (attractionGroup.firstChild) {
+		attractionGroup.removeChild(attractionGroup.firstChild);
+	}
+	if (endAtt) {
+		endMessage.removeChild(endAtt);
+	}
+}
+
+
+/* 點擊搜尋，利用關鍵字去抓資料 */
+let keyword = null
 const regex = /[%^&'',;=?$\x22]/
 function getKeyword(pageNum) {
 	const searchBar = document.querySelector('.searchBar')
@@ -45,9 +57,8 @@ function getKeyword(pageNum) {
 
 	searchBtn.addEventListener('click', (e) => {
 		keyword = searchBar.value
-		if (regex.test(keyword)) {
-			document.querySelector('.attractionGroup').innerHTML = ''
-			document.querySelector('.endMessage').innerHTML = ''
+		if (regex.test(keyword) || keyword === "") {
+			cleanNode()
 			showEndMessage(`找不到與「${keyword}」相關的景點`)
 		} else {
 			fetch(`/api/attractions?page=${pageNum}&keyword=${keyword}`)
@@ -59,11 +70,9 @@ function getKeyword(pageNum) {
 getKeyword(pageNum = 0)
 
 
-/* 清除原有景點再載入 */
+/* 清除原有景點，再載入資料 */
 function attClean(data, keyword) {
-	document.querySelector('.attractionGroup').innerHTML = ''
-	document.querySelector('.endMessage').innerHTML = ''
-
+	cleanNode()
 	if (data.error === true) {
 		showEndMessage(`找不到與「${keyword}」相關的景點`)
 		return
@@ -72,13 +81,46 @@ function attClean(data, keyword) {
 	}
 }
 
-/* 載入 page 的資料 */
+/* 載入首頁 */
+window.addEventListener("load", () => {
+	fetch(`/api/attractions?page=0`)
+		.then((res) => res.json())
+		.then(data => loadAttractions(data))
+
+});
+
+/* 抓取 page 的資料 */
+function pageAttractions(pageNumber) {
+	//如果沒有 keyword 才以 page 搜尋
+	fetch(`/api/attractions?page=${pageNumber}`)
+		.then((res) => res.json())
+		.then(data => {
+			if (data.error === true) { return }
+			loadAttractions(data)
+		})
+}
+
+/* 抓取 keyword 的資料 */
+function keywordAttractions(keywordPageNum) {
+	pageNum++
+	//如果有 keyword
+	fetch(`/api/attractions?page=${pageNum}&keyword=${keyword}`)
+		.then((res) => res.json())
+		.then(data => {
+			if (data.error === true) { return }
+			loadAttractions(data)
+		})
+}
+
+/* 載入抓取到的資料 */
 function loadAttractions(data) {
-	console.log('loadAttractions', data.nextpage)
+
 	attArray = data.data
+	if (attArray === undefined) { return }
 	str = ``
+	attractionGroup = document.querySelector('.attractionGroup')
 	for (i = 0; i < attArray.length; i++) {
-		str += `
+		str = `
 		<div class="attContainer">
 			<div class="attMain">
 				<img class="attImg " src="${attArray[i].images[0]}" alt="景點照片">
@@ -92,32 +134,37 @@ function loadAttractions(data) {
 			</div>
 		</div>
 		`
+
+		attractionGroup.insertAdjacentHTML("beforeend", str)
+
 	}
-	document.querySelector('.attractionGroup').innerHTML += str
-
 	let nextpage = data.nextpage
-	if (nextpage !== null) {
-		scrollDown(data.nextpage)
-	} else (
+	if (nextpage === null) {
 		showEndMessage('已經沒有更多景點囉！')
-	)
-
+		return
+	} else {
+		scrollDown()
+	}
 }
 
 /* 判斷是否已到頁尾 */
-function scrollDown(pageNum) {
+let pageNumber = 0
+let keywordPageNum = 0
+function scrollDown() {
 	let observer = new IntersectionObserver((entry) => {
-		//分開執行 PageAttractions，避免重複載入資料
-		if (!keyword && entry[0].intersectionRatio && document.readyState === 'complete'
+		//以是否有 keyword 作爲判斷
+		if (keyword && entry[0].intersectionRatio && document.readyState === 'complete'
 		) {
-			PageAttractions(pageNum)
-
-			observer.unobserve( //呼叫函式後就停止觀察，避免頁面滾動重複載入
+			keywordPageNum++
+			keywordAttractions(keywordPageNum)
+			observer.unobserve(
 				document.querySelector('.footer')
 			);
-		} else {
-			PageAttractions(pageNum)
-			observer.unobserve(
+		} else if (!keyword && entry[0].intersectionRatio && document.readyState === 'complete'
+		) {
+			pageNumber++
+			pageAttractions(pageNumber)
+			observer.unobserve( //呼叫函式後就停止觀察，避免頁面滾動重複載入
 				document.querySelector('.footer')
 			);
 		}
@@ -126,31 +173,9 @@ function scrollDown(pageNum) {
 }
 
 
-/* 抓取 page 的資料 */
-function PageAttractions(pageNum = 0) {
-	//如果沒有 keyword 才以 page 搜尋
-	if (!keyword) {
-		fetch(`/api/attractions?page=${pageNum}`)
-			.then((res) => res.json())
-			.then(data => loadAttractions(data))
-
-	} else {
-		fetch(`/api/attractions?page=${pageNum}&keyword=${keyword}`)
-			.then((res) => res.json())
-			.then(data => loadAttractions(data))
-	}
-
-}
-//首頁預設爲 0
-window.addEventListener("load", () => {
-	PageAttractions(0)
-});
-
 /* 頁尾訊息 */
 function showEndMessage(message) {
 	const endMessage = document.querySelector('.endMessage')
-	let endAtt = document.createElement('div')
-	endAtt.innerText = message
-	endAtt.classList.add('endAtt', 'contentBold')
-	endMessage.appendChild(endAtt)
+	let str = `<div class="endAtt contentBold">${message}</div>`
+	endMessage.insertAdjacentHTML("beforeend", str)
 }
