@@ -67,12 +67,14 @@ function attClean(data, keyword) {
 	if (data.error === true) {
 		showEndMessage(`找不到與「${keyword}」相關的景點`)
 		return
+	} else {
+		loadAttractions(data)
 	}
-	loadAttractions(data)
 }
 
 /* 載入 page 的資料 */
 function loadAttractions(data) {
+	console.log('loadAttractions', data.nextpage)
 	attArray = data.data
 	str = ``
 	for (i = 0; i < attArray.length; i++) {
@@ -105,11 +107,16 @@ function loadAttractions(data) {
 /* 判斷是否已到頁尾 */
 function scrollDown(pageNum) {
 	let observer = new IntersectionObserver((entry) => {
-
-		if (entry[0].intersectionRatio && document.readyState === 'complete'
+		//分開執行 PageAttractions，避免重複載入資料
+		if (!keyword && entry[0].intersectionRatio && document.readyState === 'complete'
 		) {
 			PageAttractions(pageNum)
-			//呼叫函式後就停止觀察，避免重複載入
+
+			observer.unobserve( //呼叫函式後就停止觀察，避免頁面滾動重複載入
+				document.querySelector('.footer')
+			);
+		} else {
+			PageAttractions(pageNum)
 			observer.unobserve(
 				document.querySelector('.footer')
 			);
