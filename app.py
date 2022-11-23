@@ -31,43 +31,35 @@ def attractions():
 
 	if (page == None or page == ""):
 		return errorMessage("請指定頁數"), 500
+
 	if (keyword == ""):
 		return errorMessage("請輸入關鍵字"), 500
 
-	c = conn()
-	cursor = selectDb(c)
 	try:	
 		startAtt = int(page)*12
-		sql = 'select count(id) from attraction'
-		cursor.execute(sql)
-		totalData = cursor.fetchone()
-		
 	except:
-		close(c, cursor)
 		return errorMessage("請輸入正確頁數"), 500
 
-	if (startAtt+1 > totalData[0]):
-		close(c, cursor)
-		return errorMessage("已無資料可顯示"), 500
-
 	if (keyword == None):
-		sql = 'SELECT A.*, Cat.category FROM attraction as A INNER JOIN attraction_category as Cat ON A.att_id = Cat.att_id limit %s, 12'
+		sql = '''SELECT A.*, Cat.category FROM attraction as A INNER JOIN attraction_category as Cat 
+		ON A.att_id = Cat.att_id limit %s, 13'''
 		startAttFrom = (startAtt, )
-		start = 0
-		end = 13
 
 	if (keyword != None):
-		sql = "SELECT A.*, Cat.category FROM attraction as A INNER JOIN attraction_category as Cat ON A.att_id = Cat.att_id where (A.name like %s or Cat.category = %s)"
-		startAttFrom = ('%'+keyword+'%', keyword)
-		start = startAtt
-		end = startAtt+12
+		sql = '''SELECT A.*, C.category FROM attraction as A INNER JOIN attraction_category as 
+				C ON A.att_id = C.att_id where (A.name like %s or C.category = %s) limit %s, 13'''
+		startAttFrom = ('%'+keyword+'%', keyword, startAtt)
 
 	try:
+		c = conn()
+		cursor = selectDb(c)
 		cursor.execute(sql, startAttFrom)
 		result = cursor.fetchall()
 		attArray = []
+		start = 0
+		end = 12
 		while (start < end): 
-			if (start > len(result)-1):
+			if (start > len(result)-1):  #當索引值大於資料長度
 				break
 			attraction = {
 				'id': result[start][0],
@@ -93,10 +85,10 @@ def attractions():
 		return errorMessage("查無資料"), 500
 	
 	try:
-		if (keyword == None):
-			nextpage = int(page)+1 if int(page)+1 <= (totalData[0] //12) else None
-		if (keyword != None):
-			nextpage = int(page)+1 if int(page)+1 <= (len(result) //12) else None
+		if (len(result)== 13):  #確定是否有第十三筆（下一頁）資料
+			nextpage = int(page)+1
+		else:
+			nextpage = None
 		attractions = jsonify({
 			'nextpage': nextpage,
 			'data': attArray
@@ -108,10 +100,12 @@ def attractions():
 
 @app.route("/api/attraction/<attractionId>")
 def useIdFindAttraction(attractionId):
+	print(attractionId, 'hey')
 	try:
 		c = conn()
 		cursor = selectDb(c)
-		sql = 'SELECT A.*, Cat.category FROM attraction as A INNER JOIN attraction_category as Cat ON A.att_id = Cat.att_id where A.id = %s'
+		sql = '''SELECT A.*, Cat.category FROM attraction as A INNER JOIN 
+			attraction_category as Cat ON A.att_id = Cat.att_id where A.id = %s'''
 		attId = (int(attractionId), )
 		cursor.execute(sql, attId)
 		result = cursor.fetchone()

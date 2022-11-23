@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>index</title>
+	<link rel="stylesheet" href="../static/CSS/components/reset.css">
+	<link rel="stylesheet" href="../static/CSS/components/base.css">
+	<link rel="stylesheet" href="../static/CSS/components/navigation.css">
+	<link rel="stylesheet" href="../static/CSS/components/footer.css">
+	<link rel="stylesheet" href="../static/CSS/components/sign_box.css">
+	<link rel="stylesheet" href="../static/CSS/pages/index.css">
+</head>
+
+<body>
+	{% include 'components/navigation.html'%}
+
+	<heroSection class="heroSection">
+		<div class="sectionImgBox">
+			<img class="welcomeImg" src="../static/Images/components/welcome.png" alt="首頁圖片">
+		</div>
+		<div class="sloganContainer">
+			<div class="sloganText">
+				<div class="mainSlogan sloganTitle ">
+					輕鬆享受台北一日悠閒
+				</div>
+				<div class="secondSlogan bodyBold ">
+					探索每個角落，體驗城市的深度旅遊行程
+				</div>
+			</div>
+			<div class="sloganSearch">
+				<div class="searchContainer">
+					<input class="searchBar bodyBold" type="text" placeholder="輸入景點名稱查詢">
+					<div class="categoryList"></div>
+				</div>
+				<a class="searchBtn">
+					<img class="searchImg" src="../static/Images/components/search.png" alt="搜尋">
+				</a>
+			</div>
+
+		</div>
+	</heroSection>
+	<attractions class="attractionGroup">
+	</attractions>
+	<div class="endMessage"></div>
+	<div>
+		{% include 'components/sign_in.html'%}
+	</div>
+	<!-- <div>
+		{% include 'components/sign_up.html'%}
+	</div> -->
+	<div>
+		{% include 'components/footer.html'%}
+	</div>
+	<script type="text/javascript" src="../static/javascript/index.js"></script>
+</body>
+
+</html>

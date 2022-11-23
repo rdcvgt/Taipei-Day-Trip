@@ -1,0 +1,38 @@
+@import "./base.styl"
+/* [Desktop] Navigation */
+.navBar
+	position: fixed;
+	width: 100%;
+	height: 54px;
+	left: 0px;
+	top: 0px;
+	background: #FFFFFF;
+	display:flex
+	justify-content: center
+	align-items: center
+	z-index: 2
+
+.navBarContainer
+	width: 1200px
+	display:flex
+	justify-content: space-between
+	align-items: center
+	
+	.navTitle
+		color: $primary70
+		text-decoration: none
+
+	.navBarBtn
+		display:flex; 
+		justify-content: space-between;
+		align-items: center
+
+		.button 
+			padding:10px
+			color: $secondary70
+			cursor pointer
+
+
+@media (max-width: 1200px)
+	.navBarContainer
+		width: 90%

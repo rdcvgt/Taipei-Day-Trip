@@ -1,0 +1,62 @@
+@import url("https://fonts.googleapis.com/earlyaccess/notosanstc.css");
+* {
+  font-family: 'Noto Sans TC';
+}
+/* Primary / Cyan series */
+/* Secondary / Gray series */
+/* Typography */
+.sloganTitle {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 24px;
+}
+.headLine {
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 34px;
+}
+.dialogTitleBold {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 24px;
+}
+.dialogTitleRegular {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 24px;
+}
+.buttonBold {
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 16px;
+}
+.buttonRegular {
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 16px;
+}
+.contentBold {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: auto;
+}
+.contentRegular {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: auto;
+}
+.bodyBold {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 13.3px;
+}
+.bodyMedium {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 13.3px;
+}
+.categoryListMedium {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: auto;
+}
