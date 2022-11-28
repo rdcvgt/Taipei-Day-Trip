@@ -4,9 +4,14 @@ const boxContainer = document.querySelector('.boxContainer')
 
 document.querySelector('.navLoginBtn').addEventListener('click', () => {
 	boxBG.style.display = 'block'
-
 })
 
 function closeBox() {
 	boxBG.style.display = 'none'
 }
+
+boxBG.addEventListener('click', (e) => {
+	boxBG.style.display = 'none'
+	stopPropagation()
+
+}, false)
