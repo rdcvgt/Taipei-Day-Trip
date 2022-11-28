@@ -8,10 +8,12 @@ body
 
 /* section */
 .section
-	margin-top: 91px
+	top: 91px
+	position: relative
 	display: flex
 	justify-content: center
 	align-items: center
+	margin-bottom: 91 + 37px
 
 .sectionContainer
 	width: 1200px
@@ -81,6 +83,7 @@ body
 		border-radius: 12px;
 		background-color: rgba(255,255,255,0.8)
 		outline: none;
+		cursor: pointer
 	}
 
 	input[type='radio']:checked:after
@@ -203,7 +206,8 @@ body
 .hr
 	width: 1200px
 	border:1px solid #E8E8E8
-	margin-top: 37px
+	// margin-top: 37px
+	position: relative
 	
 
 .info
@@ -237,7 +241,7 @@ body
 	.section
 		flex-wrap: wrap
 		min-width: 100%
-		margin-top: 54px
+		top: 54px
 		
 
 	.sectionContainer
@@ -258,7 +262,7 @@ body
 	.bookingBox
 		width: 90%
 		margin: 0 auto
-		margin-top: 10px
+		margin-top: 20px
 		
 	.grayArea
 		width: 100%
