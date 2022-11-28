@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>index</title>
+	{% include 'components/head.html'%}
+	<link rel="stylesheet" href="../static/CSS/pages/attraction.css">
+</head>
+
+<body>
+	{% include 'components/navigation.html'%}
+	<section class="section">
+		<div class="sectionContainer">
+			<div class="imgBox">
+				<div class="imgChange">
+					<div class="imgBar">
+					</div>
+				</div>
+				<div class="imgBtn">
+					<img class="leftBtn" src="../static/Images/components/left arrow.png">
+					<img class="rightBtn" src="../static/Images/components/right arrow.png">
+				</div>
+				<div class="imgDot">
+				</div>
+			</div>
+			<div class="bookingBox">
+				<div class="grayArea">
+					<div class="bodyBold bookTitle">訂購導覽行程</div>
+					<div class="bodyMedium bookIntro">以此景點為中心的一日行程，帶您探索城市角落故事</div>
+					<form>
+						<div class="bodyBold bookDate">選擇日期：
+							<label>
+								<input class="bodyMedium bookDateSelector" type="date" value="yyyy-MM-dd">
+							</label>
+						</div>
+						<div class="bodyBold bookTime">
+							選擇時間：
+
+							<label class="bookMorningBox radioBtnBox">
+								<input class="bodyMedium radioBtn bookMorning" type="radio" name="radioBtnBox" value="morning" checked> 上半天
+							</label>
+
+							<label class="bookMorningBox radioBtnBox">
+								<input class="bodyMedium radioBtn bookAfternoon" type="radio" name="radioBtnBox" value="afternoon"> 下半天
+							</label>
+						</div>
+						<div class="bodyBold bookFee">導覽費用：
+							<div class="bodyMedium bookFeeNtd">新臺幣 2000 元</div>
+						</div>
+						<input class="bookConfirm buttonRegular" type="submit" value="開始預約行程"></input>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	<hr class="hr">
+	<info class="info">
+		<div class="infoContainer">
+			<div class="address">
+				<div class="addressTitle bodyBold">
+					景點地址：
+				</div>
+			</div>
+			<div class="trans">
+				<div class="transTitle bodyBold">
+					交通方式：
+				</div>
+			</div>
+		</div>
+	</info>
+
+	<div>
+		{% include 'components/sign_in.html'%}
+	</div>
+	<div>
+		{% include 'components/sign_up.html'%}
+	</div>
+	<div>
+		{% include 'components/footer.html'%}
+	</div>
+	<script type="text/javascript" src="../static/javascript/login.js"></script>
+	<script type="text/javascript" src="../static/javascript/attraction.js"></script>
+</body>
+
+</html>

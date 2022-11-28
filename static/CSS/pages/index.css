@@ -184,6 +184,7 @@ body {
   overflow: hidden;
   border: 1px solid #e8e8e8;
   cursor: pointer;
+  text-decoration: none;
 }
 .attContainer:hover .attImg {
   filter: brightness(115%);

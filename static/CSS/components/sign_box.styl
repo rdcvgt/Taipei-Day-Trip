@@ -11,21 +11,34 @@
 	position: absolute
 	top: 0
 
+.boxContainer
+	z-index: 4
+	position: absolute
+
+.boxForSignUp
+	display: none
+
+.boxForSignIn
+	display: none
+
 .box
 	width: 340px;
 	height: auto;
+	border-radius: 6px;
 	background: #FFFFFF;
 	box-shadow: 0px 4px 60px #AAAAAA;
-	border-radius: 6px;
+
 	margin: 0 auto
-	margin-top: 80px
 	left: 50%
 	transform: translate(-50%, 0)
+	position: fixed
+	top: 80px
+
 	display: flex
 	flex-wrap: wrap
 	justify-content: center
 	align-items: center
-	position: fixed
+
 	overflow: hidden
 
 .boxTopBar
@@ -82,3 +95,4 @@
 	.goToBtn
 		color: $secondary70
 		text-decoration: none
+		cursor pointer

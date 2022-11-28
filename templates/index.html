@@ -2,15 +2,8 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>index</title>
-	<link rel="stylesheet" href="../static/CSS/components/reset.css">
-	<link rel="stylesheet" href="../static/CSS/components/base.css">
-	<link rel="stylesheet" href="../static/CSS/components/navigation.css">
-	<link rel="stylesheet" href="../static/CSS/components/footer.css">
-	<link rel="stylesheet" href="../static/CSS/components/sign_box.css">
+	{% include 'components/head.html'%}
 	<link rel="stylesheet" href="../static/CSS/pages/index.css">
 </head>
 
@@ -48,12 +41,13 @@
 	<div>
 		{% include 'components/sign_in.html'%}
 	</div>
-	<!-- <div>
+	<div>
 		{% include 'components/sign_up.html'%}
-	</div> -->
+	</div>
 	<div>
 		{% include 'components/footer.html'%}
 	</div>
+	<script type="text/javascript" src="../static/javascript/login.js"></script>
 	<script type="text/javascript" src="../static/javascript/index.js"></script>
 </body>
 

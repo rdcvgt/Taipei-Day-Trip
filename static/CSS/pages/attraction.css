@@ -1,0 +1,321 @@
+@import url("https://fonts.googleapis.com/earlyaccess/notosanstc.css");
+* {
+  font-family: 'Noto Sans TC';
+}
+.sloganTitle {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 24px;
+}
+.headLine {
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 34px;
+}
+.dialogTitleBold {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 24px;
+}
+.dialogTitleRegular {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 24px;
+}
+.buttonBold {
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 16px;
+}
+.buttonRegular {
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 16px;
+}
+.contentBold {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: auto;
+}
+.contentRegular {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: auto;
+}
+.bodyBold {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 13.3px;
+}
+.bodyMedium {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 13.3px;
+}
+.categoryListMedium {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: auto;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  position: relative;
+}
+/* section */
+.section {
+  top: 91px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 128px;
+}
+.sectionContainer {
+  width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px 0 15px;
+}
+/* section - 輪播照片 */
+.imgBox {
+  width: 540px;
+  height: 406px;
+  position: relative;
+}
+.imgChange {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+.imgChange .imgBar {
+  width: auto;
+  height: 100%;
+  display: flex;
+  position: absolute;
+  left: 0px;
+  transition: 0.5s cubic-bezier(0.65, 0.05, 0.36, 1);
+}
+.imgChange .imgBar .attImg {
+  object-fit: cover;
+  max-width: 100%;
+  min-width: 100%;
+  display: block;
+}
+.imgBtn {
+  cursor: pointer;
+}
+.imgBtn .leftBtn {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translate(0, -50%);
+}
+.imgBtn .rightBtn {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translate(0, -50%);
+}
+.imgDot {
+  width: auto;
+  height: 20px;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.imgDot input[type='radio'] {
+  -webkit-appearance: none;
+  margin: 3px;
+  width: 12px;
+  height: 12px;
+  border-radius: 12px;
+  background-color: rgba(255,255,255,0.8);
+  outline: none;
+  cursor: pointer;
+}
+.imgDot input[type='radio']:checked:after {
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+  position: relative;
+  top: -5px;
+  right: -1px;
+  content: '';
+  display: inline-block;
+  visibility: visible;
+  background-color: rgba(0,0,0,0.8);
+}
+/* section - 右側資訊區 */
+.bookingBox {
+  width: 600px;
+  color: #666;
+}
+.attName {
+  margin-bottom: 15px;
+}
+.attCat {
+  margin-bottom: 20px;
+}
+.grayArea {
+  width: 600px;
+  height: 302px;
+  background-color: #e8e8e8;
+  padding: 15px 20px 15px 20px;
+  border-radius: 5px;
+}
+.bookTitle {
+  margin-bottom: 15px;
+}
+.bookIntro {
+  line-height: 1.5em;
+}
+.bookDate {
+  margin: 24px 5px 24px 0;
+}
+.bookDate .bookDateSelector {
+  position: relative;
+  width: 193px;
+  height: 35px;
+  padding: 5px 34px 5px 34px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+.bookDate .bookDateSelector:focus {
+  border: none;
+}
+.bookDate input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  margin-right: 15px;
+  background: no-repeat;
+  background-image: url("/static/Images/components/calendar.png");
+  position: absolute;
+  right: 5px;
+  bottom: 2px;
+  width: 24px;
+  height: 24px;
+}
+.bookTime {
+  margin-bottom: 15px;
+  margin-right: 5px;
+  display: flex;
+  align-items: center;
+}
+.radioBtnBox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.radioBtnBox input[type='radio'] {
+  cursor: pointer;
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: #fff;
+  margin-right: 5px;
+}
+.radioBtnBox input[type='radio']:checked:after {
+  width: 18px;
+  height: 18px;
+  border-radius: 18px;
+  position: relative;
+  background-color: #489;
+  content: '';
+  display: inline-block;
+  border: 2px solid #fff;
+}
+.bookMorningBox {
+  margin-right: 10px;
+}
+.bookFee {
+  margin-bottom: 25px;
+  margin-right: 5px;
+  display: flex;
+  align-items: center;
+}
+.bookConfirm {
+  padding: 10px 20px 10px 20px;
+  border: 0px;
+  background-color: #489;
+  border-radius: 5px;
+  color: #fff;
+  width: 154px;
+  height: 36px;
+  cursor: pointer;
+}
+/* info */
+.hr {
+  width: 1200px;
+  border: 1px solid #e8e8e8;
+  position: relative;
+}
+.info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+  margin-bottom: 120px;
+}
+.infoContainer {
+  width: 1200px;
+  color: #666;
+  line-height: 1.5em;
+}
+.infoContainer .content {
+  margin-bottom: 20px;
+  white-space: pre-wrap;
+}
+.infoContainer .address {
+  margin-bottom: 20px;
+}
+.infoContainer .address .addressTitle {
+  line-height: 32px;
+}
+.infoContainer .transTitle {
+  line-height: 32px;
+}
+/* RWD */
+@media (max-width: 1200px) {
+  .section {
+    flex-wrap: wrap;
+    min-width: 100%;
+    top: 54px;
+  }
+  .sectionContainer {
+    width: 100%;
+    flex-wrap: wrap;
+    padding: 0px;
+  }
+  .imgBox {
+    width: 100%;
+    height: 500px;
+  }
+  .hr {
+    width: 90%;
+  }
+  .infoContainer {
+    width: 90%;
+  }
+  .bookingBox {
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 20px;
+  }
+  .grayArea {
+    width: 100%;
+  }
+}
+@media (max-width: 600px) {
+  .imgBox {
+    height: 350px;
+  }
+}

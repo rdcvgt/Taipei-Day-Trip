@@ -90,8 +90,12 @@ function loadAttractions(data) {
 	const attractionGroup = document.querySelector('.attractionGroup')
 
 	for (i = 0; i < attArray.length; i++) {
+		mrt = attArray[i].mrt
+		if (mrt === null) {
+			mrt = "無捷運站"
+		}
 		str = `
-		<div class="attContainer">
+		<a class="attContainer" href="/attraction/${attArray[i].id}">
 			<div class="attMain">
 				<img class="attImg " src="${attArray[i].images[0]}" alt="景點照片">
 				<div class="attNameArea">
@@ -99,10 +103,10 @@ function loadAttractions(data) {
 				</div>
 			</div>
 			<div class="attInfo bodyMedium">
-				<div class="attInfoTrans">${attArray[i].mrt}</div>
+				<div class="attInfoTrans">${mrt}</div>
 				<div class="attInfoCat">${attArray[i].category}</div>
 			</div>
-		</div>
+		</a>
 		`
 		attractionGroup.insertAdjacentHTML("beforeend", str)
 	}
