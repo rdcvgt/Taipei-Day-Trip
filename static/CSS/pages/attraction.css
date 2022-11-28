@@ -192,7 +192,8 @@ body {
 .bookDate input[type="date"]::-webkit-calendar-picker-indicator {
   cursor: pointer;
   margin-right: 15px;
-  background: url("../../Images/Components/calendar.png") no-repeat;
+  background: no-repeat;
+  background-image: url("/static/Images/components/calendar.png");
   position: absolute;
   right: 5px;
   bottom: 2px;
