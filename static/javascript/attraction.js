@@ -132,7 +132,8 @@ function clickImgDot() {
 	const imgDot = document.querySelector('.imgDot')
 	const imgBar = document.querySelector('.imgBar')
 	imgDot.addEventListener('click', (e) => {
-		dotNum = parseInt(e.target.className[7])
+		cutString = e.target.className.split('dot')
+		dotNum = parseInt(cutString[2])
 		imgBar.style.transform = "translateX(" + (-100 * dotNum) + "%)"
 		clickTime = dotNum
 	})
