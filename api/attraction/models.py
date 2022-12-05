@@ -1,5 +1,5 @@
 import sys
-sys.path.append("..")
+sys.path.append("../../")
 from modules.connect_to_db import conn, selectDb, close
 from modules.error_message import errorMessage
 
@@ -43,7 +43,6 @@ def fetch_all_atts(keyword, startAtt):
 			attArray.append(attraction)
 			start+= 1
 	except:
-		close(c, cursor)
 		return errorMessage("關鍵字或頁數有誤"), 500
 
 	finally:
@@ -61,11 +60,11 @@ def fetch_one_attraction(attractionId):
 		cursor.execute(sql, attId)
 		result = cursor.fetchone()
 	except ValueError:
-		close(c, cursor)
 		return errorMessage("請輸入正確編號"), 400
 	except:
-		close(c, cursor)
 		return errorMessage("伺服器出現錯誤"), 500
+	finally:
+		close(c, cursor)
 	
 	try:
 		data = {
@@ -81,14 +80,10 @@ def fetch_one_attraction(attractionId):
 			'images': eval(result[9])
 		}
 	except TypeError:
-		close(c, cursor)
 		return errorMessage("查無此編號"), 400
 	except:
-		close(c, cursor)
 		return errorMessage("伺服器出現錯誤"), 500
-
 	finally:
-		close(c, cursor)
 		return data
 
 #找出所有景點分類
@@ -102,11 +97,8 @@ def fetch_categories():
 		data = []
 		for i in result:
 			data.append(i[0])
-
 	except:
-		close(c, cursor)
 		return errorMessage("伺服器出現錯誤"), 500
-
 	finally:
 		close(c, cursor)
 		return data

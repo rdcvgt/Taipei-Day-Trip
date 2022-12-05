@@ -140,6 +140,17 @@
   color: #fff;
   cursor: pointer;
 }
+.boxForm .message {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.boxForm .error {
+  color: #d20000;
+}
+.boxForm .success {
+  color: #018400;
+}
 .boxForm .goToText {
   color: #666;
   margin: 10px 15px 15px 15px;

@@ -2,14 +2,18 @@ from flask import *
 import json
 from modules.connect_to_db import conn, selectDb, close
 from modules.error_message import errorMessage
-from api.api import api_bp
+from api.attraction.attraction import api_attraction_bp
+from api.auth.auth import api_auth_bp
+
 
 app=Flask(__name__)
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
 
 #api_bp
-app.register_blueprint(api_bp)
+app.register_blueprint(api_attraction_bp)
+app.register_blueprint(api_auth_bp)
+
 
 # Pages
 @app.route("/")

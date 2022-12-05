@@ -4,17 +4,17 @@ from flask import request
 
 from .models import *
 import sys
-sys.path.append("..")
+sys.path.append("../../")
 from modules.connect_to_db import conn, selectDb, close
 from modules.error_message import errorMessage
 
 
-api_bp = Blueprint('api_bp', __name__)
+api_attraction_bp = Blueprint('api_attraction_bp', __name__)
 
 
 
 # API
-@api_bp.route("/api/attractions")
+@api_attraction_bp.route("/api/attractions")
 def attractions():
 	page = request.args.get("page")
 	keyword = request.args.get("keyword")
@@ -48,13 +48,13 @@ def attractions():
 
 	return attractions
 
-@api_bp.route("/api/attraction/<attractionId>")
+@api_attraction_bp.route("/api/attraction/<attractionId>")
 def useIdFindAttraction(attractionId):
 	data = fetch_one_attraction(attractionId)
 	attraction = jsonify({'data': data})
 	return attraction
 
-@api_bp.route("/api/categories")
+@api_attraction_bp.route("/api/categories")
 def categories():
 	data = fetch_categories()
 	category = jsonify({'data': data})
