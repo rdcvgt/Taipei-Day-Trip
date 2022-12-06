@@ -29,7 +29,6 @@ onLoadPage()
 function logout(token) {
 	const navLogoutBtn = document.querySelector('.navLogoutBtn')
 	navLogoutBtn.addEventListener('click', () => {
-		window.location.reload()
 		fetch(`/api/user/auth`, {
 			method: 'Delete',
 			headers: { 'authorization': `Bearer ${token}` }
@@ -41,6 +40,7 @@ function logout(token) {
 				const navLoginBtn = document.querySelector('.navLoginBtn')
 				navLoginBtn.textContent = '登入/註冊'
 				navLoginBtn.classList.remove('navLogoutBtn');
+				window.location.reload()
 				showLoginBox()
 				return
 			})
