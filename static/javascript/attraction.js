@@ -153,7 +153,6 @@ function limitDate() {
 limitDate()
 
 
-
 /* 切換導覽時間，改變價錢 */
 function changeTourTime() {
 	const bookMorning = document.querySelector('.bookMorning')

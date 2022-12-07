@@ -6,7 +6,7 @@ function fetchCategories() {
 }
 fetchCategories()
 
-/* 載入景點分類 */
+/* 載入景點分類，將景點分類文字呈現在搜尋欄位中 */
 function loadCategories(data) {
 	const cat = data.data
 
@@ -14,11 +14,7 @@ function loadCategories(data) {
 		let str = `<div class="list categoryListMedium">${cat[i]}</div>`
 		document.querySelector('.categoryList').insertAdjacentHTML("beforeend", str)
 	}
-	clickListText()
-}
 
-/* 將景點分類文字呈現在搜尋欄位中 */
-function clickListText() {
 	const categoryList = document.querySelector('.categoryList')
 	const searchBar = document.querySelector('.searchBar')
 
