@@ -71,6 +71,7 @@ function closeBox() {
 	const closeSignUp = document.querySelector('.closeSignUp')
 	const boxForSignIn = document.querySelector('.boxForSignIn')
 	const boxForSignUp = document.querySelector('.boxForSignUp')
+	const boxForm = document.querySelector('.boxForSignUp')
 
 	close(boxBG)
 	close(closeSignIn)
@@ -78,6 +79,7 @@ function closeBox() {
 
 	function close(clickArea) {
 		clickArea.addEventListener('click', () => {
+			removeMessage()
 			boxBG.style.display = 'none'
 			boxForSignIn.style.display = 'none'
 			boxForSignUp.style.display = 'none'
@@ -95,13 +97,13 @@ function clickToSignUpOrIn() {
 	const signUpForm = document.querySelector('.signUpForm')
 
 	goToSignUp.addEventListener('click', (e) => {
-		removeMessage(signInForm)
+		removeMessage()
 		boxForSignIn.style.display = 'none'
 		boxForSignUp.style.display = 'block'
 	})
 
 	goToSignIn.addEventListener('click', (e) => {
-		removeMessage(signUpForm)
+		removeMessage()
 		boxForSignUp.style.display = 'none'
 		boxForSignIn.style.display = 'block'
 	})
@@ -115,7 +117,7 @@ function getUserSignUpInfo() {
 	let signUpPassword = document.querySelector('.signUpPassword')
 
 	signUpForm.addEventListener('submit', (e) => {
-		removeMessage(signUpForm)
+		removeMessage()
 		e.preventDefault()
 		name = signUpName.value
 		email = signUpEmail.value
@@ -130,7 +132,6 @@ function getUserSignUpInfo() {
 			.then(res => res.json())
 			.then(res => {
 				if (res.ok === true) {
-					console.log('註冊成功')
 					const signUpPassword = document.querySelector('.signUpPassword')
 					str = `<div class="message success">註冊成功，請點擊下方進行登入！</div>`
 					signUpPassword.insertAdjacentHTML('afterend', str)
@@ -149,7 +150,7 @@ function getUserSignInInfo() {
 	let signInPassword = document.querySelector('.signInPassword')
 
 	signInForm.addEventListener('submit', (e) => {
-		removeMessage(signInForm)
+		removeMessage()
 		e.preventDefault()
 		email = signInEmail.value
 		password = signInPassword.value
@@ -168,7 +169,6 @@ function getUserSignInInfo() {
 					onLoadPage()
 				}
 				if (res.error === true) {
-					console.log(res.message)
 					showMessage(res.message, 'signIn')
 				}
 			})
@@ -217,16 +217,23 @@ function removeSignInMessage() {
 }
 
 /* 監聽 focus 事件 */
-function focusOn(inputArea, form) {
+function focusOn(inputArea) {
 	inputArea.addEventListener('focus', () => {
-		removeMessage(form)
+		removeMessage()
 	})
 }
 
 /*移除錯誤訊息*/
-function removeMessage(form) {
+function removeMessage() {
 	let message = document.querySelector('.message')
-	if (message !== null) {
-		form.removeChild(message)
+	if (message === null) return
+	if (message.parentNode) {
+		message.parentNode.removeChild(message);
 	}
 }
+
+// let message = document.querySelector('.message')
+// if (message !== null) {
+// 	form.removeChild(message)
+// }
+//removeMessage 待處理
