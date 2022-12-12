@@ -7,7 +7,6 @@ load_dotenv()
 secretKey = os.getenv("jwtSecretKey")
 
 
-
 def createAccessToken(email):
 	payload = {
 		'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=10),  # 過期時間

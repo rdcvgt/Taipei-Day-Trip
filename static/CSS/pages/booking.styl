@@ -1,0 +1,187 @@
+@import "../components/base.styl"
+
+mainWidth()
+	width: 1200px
+	padding: 0 100px 0 100px
+	margin: 0 auto
+	height: auto
+	display: flex
+	@media (max-width: 1200px)
+		width: 90%
+		padding: 0
+	@media (max-width: 600px)
+		display: flex
+		flex: wrap
+
+
+*
+	box-sizing: border-box
+
+html
+	background-color #757575
+body
+	position:relative
+	background-color #fff
+
+
+.headline
+	mainWidth()
+	position: relative
+	top: 91px
+	height: 100px
+	color: $secondary70
+
+.noBooking
+	mainWidth()
+	top: 40px
+	height: 100px
+	position: relative
+	color: $secondary70
+
+.tripInfo
+	display: none
+
+.section
+	mainWidth()
+	margin-top: 40px
+
+
+.dayTrip
+	width: 100%
+	height: auto
+	display: flex
+	justify-content: left
+	margin-bottom: 40px 
+	position: relative
+
+	&__imgBox
+		width: 266px
+		height: 200px
+		overflow: hidden
+
+	&__img
+		width: 100%
+		height: 100%
+		object-fit: cover
+
+	&__infoBox
+		margin-left: 20px
+
+	&__info
+		display: flex
+		margin-bottom: 20px
+		color: $secondary70
+		
+		a&:nth-of-type(1)
+			text-decoration: none
+			margin-bottom: 30px
+			color: $primary70
+			transition: 0.2s
+
+			&:hover
+				filter: brightness(1.3);
+				cursor: pointer
+				transition: 0.2s
+
+	&__delete
+		position: absolute
+		top: 0
+		right: 0
+		width: 30px
+		height: 30px
+		transition: 0.2s
+
+		&:hover
+			filter: brightness(0.4);
+			cursor: pointer
+			transition: 0.2s
+
+.attLink
+
+.contact
+	mainWidth()
+	margin-top: 40px
+	margin-bottom:40px
+	color: $secondary70
+	// line-height: 2em
+
+	&__box
+		width: 100%
+
+	&__info
+		margin-top: 30px
+
+.payment
+	mainWidth()
+	margin-top: 40px
+	margin-bottom:40px
+	color: $secondary70	
+
+	&__box
+		width: 100%
+
+	&__info
+		margin-top: 30px
+
+.confirm
+	mainWidth()
+	margin-top: 40px
+	margin-bottom:40px
+
+	&__box
+		width: 100%
+		height: auto
+		display: flex
+		flex-wrap: wrap
+		justify-content: flex-end
+
+	&__fee
+		display: flex
+		justify-content: flex-end
+		width: 100%
+		color: $secondary70	
+
+.confirm__fee
+	margin-bottom: 35px
+
+.input
+	outline-style: none
+	border: 1px solid #E8E8E8
+	padding: 10px
+	border-radius: 5px
+	width: 200px
+	height: 38px
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+
+/* RWD */
+@media (max-width: 1200px)
+	.dayTrip__delete
+		position: absolute
+		top: auto
+		bottom: -30px
+
+
+@media (max-width: 600px)
+	.dayTrip
+		width: 100%
+		height: auto
+		display: flex
+		flex-wrap: wrap
+		justify-content: left
+		margin-bottom: 40px 
+		position: relative
+
+		&__imgBox
+			max-width: 100%
+			min-width: 100%
+			height: 200px
+
+		&__infoBox
+			margin-top: 30px
+			margin-left: 0
+		
+

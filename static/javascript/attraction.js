@@ -6,6 +6,7 @@ function fetchAttApi() {
 	fetch(url)
 		.then(res => res.json())
 		.then(data => {
+
 			loadSection(data.data)
 			loadInfo(data.data)
 			loadImg(data.data)
@@ -168,3 +169,76 @@ function changeTourTime() {
 	})
 }
 changeTourTime()
+
+/* 送出表單資訊 */
+function bookingTrip() {
+	const confirmBtn = document.querySelector('.confirmBtn')
+
+	confirmBtn.addEventListener('click', (e) => {
+		e.preventDefault()
+		removeMessage()
+		attractionId = parseInt(window.location.href.split('/')[4])
+
+		//確認使用者已選擇日期
+		let bookDateSelector = document.querySelector('.bookDateSelector')
+		date = bookDateSelector.value
+		if (date === "") {
+			confirmBtn
+			str = `<div class="message error">尚未選擇日期</div>`
+			confirmBtn.insertAdjacentHTML('beforeBegin', str)
+			bookDateSelector.style.border = '2px solid #d20000'
+			return
+		}
+
+		let time = document.querySelector('input[name=radioBtnBox]:checked').value
+		let price = ''
+		if (time === 'morning') {
+			price = 2000
+		} else if (time === 'afternoon') {
+			price = 2500
+		}
+
+		data = { attractionId, date, time, price }
+		let token = document.cookie.split('=')[1];
+		if (token === undefined || token === "") {
+			showLoginBox()
+			return
+		}
+
+		let userInfo = JSON.parse(sessionStorage.user)
+		fetch('/api/booking', {
+			method: 'POST',
+			headers: {
+				'content-type': 'application/json',
+				'authorization': `Bearer ${token}`,
+				'userId': `${userInfo.id}`
+			},
+			body: JSON.stringify(data),
+		})
+			.then(res => res.json())
+			.then(res => {
+				if (res.ok === true) {
+					str = `<div class="message success">${res.message}</div>`
+					confirmBtn.insertAdjacentHTML('beforeBegin', str)
+					setTimeout(() => {
+						window.location.href = '/booking'
+					}, "2000")
+				}
+				if (res.error === true) {
+					str = `<div class="message error">${res.message}</div>`
+					confirmBtn.insertAdjacentHTML('beforeBegin', str)
+				}
+			})
+	})
+}
+bookingTrip()
+
+function removeMessage() {
+	let message = document.querySelector('.message')
+	if (message === null) return
+	if (message.parentNode) {
+		message.parentNode.removeChild(message);
+	}
+	const bookDateSelector = document.querySelector('.bookDateSelector')
+	bookDateSelector.style.border = 'none'
+}

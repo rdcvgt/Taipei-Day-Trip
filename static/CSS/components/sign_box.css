@@ -2,6 +2,17 @@
 * {
   font-family: 'Noto Sans TC';
 }
+.message {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.error {
+  color: #d20000;
+}
+.success {
+  color: #018400;
+}
 .sloganTitle {
   font-size: 28px;
   font-weight: 700;
@@ -56,6 +67,34 @@
   font-size: 14px;
   font-weight: 500;
   line-height: auto;
+}
+.hr {
+  width: 1200px;
+  border: 1px solid #e8e8e8;
+  position: relative;
+}
+.confirmBtn {
+  padding: 10px 20px 10px 20px;
+  border: 0px;
+  background-color: #489;
+  border-radius: 5px;
+  color: #fff;
+  width: 154px;
+  height: 36px;
+  cursor: pointer;
+  transition: 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.confirmBtn:hover {
+  filter: brightness(1.3);
+  transition: 0.2s;
+}
+@media (max-width: 1200px) {
+  .hr {
+    width: 90%;
+  }
 }
 /* signIn */
 .boxBG {
@@ -139,17 +178,6 @@
   border: 0;
   color: #fff;
   cursor: pointer;
-}
-.boxForm .message {
-  font-size: 14px;
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-.boxForm .error {
-  color: #d20000;
-}
-.boxForm .success {
-  color: #018400;
 }
 .boxForm .goToText {
   color: #666;

@@ -1,0 +1,365 @@
+@import url("https://fonts.googleapis.com/earlyaccess/notosanstc.css");
+* {
+  font-family: 'Noto Sans TC';
+}
+.message {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.error {
+  color: #d20000;
+}
+.success {
+  color: #018400;
+}
+.sloganTitle {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.5em;
+}
+.headLine {
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.5em;
+}
+.dialogTitleBold {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.5em;
+}
+.dialogTitleRegular {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.5em;
+}
+.buttonBold {
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.5em;
+}
+.buttonRegular {
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 1.5em;
+}
+.contentBold {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5em;
+}
+.contentRegular {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5em;
+}
+.bodyBold {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5em;
+}
+.bodyMedium {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5em;
+}
+.categoryListMedium {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5em;
+}
+.hr {
+  width: 1200px;
+  border: 1px solid #e8e8e8;
+  position: relative;
+}
+.confirmBtn {
+  padding: 10px 20px 10px 20px;
+  border: 0px;
+  background-color: #489;
+  border-radius: 5px;
+  color: #fff;
+  width: 154px;
+  height: 36px;
+  cursor: pointer;
+  transition: 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.confirmBtn:hover {
+  filter: brightness(1.3);
+  transition: 0.2s;
+}
+@media (max-width: 1200px) {
+  .hr {
+    width: 90%;
+  }
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  background-color: #757575;
+}
+body {
+  position: relative;
+  background-color: #fff;
+}
+.headline {
+  width: 1200px;
+  padding: 0 100px 0 100px;
+  margin: 0 auto;
+  height: auto;
+  display: flex;
+  position: relative;
+  top: 91px;
+  height: 100px;
+  color: #666;
+}
+@media (max-width: 1200px) {
+  .headline {
+    width: 90%;
+    padding: 0;
+  }
+}
+@media (max-width: 600px) {
+  .headline {
+    display: flex;
+    flex: wrap;
+  }
+}
+.noBooking {
+  width: 1200px;
+  padding: 0 100px 0 100px;
+  margin: 0 auto;
+  height: auto;
+  display: flex;
+  top: 40px;
+  height: 100px;
+  position: relative;
+  color: #666;
+}
+@media (max-width: 1200px) {
+  .noBooking {
+    width: 90%;
+    padding: 0;
+  }
+}
+@media (max-width: 600px) {
+  .noBooking {
+    display: flex;
+    flex: wrap;
+  }
+}
+.tripInfo {
+  display: none;
+}
+.section {
+  width: 1200px;
+  padding: 0 100px 0 100px;
+  margin: 0 auto;
+  height: auto;
+  display: flex;
+  margin-top: 40px;
+}
+@media (max-width: 1200px) {
+  .section {
+    width: 90%;
+    padding: 0;
+  }
+}
+@media (max-width: 600px) {
+  .section {
+    display: flex;
+    flex: wrap;
+  }
+}
+.dayTrip {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: left;
+  margin-bottom: 40px;
+  position: relative;
+}
+.dayTrip__imgBox {
+  width: 266px;
+  height: 200px;
+  overflow: hidden;
+}
+.dayTrip__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.dayTrip__infoBox {
+  margin-left: 20px;
+}
+.dayTrip__info {
+  display: flex;
+  margin-bottom: 20px;
+  color: #666;
+}
+a.dayTrip__info:nth-of-type(1) {
+  text-decoration: none;
+  margin-bottom: 30px;
+  color: #489;
+  transition: 0.2s;
+}
+a.dayTrip__info:nth-of-type(1):hover {
+  filter: brightness(1.3);
+  cursor: pointer;
+  transition: 0.2s;
+}
+.dayTrip__delete {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  transition: 0.2s;
+}
+.dayTrip__delete:hover {
+  filter: brightness(0.4);
+  cursor: pointer;
+  transition: 0.2s;
+}
+.attLink,
+.contact {
+  width: 1200px;
+  padding: 0 100px 0 100px;
+  margin: 0 auto;
+  height: auto;
+  display: flex;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  color: #666;
+}
+@media (max-width: 1200px) {
+  .attLink,
+  .contact {
+    width: 90%;
+    padding: 0;
+  }
+}
+@media (max-width: 600px) {
+  .attLink,
+  .contact {
+    display: flex;
+    flex: wrap;
+  }
+}
+.attLink__box,
+.contact__box {
+  width: 100%;
+}
+.attLink__info,
+.contact__info {
+  margin-top: 30px;
+}
+.payment {
+  width: 1200px;
+  padding: 0 100px 0 100px;
+  margin: 0 auto;
+  height: auto;
+  display: flex;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  color: #666;
+}
+@media (max-width: 1200px) {
+  .payment {
+    width: 90%;
+    padding: 0;
+  }
+}
+@media (max-width: 600px) {
+  .payment {
+    display: flex;
+    flex: wrap;
+  }
+}
+.payment__box {
+  width: 100%;
+}
+.payment__info {
+  margin-top: 30px;
+}
+.confirm {
+  width: 1200px;
+  padding: 0 100px 0 100px;
+  margin: 0 auto;
+  height: auto;
+  display: flex;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+@media (max-width: 1200px) {
+  .confirm {
+    width: 90%;
+    padding: 0;
+  }
+}
+@media (max-width: 600px) {
+  .confirm {
+    display: flex;
+    flex: wrap;
+  }
+}
+.confirm__box {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.confirm__fee {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  color: #666;
+}
+.confirm__fee {
+  margin-bottom: 35px;
+}
+.input {
+  outline-style: none;
+  border: 1px solid #e8e8e8;
+  padding: 10px;
+  border-radius: 5px;
+  width: 200px;
+  height: 38px;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+/* RWD */
+@media (max-width: 1200px) {
+  .dayTrip__delete {
+    position: absolute;
+    top: auto;
+    bottom: -30px;
+  }
+}
+@media (max-width: 600px) {
+  .dayTrip {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    margin-bottom: 40px;
+    position: relative;
+  }
+  .dayTrip__imgBox {
+    max-width: 100%;
+    min-width: 100%;
+    height: 200px;
+  }
+  .dayTrip__infoBox {
+    margin-top: 30px;
+    margin-left: 0;
+  }
+}
