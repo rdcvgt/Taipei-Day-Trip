@@ -4,6 +4,8 @@ from modules.connect_to_db import conn, selectDb, close
 from modules.error_message import errorMessage
 from api.attraction.attraction import api_attraction_bp
 from api.auth.auth import api_auth_bp
+from api.booking.booking import api_booking_bp
+
 
 
 app=Flask(__name__)
@@ -13,6 +15,7 @@ app.config["TEMPLATES_AUTO_RELOAD"]=True
 #api_bp
 app.register_blueprint(api_attraction_bp)
 app.register_blueprint(api_auth_bp)
+app.register_blueprint(api_booking_bp)
 
 
 # Pages

@@ -1,7 +1,12 @@
-/* 登入時驗證使用者身份 */
+/* 網頁載入時驗證使用者身份是否爲登入狀態 */
 function onLoadPage() {
 	let token = document.cookie.split('=')[1];
-	if (token === undefined || token === "") {
+	//如果 cookie 不存在 token 
+	if (!token) {
+		//無法進入 booking 頁面
+		if (window.location.href.split('/')[3] === 'booking') {
+			window.location.href = '/'
+		}
 		showLoginBox()
 		return
 	}
@@ -11,14 +16,28 @@ function onLoadPage() {
 	})
 		.then(res => res.json())
 		.then(data => {
-			if (data.data !== null) {
+			let userInfo = data.data
+			sessionStorage.setItem('user', JSON.stringify(userInfo))
+			if (userInfo !== null) {
+				//修改登入按鈕爲登出
 				const navLoginBtn = document.querySelector('.navLoginBtn')
 				navLoginBtn.classList.add('navLogoutBtn');
+
 				const navLogoutBtn = document.querySelector('.navLogoutBtn')
 				navLogoutBtn.textContent = '登出系統'
 				navLogoutBtn.classList.remove('navLoginBtn');
-				logout(token)
+				clickToLogout(token)
+
+				//可點擊預訂行程按鈕至頁面
+				const navBookBtn = document.querySelector('.navBookBtn')
+				navBookBtn.addEventListener('click', () => {
+					window.location.href = "/booking"
+				})
 				return
+			}
+			//若使用者資料爲 null，無法進入 booking 頁面
+			if (window.location.href.split('/')[3] === 'booking') {
+				window.location.href = '/'
 			}
 			showLoginBox()
 		})
@@ -26,7 +45,7 @@ function onLoadPage() {
 onLoadPage()
 
 /* 登出系統 */
-function logout(token) {
+function clickToLogout(token) {
 	const navLogoutBtn = document.querySelector('.navLogoutBtn')
 	navLogoutBtn.addEventListener('click', () => {
 		fetch(`/api/user/auth`, {
@@ -40,6 +59,12 @@ function logout(token) {
 				const navLoginBtn = document.querySelector('.navLoginBtn')
 				navLoginBtn.textContent = '登入/註冊'
 				navLoginBtn.classList.remove('navLogoutBtn');
+
+				//如果在 booking 頁面登出，則導回首頁
+				if (window.location.href.split('/')[3] === 'booking') {
+					window.location.href = '/'
+					return
+				}
 				window.location.reload()
 				showLoginBox()
 				return
@@ -47,13 +72,20 @@ function logout(token) {
 	})
 }
 
-/*  點擊右上登入/註冊按鈕 */
+
+/*  點擊「登入/註冊」按鈕 */
 function showLoginBox() {
 	const boxBG = document.querySelector('.boxBG')
 	const boxForSignIn = document.querySelector('.boxForSignIn')
 	const navLoginBtn = document.querySelector('.navLoginBtn')
+	const navBookBtn = document.querySelector('.navBookBtn')
 
 	navLoginBtn.addEventListener('click', () => {
+		boxBG.style.display = 'block'
+		boxForSignIn.style.display = 'block'
+	})
+
+	navBookBtn.addEventListener('click', () => {
 		boxBG.style.display = 'block'
 		boxForSignIn.style.display = 'block'
 	})
@@ -71,6 +103,7 @@ function closeBox() {
 	const closeSignUp = document.querySelector('.closeSignUp')
 	const boxForSignIn = document.querySelector('.boxForSignIn')
 	const boxForSignUp = document.querySelector('.boxForSignUp')
+	const boxForm = document.querySelector('.boxForSignUp')
 
 	close(boxBG)
 	close(closeSignIn)
@@ -78,12 +111,14 @@ function closeBox() {
 
 	function close(clickArea) {
 		clickArea.addEventListener('click', () => {
+			removeMessage()
 			boxBG.style.display = 'none'
 			boxForSignIn.style.display = 'none'
 			boxForSignUp.style.display = 'none'
 		})
 	}
 }
+
 
 /* 切換至註冊或登入 */
 function clickToSignUpOrIn() {
@@ -95,17 +130,18 @@ function clickToSignUpOrIn() {
 	const signUpForm = document.querySelector('.signUpForm')
 
 	goToSignUp.addEventListener('click', (e) => {
-		removeMessage(signInForm)
+		removeMessage()
 		boxForSignIn.style.display = 'none'
 		boxForSignUp.style.display = 'block'
 	})
 
 	goToSignIn.addEventListener('click', (e) => {
-		removeMessage(signUpForm)
+		removeMessage()
 		boxForSignUp.style.display = 'none'
 		boxForSignIn.style.display = 'block'
 	})
 }
+
 
 /* 提交用戶註冊資訊*/
 function getUserSignUpInfo() {
@@ -115,7 +151,7 @@ function getUserSignUpInfo() {
 	let signUpPassword = document.querySelector('.signUpPassword')
 
 	signUpForm.addEventListener('submit', (e) => {
-		removeMessage(signUpForm)
+		removeMessage()
 		e.preventDefault()
 		name = signUpName.value
 		email = signUpEmail.value
@@ -130,7 +166,6 @@ function getUserSignUpInfo() {
 			.then(res => res.json())
 			.then(res => {
 				if (res.ok === true) {
-					console.log('註冊成功')
 					const signUpPassword = document.querySelector('.signUpPassword')
 					str = `<div class="message success">註冊成功，請點擊下方進行登入！</div>`
 					signUpPassword.insertAdjacentHTML('afterend', str)
@@ -142,6 +177,7 @@ function getUserSignUpInfo() {
 	})
 }
 
+
 /* 提交用戶登入資訊 */
 function getUserSignInInfo() {
 	const signInForm = document.querySelector('.signInForm')
@@ -149,7 +185,7 @@ function getUserSignInInfo() {
 	let signInPassword = document.querySelector('.signInPassword')
 
 	signInForm.addEventListener('submit', (e) => {
-		removeMessage(signInForm)
+		removeMessage()
 		e.preventDefault()
 		email = signInEmail.value
 		password = signInPassword.value
@@ -168,12 +204,12 @@ function getUserSignInInfo() {
 					onLoadPage()
 				}
 				if (res.error === true) {
-					console.log(res.message)
 					showMessage(res.message, 'signIn')
 				}
 			})
 	})
 }
+
 
 /*顯示錯誤訊息*/
 function showMessage(Message, from) {
@@ -194,6 +230,7 @@ function showMessage(Message, from) {
 	return
 }
 
+
 /*註冊區：點擊 input 時移除錯誤訊息*/
 function removeSignUpMessage() {
 	const signUpForm = document.querySelector('.signUpForm')
@@ -206,6 +243,7 @@ function removeSignUpMessage() {
 	focusOn(signUpPassword, signUpForm)
 }
 
+
 /*登入區：點擊 input 時移除錯誤訊息*/
 function removeSignInMessage() {
 	const signInForm = document.querySelector('.signInForm')
@@ -216,17 +254,27 @@ function removeSignInMessage() {
 	focusOn(signInPassword, signInForm)
 }
 
+
 /* 監聽 focus 事件 */
-function focusOn(inputArea, form) {
+function focusOn(inputArea) {
 	inputArea.addEventListener('focus', () => {
-		removeMessage(form)
+		removeMessage()
 	})
 }
 
+
 /*移除錯誤訊息*/
-function removeMessage(form) {
+function removeMessage() {
 	let message = document.querySelector('.message')
-	if (message !== null) {
-		form.removeChild(message)
+	if (message === null) return
+	if (message.parentNode) {
+		message.parentNode.removeChild(message);
 	}
 }
+
+
+// let message = document.querySelector('.message')
+// if (message !== null) {
+// 	form.removeChild(message)
+// }
+//removeMessage 待處理

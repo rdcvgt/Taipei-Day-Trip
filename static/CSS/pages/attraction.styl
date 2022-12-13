@@ -132,21 +132,15 @@ body
 		border-radius: 5px
 		border: none
 		cursor:pointer
+		transition: 0.3s
 
 		&:focus
 			border: none
+			transition: 0.3s
 
-	input[type="date"]::-webkit-calendar-picker-indicator {
-		cursor:pointer
-		margin-right: 15px
-		background: no-repeat;
-		background-image: url('/static/Images/components/calendar.png')
-		position: absolute
-		right: 5px
-		bottom: 2px
-		width: 24px;
-		height: 24px;
-		}
+	input[type="date"]:focus
+		border: none
+
 
 .bookTime
 	margin-bottom: 15px
@@ -191,25 +185,7 @@ body
 	display: flex
 	align-items: center
 
-.bookConfirm
-	padding: 10px 20px 10px 20px
-	border: 0px
-	background-color $primary70
-	border-radius: 5px
-	color: #ffffff
-	width: 154px
-	height: 36px
-	cursor: pointer
-
 /* info */
-
-.hr
-	width: 1200px
-	border:1px solid #E8E8E8
-	// margin-top: 37px
-	position: relative
-	
-
 .info
 	display: flex
 	align-items: center

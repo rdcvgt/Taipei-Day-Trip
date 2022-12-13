@@ -1,7 +1,12 @@
 from flask import *
 import mysql.connector
 from mysql.connector import pooling  
-from .password import DbPassword 
+# import DbPassword from .password 
+
+import os
+from dotenv import load_dotenv
+load_dotenv()
+DbPassword = os.getenv("DbPassword")
 
 
 poolname ="mysqlpool" 
@@ -12,7 +17,7 @@ connectionpool = mysql.connector.pooling.MySQLConnectionPool(
 		pool_reset_session=True, 
 		host='localhost',
 		user='root',
-		password= DbPassword()
+		password= DbPassword
 )
 
 def conn(): 
