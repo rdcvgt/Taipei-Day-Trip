@@ -15,7 +15,7 @@
 		<div>，待預訂的行程如下：</div>
 	</headline>
 	<tripInfo class="tripInfo">
-		<section class="section">
+		<section class="section card">
 			<div class="dayTrip">
 				<div class="dayTrip__imgBox">
 					<img class="dayTrip__img">
@@ -46,58 +46,84 @@
 					</div>
 				</div>
 			</div>
+		</section>
+		<section class="section card-template">
+			<div class="dayTrip">
+				<div class="dayTrip__imgBox">
+					<img class="dayTrip__img skeleton">
+				</div>
+				<div class="dayTrip__infoBox">
+					<div class="dayTrip__skeleton ">
+						<div class="skeleton skeleton-text"></div>
+						<div class="skeleton skeleton-text"></div>
+						<div class="skeleton skeleton-text"></div>
+						<div class="skeleton skeleton-text"></div>
+						<div class="skeleton skeleton-text"></div>
+						<div class="skeleton skeleton-text"></div>
+					</div>
+				</div>
 			</div>
 		</section>
+		</div>
 		<hr class="hr">
 		<contact class="contact">
 			<div class="contact__box">
 				<div class="contact__header buttonBold">您的聯絡資訊</div>
+
 				<div class="contact__info bodyMedium">聯絡姓名：
 					<input class="contact__name input" type="text">
+					<div class="notice"></div>
 				</div>
 				<div class="contact__info bodyMedium">聯絡信箱：
 					<input class="contact__email input" type="text">
+					<div class="notice"></div>
 				</div>
 				<div class="contact__info bodyMedium">手機號碼：
-					<input class="contact__phone input" type="text">
+					<input class="contact__phone input" type="text" maxlength="10" oninput="value=value.replace(/[^0-9]/g,'')">
+					<div class="notice "></div>
 				</div>
-				<p class="bodyBold">
+				<p class="bodyBold ">
 					請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。
 				</p>
 			</div>
 		</contact>
-		<hr class="hr">
-		<payment class="payment">
-			<div class="payment__box">
-				<div class="payment__header buttonBold">
+		<hr class="hr ">
+		<payment class="payment ">
+			<div class="payment__box ">
+				<div class="payment__header buttonBold ">
 					信用卡付款資訊
 				</div>
-				<div class="payment__info  bodyMedium">卡片號碼：
-					<input class="payment__card input" type="text" placeholder="**** **** **** ****">
+				<div class="payment__info bodyMedium ">卡片號碼：
+					<input class="payment__card input " type="text " placeholder="**** **** **** ****" maxlength="19" oninput="value=value.replace(/[^0-9-]+$/,'')">
+					<div class="notice "></div>
 				</div>
-				<div class="payment__info  bodyMedium">過期時間：
-					<input class="payment__validTime input" type="text" placeholder="MM/YY">
+				<div class="payment__info bodyMedium ">過期時間：
+					<input class="payment__validTime input " type="text " placeholder="MM/YY" maxlength="5" oninput="value=value.replace(/[^0-9/]+$/,'')">
+					<div class="notice "></div>
 				</div>
-				<div class="payment__info bodyMedium">驗證密碼：
-					<input class="payment__cvv input" type="text" placeholder="CVV">
+				<div class="payment__info bodyMedium ">驗證密碼：
+					<input class="payment__cvv input " type="text " placeholder="CVV" maxlength="3" oninput="value=value.replace(/[^0-9]/g,'')">
+					<div class="notice "></div>
 				</div>
 			</div>
 		</payment>
-		<hr class="hr">
-		<confirm class="confirm">
-			<div class="confirm__box">
-				<div class="confirm__fee bodyBold">總價：新台幣&nbsp;
-					<div class="confirm__feeSum"></div>
+		<hr class="hr ">
+		<confirm class="confirm ">
+			<div class="confirm__box ">
+				<div class="confirm__fee bodyBold ">總價：新台幣&nbsp;
+					<div class="confirm__feeSum "></div>
 					&nbsp;元</div>
-				<button class="confirmBtn">
+				<button class="confirmBtn ">
 					確認訂購並付款
 				</button>
 			</div>
 		</confirm>
 	</tripInfo>
-	<div class="noBooking bodyMedium">
+	<div class="noBooking bodyMedium ">
 		目前沒有任何待預訂的行程
 	</div>
+
+
 
 	<div>
 		{% include 'components/sign_in.html'%}
@@ -108,8 +134,8 @@
 	<div>
 		{% include 'components/footer.html'%}
 	</div>
-	<script type="text/javascript" src="../static/javascript/login.js"></script>
-	<script type="text/javascript" src="../static/javascript/booking.js"></script>
+	<script type="text/javascript " src="../static/javascript/login.js "></script>
+	<script type="text/javascript " src="../static/javascript/booking.js "></script>
 </body>
 
 </html>
