@@ -1,6 +1,9 @@
 from flask import Blueprint
 from flask import jsonify
 from flask import request
+from flask import render_template
+
+from icecream import ic
 
 from .models import *
 import sys
@@ -8,8 +11,11 @@ sys.path.append("../../")
 from modules.connect_to_db import conn, selectDb, close
 from modules.error_message import errorMessage
 
-
 api_attraction_bp = Blueprint('api_attraction_bp', __name__)
+
+@api_attraction_bp.route("/attraction/<id>")
+def attractionPage(id):
+	return render_template("attraction.html")
 
 #找所有（或符合關鍵字）的景點
 @api_attraction_bp.route("/api/attractions")

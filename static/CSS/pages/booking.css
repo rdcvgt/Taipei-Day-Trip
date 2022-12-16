@@ -3,9 +3,14 @@
   font-family: 'Noto Sans TC';
 }
 .message {
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 10px;
   margin-bottom: 10px;
+  color: #d20000;
+}
+.notice {
+  font-size: 10px;
+  display: none;
+  color: #d20000;
 }
 .error {
   color: #d20000;
@@ -235,11 +240,17 @@ body {
   width: 266px;
   height: 200px;
   overflow: hidden;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.dayTrip__imgAtt {
+  cursor: pointer;
 }
 .dayTrip__img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: 0.2s;
 }
 .dayTrip__infoBox {
   flex: auto;
@@ -302,13 +313,6 @@ a.dayTrip__info:nth-of-type(1):hover {
 }
 .contact__info {
   margin-top: 30px;
-}
-.notice {
-  font-size: 10px;
-  position: relative;
-  left: 90px;
-  display: none;
-  color: #d20000;
 }
 .payment {
   width: 1200px;
@@ -378,6 +382,11 @@ a.dayTrip__info:nth-of-type(1):hover {
 .input {
   width: 200px;
   height: 38px;
+}
+.notice {
+  position: relative;
+  top: 0px;
+  left: 90px;
 }
 /* skeleton */
 .card {

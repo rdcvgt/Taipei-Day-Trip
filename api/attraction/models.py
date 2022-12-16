@@ -65,6 +65,7 @@ class Attraction:
 		except:
 			return False	
 		finally:
+			
 			close(c, cursor)
 			
 
@@ -86,6 +87,7 @@ class Attraction:
 			attId = (int(attractionId), )
 			cursor.execute(sql, attId)
 			result = cursor.fetchone()
+			ic(result[9])
 		except ValueError:
 			return "編號錯誤"
 		except:
@@ -106,7 +108,9 @@ class Attraction:
 				'lng': float(result[4]),
 				'images':result[9].split(',')
 			}
+			ic(attraction)
 			return attraction
+			
 		except TypeError:
 			return None
 		except:

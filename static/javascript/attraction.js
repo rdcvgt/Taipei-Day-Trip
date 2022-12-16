@@ -6,7 +6,6 @@ function fetchAttApi() {
 	fetch(url)
 		.then(res => res.json())
 		.then(data => {
-
 			loadSection(data.data)
 			loadInfo(data.data)
 			loadImg(data.data)
@@ -27,6 +26,7 @@ function loadSection(data) {
 	bookingBox.insertAdjacentHTML("afterbegin", attCatStr)
 	//景點名稱
 	attName = data.name
+	document.title = `${attName} - 臺北一日遊`
 	attNameStr = `<div class="attName dialogTitleBold">${attName}</div>`
 	bookingBox.insertAdjacentHTML("afterbegin", attNameStr)
 }
@@ -47,22 +47,59 @@ function loadInfo(data) {
 	const trans = document.querySelector('.trans')
 	transStr = `<div class="contentRegular">${data.direction}</div>`
 	trans.insertAdjacentHTML("beforeend", transStr)
+
+	//preload 切換
+	const card = document.querySelector('.card')
+	const cardTemplate = document.querySelector('.card-template')
+	setTimeout(() => {
+		card.style.display = 'flex'
+		cardTemplate.style.display = 'none'
+	}, 500)
 }
+
 
 /* 處理景點照片 */
 function loadImg(data) {
 	const imgArr = data.images
 	const imgBar = document.querySelector('.imgBar')
 	const imgDot = document.querySelector('.imgDot')
+	const loading = document.querySelector('.loading')
+	const loading__progress = document.querySelector('.loading__progress')
+	loading__progress.textContent = '0%'
 
+	//處理輪播下方的 dot 
 	for (i = 0; i < imgArr.length; i++) {
-		//處理照片
-		imgStr = `<img class="attImg" src="${imgArr[i]}">`
-		imgBar.insertAdjacentHTML("beforeend", imgStr)
 
-		//處理輪播下方的 dot 
 		imgDotStr = `<input class="dot dot${i}" type="radio" name="imgDot">`
 		imgDot.insertAdjacentHTML("beforeend", imgDotStr)
+	}
+
+
+	//計算每個景點的一張照片佔總體的比例
+	let percent = parseFloat((100 / parseInt(imgArr.length)).toFixed(1))
+	let upTo = 0
+	let nowLoadingLimit = 0
+	for (i = 0; i < imgArr.length; i++) {
+		//處理照片
+		imgStr = `<img class="attImg img${[i]}" src="${imgArr[i]}">`
+		imgBar.insertAdjacentHTML("beforeend", imgStr)
+
+
+		const currentImg = document.querySelector(`.img${[i]}`)
+		currentImg.addEventListener('load', () => {
+			nowLoadingLimit += percent
+			while (upTo < nowLoadingLimit) {
+
+				loading__progress.textContent = (upTo += 1) + '%'
+				if (upTo === 100) {
+					loading.style.animation = "fadeOut 1s forwards"
+					setTimeout(() => {
+						loading.remove()
+					}, 1000);
+					break
+				}
+			}
+		})
 	}
 
 	let lastDot = imgArr.length - 1

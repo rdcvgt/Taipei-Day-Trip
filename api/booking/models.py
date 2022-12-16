@@ -74,23 +74,30 @@ class Booking:
 		try:
 			c = conn()
 			cursor = selectDb(c)
-			sql = '''select 
-			UB.att_id, 
-			A.name, 
-			A.address, 
-			AI.url,
-			UB.date, 
-			UB.time, 
-			BP.price 
-			from user_booking as UB 
-			inner join booking_price as BP 
+			sql = '''
+			select 
+				UB.att_id, 
+				A.name, 
+				A.address, 
+				AI.url,
+				UB.date, 
+				UB.time, 
+				BP.price 
+			from
+				user_booking as UB 
+			inner join 
+				booking_price as BP 
 				on UB.time = BP.time 
-			inner join attraction as A 
+			inner join 
+				attraction as A 
 				on UB.att_id = A.id
-			inner join attraction_img as AI 
+			inner join 
+				attraction_img as AI 
 				on UB.att_id = AI.att_id
-			where UB.user_id = %s
-			limit 1'''
+			where 
+				UB.user_id = %s
+			limit 1
+			'''
 			userInfo = (userId, )
 			cursor.execute(sql, userInfo)
 			result = cursor.fetchone()

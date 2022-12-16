@@ -1,6 +1,7 @@
 from flask import Blueprint
 from flask import jsonify
 from flask import request
+from flask import render_template
 
 from .models import *
 import sys
@@ -11,6 +12,9 @@ from modules.create_jwt import *
 
 api_booking_bp = Blueprint('api_booking_bp', __name__)
 
+@api_booking_bp.route("/booking")
+def bookingPage():
+	return render_template("booking.html")
 
 @api_booking_bp.route("/api/booking", methods=['GET'])
 def getBooking():
@@ -46,9 +50,9 @@ def booking():
 	if (status == False):
 		return errorMessage("伺服器出現問題，請再試一次"), 500
 	if (status == "已更新資料"):
-		return jsonify({"ok": True, "message": "已成功更新您的預約，即將前往預訂行程頁面..."})
+		return jsonify({"ok": True, "message": "已成功更新您的預約，2 秒後將跳轉至預訂行程頁面..."})
 	if (status == "已新增資料"):
-		return jsonify({"ok": True, "message": "預約成功！即將前往預訂行程頁面..."})	
+		return jsonify({"ok": True, "message": "預約成功！2 秒後將跳轉至預訂行程頁面..."})	
 
 @api_booking_bp.route("/api/booking", methods=['DELETE'])
 def deleteBooking():

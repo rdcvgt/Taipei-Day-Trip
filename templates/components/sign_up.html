@@ -6,12 +6,15 @@
 		<img class="boxCloseBtn closeSignUp" src="../static/Images/components/close.png" alt="關閉">
 		<form class="boxForm signUpForm">
 			<input class="input signUpName bodyMedium" type="text" placeholder="輸入姓名">
+			<div class="notice "></div>
 			<input class="input signUpEmail bodyMedium" type="text" placeholder="輸入電子郵件">
-			<input class="input signUpPassword" type="password" placeholder="輸入密碼">
-			<button class="Btn confirmBtn buttonRegular" type="submit">註冊新帳戶</button>
-			<div class="goToText bodyMedium">
-				已經有帳戶了？
-				<a class="goToBtn goToSignIn bodyMedium">點此登入</a>
+			<div class="notice "></div>
+			<input class="input signUpPassword" type="password" placeholder="輸入密碼（8-20碼，需包含英文與數字）" maxlength="20">
+			<div class="notice "></div>
+			<div class="message"></div>
+			<button class="Btn confirmBtn signUpBtn buttonRegular" type="submit">註冊新帳戶</button>
+			<div class="goToText goToSignIn bodyMedium">
+				已經有帳戶了？ 點此登入
 			</div>
 		</form>
 	</div>

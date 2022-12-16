@@ -31,7 +31,7 @@ def handleUserSignUpData():
 	if (result == True):
 		return jsonify({"ok": True})
 	if (result == "重複註冊"):
-		return errorMessage("電子郵件已註冊過"), 400
+		return errorMessage("電子郵件已被註冊"), 400
 	if (result == "伺服器問題"):
 		return errorMessage("伺服器出現問題，請再試一次"), 500
 	
@@ -74,7 +74,7 @@ def handleUserSignInData():
 		if (not passwordIsValid):
 			return errorMessage("電子郵件或密碼有誤，請重新輸入"), 400
 	except TypeError:
-		return errorMessage("電子郵件輸入錯誤，請重新輸入"), 400
+		return errorMessage("電子郵件或密碼有誤，請重新輸入"), 400
 
 	#製作 JWT 並回覆登入成功訊息
 	signInSuccess = jsonify({"ok": True})

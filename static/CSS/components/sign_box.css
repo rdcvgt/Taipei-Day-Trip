@@ -3,9 +3,14 @@
   font-family: 'Noto Sans TC';
 }
 .message {
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 10px;
   margin-bottom: 10px;
+  color: #d20000;
+}
+.notice {
+  font-size: 10px;
+  display: none;
+  color: #d20000;
 }
 .error {
   color: #d20000;
@@ -226,14 +231,17 @@
 .boxForm .goToText {
   color: #666;
   margin: 10px 15px 15px 15px;
-}
-.boxForm .goToBtn {
-  color: #666;
   text-decoration: none;
   cursor: pointer;
   transition: 0.2s;
 }
-.boxForm .goToBtn:hover {
+.boxForm .goToText:hover {
   filter: brightness(1.5);
   transition: 0.2s;
+}
+.notice {
+  position: relative;
+  left: 0;
+  top: -10px;
+  margin-bottom: 10px;
 }

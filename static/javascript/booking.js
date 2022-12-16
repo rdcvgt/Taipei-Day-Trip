@@ -39,7 +39,6 @@ function fetchUserBooking() {
 			if (res.data) {
 				showBookingInfo()
 				loadBookingInfo(res)
-				// examineInput()
 			}
 		})
 }
@@ -52,10 +51,7 @@ function showBookingInfo() {
 	const noBooking = document.querySelector('.noBooking')
 	tripInfo.style.display = 'block'
 	noBooking.style.display = 'none'
-
-
 }
-
 
 
 /* 載入使用者預訂行程資料 */
@@ -73,6 +69,7 @@ function loadBookingInfo(res) {
 	const cardTemplate = document.querySelector('.card-template')
 	const dayTrip__info = document.querySelector('.dayTrip__info')
 	const dayTrip__img = document.querySelector('.dayTrip__img')
+	const dayTrip__imgAtt = document.querySelector('.dayTrip__imgAtt')
 	const dayTrip__name = document.querySelector('.dayTrip__name')
 	const dayTrip__date = document.querySelector('.dayTrip__date')
 	const dayTrip__time = document.querySelector('.dayTrip__time')
@@ -84,6 +81,7 @@ function loadBookingInfo(res) {
 
 
 	document.title = `預訂行程 - ${name}`
+	dayTrip__imgAtt.href = `/attraction/${id}`
 	dayTrip__img.src = url
 	dayTrip__info.href = `/attraction/${id}`
 	dayTrip__name.textContent = name
@@ -106,8 +104,6 @@ function loadBookingInfo(res) {
 	})
 	deleteBookingTrip(id)
 	examineAllInput()
-
-
 }
 
 /* 刪除行程並且重新整理頁面 */
@@ -215,14 +211,15 @@ function examineName(contact__name) {
 		enableNotice(contact__name, '請輸入您的姓名')
 		return
 	}
-	regex = /^[\u4e00-\u9fa5a-zA-Z]*$/.test(input)
+	regex = /^[\u4e00-\u9fa5A-Za-z]*$/.test(input)
 	if (!regex) {
-		enableNotice(contact__name, '請勿輸入數字或特殊符號')
+		enableNotice(contact__name, '姓名限用中文或英文組成')
 		return
 	}
 	disableNotice(contact__name)
 }
 
+/* 信箱欄位的驗證細節 */
 function examineEmail(contact__email) {
 	input = contact__email.value
 	if (!input) {
@@ -237,6 +234,7 @@ function examineEmail(contact__email) {
 	disableNotice(contact__email)
 }
 
+/* 手機號碼欄位的驗證細節 */
 function examinePhone(contact__phone) {
 	input = contact__phone.value
 	if (!input) {
@@ -251,6 +249,8 @@ function examinePhone(contact__phone) {
 	disableNotice(contact__phone)
 }
 
+
+/* 信用卡號碼欄位的驗證細節 */
 function examineCard(payment__card) {
 	input = payment__card.value
 	if (!input) {
@@ -265,6 +265,7 @@ function examineCard(payment__card) {
 	disableNotice(payment__card)
 }
 
+/* 信用卡效期欄位的驗證細節 */
 function examineValidTime(payment__validTime) {
 	input = payment__validTime.value
 	if (!input) {
@@ -285,6 +286,7 @@ function examineValidTime(payment__validTime) {
 	disableNotice(payment__validTime)
 }
 
+/* 信用卡驗證碼欄位的驗證細節 */
 function examineCVV(payment__cvv) {
 	input = payment__cvv.value
 	if (!input) {
@@ -298,9 +300,6 @@ function examineCVV(payment__cvv) {
 	}
 	disableNotice(payment__cvv)
 }
-
-
-
 
 
 /* 顯示驗證提示 */
