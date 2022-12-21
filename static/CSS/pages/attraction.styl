@@ -15,28 +15,28 @@ body
 	align-items: center
 	margin-bottom: 91 + 37px
 
-.sectionContainer
-	width: 1200px
-	display: flex
-	justify-content: space-between
-	align-items: center
-	padding: 0 15px 0 15px
+	&__container
+		width: 1200px
+		display: flex
+		justify-content: space-between
+		align-items: center
+		padding: 0 15px 0 15px
 	
 /* section - 輪播照片 */
-.imgBox
+.img
 	width: 540px
 	height: 406px
 	position: relative
 	border-radius: 5px
 	overflow:hidden
 
-.imgChange
-	width: 100%
-	height: 100%
-	overflow: hidden
-	position: relative
+	&__change
+		width: 100%
+		height: 100%
+		overflow: hidden
+		position: relative
 
-	.imgBar
+	&__bar
 		width: auto
 		height: 100%
 		display: flex
@@ -44,29 +44,29 @@ body
 		left: 0px
 		transition: 0.5s cubic-bezier(0.65, 0.05, 0.36, 1) 
 
-		.attImg
-			object-fit: cover
-			max-width: 100%
-			min-width: 100%
-			display: block
+	&__att
+		object-fit: cover
+		max-width: 100%
+		min-width: 100%
+		display: block
 
 
-.imgBtn
-	cursor: pointer
+	&__btn
+		cursor: pointer
 
-	.leftBtn
-		position: absolute
-		top: 50%
-		left: 10px
-		transform: translate(0, -50%)
+		.leftBtn
+			position: absolute
+			top: 50%
+			left: 10px
+			transform: translate(0, -50%)
 
-	.rightBtn
-		position: absolute
-		top: 50%
-		right: 10px
-		transform: translate(0, -50%)
+		.rightBtn
+			position: absolute
+			top: 50%
+			right: 10px
+			transform: translate(0, -50%)
 
-.imgDot
+.img__dot
 	width: auto
 	height: 20px
 	position: absolute
@@ -101,30 +101,31 @@ body
 		background-color: rgba(0,0,0,0.8)
 
 /* section - 右側資訊區 */
-.bookingBox
+.book
 	width: 600px
 	color: $secondary70
 
-.attName
-	margin-bottom: 15px
+	&__attName
+		margin-bottom: 15px
 
-.attCat
-	margin-bottom: 20px
+	&__attCat
+		margin-bottom: 20px
 
-.grayArea
-	width: 600px
-	height: auto
-	background-color: $secondary20
-	padding: 15px 20px 15px 20px
-	border-radius: 5px
-	
-.bookTitle
-	margin-bottom: 15px
+	&__container
+		width: 600px
+		height: auto
+		background-color: $secondary20
+		padding: 15px 20px 15px 20px
+		border-radius: 5px
+		
+	&__title
+		margin-bottom: 15px
 
 
-.bookDate
-	margin: 24px 5px 24px 0
-	.bookDateSelector
+	&__date
+		margin: 24px 5px 24px 0
+
+	&__dateInput
 		position: relative
 		width: 193px
 		height: 35px
@@ -138,15 +139,29 @@ body
 			border: none
 			transition: 0.3s
 
-	input[type="date"]:focus
-		border: none
+		input[type="date"]:focus
+			border: none
+
+	&__time
+		margin-bottom: 15px
+		margin-right: 5px
+		display: flex
+		align-items: center
+
+	&__timeBox
+		margin-right: 10px
+
+	&__fee
+		margin-bottom: 25px	
+		margin-right: 5px	
+		display: flex
+		align-items: center
 
 
-.bookTime
-	margin-bottom: 15px
-	margin-right: 5px
-	display: flex
-	align-items: center
+.message
+	font-size: 14px
+	position: relative
+	top: -10px
 
 .radioBtnBox
 	display: flex
@@ -175,23 +190,6 @@ body
 		border: 2px solid white;
 		// visibility: visible;
 
-.bookMorningBox
-	margin-right: 10px
-
-
-.message
-	font-size: 14px
-	position: relative
-	top: -10px
-	
-
-.bookFee
-	margin-bottom: 25px	
-	margin-right: 5px	
-	display: flex
-	align-items: center
-
-
 
 
 /* info */
@@ -202,24 +200,24 @@ body
 	margin-top: 50px
 	margin-bottom: 120px
 
-.infoContainer
-	width: 1200px
-	color: $secondary70
-	line-height: 1.5em
-	
+	&__container
+		width: 1200px
+		color: $secondary70
+		line-height: 1.5em
+		
 
-	.content
+	&__content
 		margin-bottom: 20px
 		white-space: pre-wrap
 
-	.address
-		margin-bottom: 20px
+.address
+	margin-bottom: 20px
 
-		.addressTitle
-			line-height: 32px
-		
-	.transTitle
+	.address__title
 		line-height: 32px
+	
+.trans__Title
+	line-height: 32px
 
 /* 照片 loading */
 .loading
@@ -233,7 +231,6 @@ body
 	justify-content: center
 	align-items: center
 	opacity: 1
-
 
 	&__ring 
 		display: inline-block;
@@ -313,14 +310,15 @@ body
 		top: 54px
 		
 
-	.sectionContainer
+	.section__container
 		width: 100%
 		flex-wrap: wrap
 		padding: 0px
 
-	.imgBox
+	.img
 		width: 100%
 		height: 500px
+		border-radius: 0px
 
 	.loading
 		width: 100%
@@ -330,19 +328,19 @@ body
 	.hr
 		width: 90%
 
-	.infoContainer
+	.info__container
 		width: 90%
 
-	.bookingBox
+	.book
 		width: 90%
 		margin: 0 auto
 		margin-top: 20px
 		
-	.grayArea
+	.book__container
 		width: 100%
 
 @media (max-width: 600px)
-	.imgBox
+	.img
 		height: 350px
 
 	.loading

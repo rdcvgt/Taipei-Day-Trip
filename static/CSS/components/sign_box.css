@@ -160,24 +160,23 @@
   top: 0;
   opacity: 0;
 }
-.boxContainer {
-  z-index: 4;
-  position: absolute;
-}
-.boxForSignUp {
+.signUp {
   display: none;
   opacity: 0;
 }
-.boxForSignIn {
+.signIn {
   display: none;
   opacity: 0;
 }
 .box {
+  z-index: 4;
+  position: absolute;
+}
+.box__container {
   width: 340px;
   height: auto;
   border-radius: 6px;
   background: #fff;
-  box-shadow: 0px 4px 60px #aaa;
   margin: 0 auto;
   left: 50%;
   transform: translate(-50%, 0);
@@ -189,18 +188,18 @@
   align-items: center;
   overflow: hidden;
 }
-.boxTopBar {
+.box__topBar {
   width: 100%;
   height: 10px;
   position: absolute;
   top: 0;
   background: linear-gradient(270deg, #378 0%, #6ab 100%);
 }
-.boxTitle {
+.box__title {
   color: #666;
   margin: 25px 15px 15px 15px;
 }
-.boxCloseBtn {
+.box__closeBtn {
   position: absolute;
   top: 27px;
   right: 17px;
@@ -208,20 +207,20 @@
   height: 25px;
   cursor: pointer;
 }
-.boxForm {
+.box__form {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
 }
-.boxForm .input {
+.box__form .input {
   height: 47px;
   width: 310px;
   padding: 15px;
   color: #757575;
   margin-bottom: 10px;
 }
-.boxForm .Btn {
+.box__form .btn {
   background: #489;
   border-radius: 5px;
   height: 47px;
@@ -232,14 +231,14 @@
   color: #fff;
   cursor: pointer;
 }
-.boxForm .goToText {
+.box__form .goToText {
   color: #666;
   margin: 10px 15px 15px 15px;
   text-decoration: none;
   cursor: pointer;
   transition: 0.2s;
 }
-.boxForm .goToText:hover {
+.box__form .goToText:hover {
   filter: brightness(1.5);
   transition: 0.2s;
 }

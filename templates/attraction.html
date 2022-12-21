@@ -10,19 +10,20 @@
 <body>
 	{% include 'components/navigation.html'%}
 	<section class="section">
-		<div class="sectionContainer">
-			<div class="imgBox">
-				<div class="imgChange">
-					<div class="imgBar">
+		<div class="section__container">
+			<div class="img">
+				<div class="img__change">
+					<div class="img__bar">
 					</div>
 				</div>
-				<div class="imgBtn">
+				<div class="img__btn">
 					<img class="leftBtn" src="../static/Images/components/left arrow.png">
 					<img class="rightBtn" src="../static/Images/components/right arrow.png">
 				</div>
-				<div class="imgDot">
+				<div class="img__dot">
 				</div>
 			</div>
+
 			<div class="loading">
 				<div class="loading__content">
 					<div class="loading__ring">
@@ -35,28 +36,28 @@
 					</div>
 				</div>
 			</div>
-			<div class="bookingBox">
-				<div class="grayArea">
-					<div class="bodyBold bookTitle">訂購導覽行程</div>
-					<div class="bodyMedium bookIntro">以此景點為中心的一日行程，帶您探索城市角落故事</div>
-					<form class="bookForm">
-						<div class="bodyBold bookDate">選擇日期：
+			<div class="book">
+				<div class="book__container">
+					<div class="book__title bodyBold">訂購導覽行程</div>
+					<div class="book__intro bodyMedium ">以此景點為中心的一日行程，帶您探索城市角落故事</div>
+					<form class="book__form">
+						<div class="book__date bodyBold">選擇日期：
 							<label>
-								<input class="bodyMedium bookDateSelector" type="date" value="yyyy-MM-dd">
+								<input class="book__dateInput bodyMedium" type="date" value="yyyy-MM-dd">
 							</label>
 						</div>
-						<div class="bodyBold bookTime">
+						<div class="book__time bodyBold">
 							選擇時間：
-							<label class="bookMorningBox radioBtnBox">
-								<input class="bodyMedium radioBtn bookMorning" type="radio" name="radioBtnBox" value="morning" checked> 上半天
+							<label class="book__timeBox radioBtnBox">
+								<input class="book__morning radioBtn bodyMedium" type="radio" name="radioBtnBox" value="morning" checked> 上半天
 							</label>
 
-							<label class="bookMorningBox radioBtnBox">
-								<input class="bodyMedium radioBtn bookAfternoon" type="radio" name="radioBtnBox" value="afternoon"> 下半天
+							<label class="book__timeBox radioBtnBox">
+								<input class="book__afternoon radioBtn bodyMedium " type="radio" name="radioBtnBox" value="afternoon"> 下半天
 							</label>
 						</div>
-						<div class="bodyBold bookFee">導覽費用：
-							<div class="bodyMedium bookFeeNtd">新臺幣 2000 元</div>
+						<div class="book__fee bodyBold ">導覽費用：
+							<div class="book__feeNtd bodyMedium">新臺幣 2000 元</div>
 						</div>
 						<input class="confirmBtn buttonRegular" type="submit" value="開始預約行程"></input>
 					</form>
@@ -66,32 +67,32 @@
 	</section>
 	<hr class="hr">
 	<info class="info card">
-		<div class="infoContainer">
+		<div class="info__container">
 			<div class="address">
-				<div class="addressTitle bodyBold">
+				<div class="address__title bodyBold">
 					景點地址：
 				</div>
 			</div>
 			<div class="trans">
-				<div class="transTitle bodyBold">
+				<div class="trans__Title bodyBold">
 					交通方式：
 				</div>
 			</div>
 		</div>
 	</info>
 	<info class="info card-template">
-		<div class="infoContainer attraction__skeleton">
+		<div class="info__container attraction__skeleton">
 			<div class="skeleton skeleton-text"></div>
 			<div class="skeleton skeleton-text"></div>
 			<div class="skeleton skeleton-text"></div>
 			<div class="address attraction__skeleton">
-				<div class="addressTitle ">
+				<div class="address__title ">
 					<div class="skeleton skeleton-text"></div>
 					<div class="skeleton skeleton-text"></div>
 				</div>
 			</div>
 			<div class="trans attraction__skeleton">
-				<div class="transTitle ">
+				<div class="trans__Title ">
 					<div class="skeleton skeleton-text"></div>
 					<div class="skeleton skeleton-text"></div>
 				</div>
@@ -108,7 +109,7 @@
 	<div>
 		{% include 'components/footer.html'%}
 	</div>
-	<script type="text/javascript" src="../static/javascript/login.js"></script>
+	<script type="text/javascript" src="../static/javascript/sign_box.js"></script>
 	<script type="text/javascript" src="../static/javascript/attraction.js"></script>
 </body>
 

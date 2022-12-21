@@ -13,17 +13,14 @@
 	opacity: 0
 
 
-.boxContainer
-	z-index: 4
-	position: absolute
-
-.boxForSignUp
+.signUp
 	display: none
 	opacity: 0
 
-.boxForSignIn
+.signIn
 	display: none
 	opacity: 0
+	
 
 @keyframes fadeIn {
   0% {
@@ -44,45 +41,48 @@
 }
 
 .box
-	width: 340px;
-	height: auto;
-	border-radius: 6px;
-	background: #FFFFFF;
-	box-shadow: 0px 4px 60px #AAAAAA;
-
-	margin: 0 auto
-	left: 50%
-	transform: translate(-50%, 0)
-	position: fixed
-	top: 80px
-
-	display: flex
-	flex-wrap: wrap
-	justify-content: center
-	align-items: center
-
-	overflow: hidden
-
-.boxTopBar
-	width: 100%
-	height: 10px
+	z-index: 4
 	position: absolute
-	top: 0
-	background: linear-gradient(270deg, #337788 0%, #66AABB 100%);
 
-.boxTitle
-	color: $secondary70
-	margin: 25px 15px 15px 15px
+	&__container
+		width: 340px;
+		height: auto;
+		border-radius: 6px;
+		background: #FFFFFF;
 
-.boxCloseBtn
-	position: absolute
-	top: 27px
-	right: 17px
-	width: 25px
-	height: 25px
-	cursor pointer
+		margin: 0 auto
+		left: 50%
+		transform: translate(-50%, 0)
+		position: fixed
+		top: 80px
 
-.boxForm
+		display: flex
+		flex-wrap: wrap
+		justify-content: center
+		align-items: center
+
+		overflow: hidden
+
+	&__topBar
+		width: 100%
+		height: 10px
+		position: absolute
+		top: 0
+		background: linear-gradient(270deg, #337788 0%, #66AABB 100%);
+
+	&__title
+		color: $secondary70
+		margin: 25px 15px 15px 15px
+
+	&__closeBtn
+		position: absolute
+		top: 27px
+		right: 17px
+		width: 25px
+		height: 25px
+		cursor pointer
+
+.box__form
 	display: flex
 	flex-wrap: wrap
 	justify-content: center
@@ -95,7 +95,7 @@
 		color: $secondary50
 		margin-bottom: 10px
 
-	.Btn
+	.btn
 		background: #448899;
 		border-radius: 5px;
 		height: 47px;
