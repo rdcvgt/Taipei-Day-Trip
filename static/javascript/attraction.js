@@ -84,7 +84,8 @@ function loadImg(data) {
 		imgStr = `<img class="attImg img${[i]}" src="${imgArr[i]}">`
 		imgBar.insertAdjacentHTML("beforeend", imgStr)
 
-
+		//當前照片載入完成時，增加 loading 值
+		//當 loading 爲 100% 時，將 loading 畫面移除
 		const currentImg = document.querySelector(`.img${[i]}`)
 		currentImg.addEventListener('load', () => {
 			nowLoadingLimit += percent

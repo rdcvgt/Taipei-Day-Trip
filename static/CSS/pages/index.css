@@ -315,6 +315,9 @@ body {
 .attName {
   opacity: none;
   color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .attInfo {
   width: 100%;

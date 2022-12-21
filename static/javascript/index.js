@@ -87,7 +87,7 @@ function loadAttractions(data) {
 
 	//載入 preload
 	const attractionGroup = document.querySelector('.attractionGroup')
-	for (i = 0; i < 12; i++) {
+	for (i = 0; i < attArray.length; i++) {
 		str = `
 		<a class="attContainer card-template">
 			<div class="attMain">

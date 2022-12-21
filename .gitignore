@@ -140,6 +140,7 @@ cython_debug/
 #data
 .DS_Store
 note.py
+note.txt
 password.py
 python.py
 .data/

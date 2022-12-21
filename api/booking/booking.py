@@ -26,6 +26,12 @@ def getBooking():
 	if ((not userInfo) or (userIdFromHeader != userId)):
 		return errorMessage("登入驗證失敗"), 403
 
+	#確認當前預訂行程時是否已經付款過
+	result = Booking.checkBookingTrip(userId)
+	if (not result):
+		return jsonify({'data': None})
+
+	#若目前沒有行程，或是訂單尚未付款
 	data = Booking.getUserBookingTrip(userId)
 	if (not data):
 		return jsonify({'data': None})

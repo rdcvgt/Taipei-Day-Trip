@@ -24,9 +24,7 @@ def createRefreshToken(userId):
 		'iat': datetime.datetime.utcnow(),  #  開始時間
 		'data': {'userId': userId}
 	}
-	ic(secretKey)
 	refreshToken = jwt.encode(payload, secretKey , algorithm='HS256')
-	ic(refreshToken)
 	return refreshToken
 
 def decodeToken(token):

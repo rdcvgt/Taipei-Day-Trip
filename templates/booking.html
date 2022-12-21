@@ -5,6 +5,10 @@
 	<title></title>
 	{% include 'components/head.html'%}
 	<link rel="stylesheet" href="../static/CSS/pages/booking.css">
+	<script src="https://js.tappaysdk.com/sdk/tpdirect/v5.14.0"></script>
+	<style>
+
+	</style>
 </head>
 
 <body>
@@ -89,24 +93,27 @@
 				</p>
 			</div>
 		</contact>
-		<hr class="hr ">
+        <hr class="hr ">
 		<payment class="payment ">
-			<div class="payment__box ">
+			<div class="payment__box bodyMedium">
 				<div class="payment__header buttonBold ">
 					信用卡付款資訊
 				</div>
-				<div class="payment__info bodyMedium ">卡片號碼：
-					<input class="payment__card input " type="text " placeholder="**** **** **** ****" maxlength="19" oninput="value=value.replace(/[^0-9-]+$/,'')">
+				<div class="payment__info" >
+					卡片號碼：<div class="tpfield payment__card" id="card-number"></div>
 					<div class="notice "></div>
 				</div>
-				<div class="payment__info bodyMedium ">過期時間：
-					<input class="payment__validTime input " type="text " placeholder="MM/YY" maxlength="5" oninput="value=value.replace(/[^0-9/]+$/,'')">
+				
+				<div class="payment__info" >
+					過期時間：<div class="tpfield payment__validTime" id="card-expiration-date"></div>
 					<div class="notice "></div>
 				</div>
-				<div class="payment__info bodyMedium ">驗證密碼：
-					<input class="payment__cvv input " type="text " placeholder="CVV" maxlength="3" oninput="value=value.replace(/[^0-9]/g,'')">
+				
+				<div class="payment__info " >
+					驗證密碼：<div class="tpfield payment__cvv" id="card-ccv"></div>
 					<div class="notice "></div>
 				</div>
+				<div class="cardNotice">抱歉，您輸入的信用卡資訊有誤，請再檢查一次。</div>
 			</div>
 		</payment>
 		<hr class="hr ">
@@ -136,8 +143,17 @@
 	<div>
 		{% include 'components/footer.html'%}
 	</div>
+	
 	<script type="text/javascript " src="../static/javascript/login.js "></script>
 	<script type="text/javascript " src="../static/javascript/booking.js "></script>
+	<script type="text/javascript " src="../static/javascript/tappay.js "></script>
+	<script>
+		TPDirect.setupSDK(
+			126853,
+			"app_d7evK55CV7K6qwpgR6IlYtM7yMnfVkJUs6okPAaXaqvlfqObl15atLs29L9G",
+			"sandbox"
+		);
+	</script>
 </body>
 
 </html>
