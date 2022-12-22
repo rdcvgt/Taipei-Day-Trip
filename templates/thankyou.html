@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title></title>
+		{% include 'components/head.html'%}
+		<link rel="stylesheet" href="../static/CSS/pages/thankyou.css" />
+		<style></style>
+	</head>
+
+	<body>
+		{% include 'components/navigation.html'%}
+		<headline class="headline orderTitle buttonBold">
+			<div class="order-message"></div>
+			<div>您的訂單資訊如下：</div>
+		</headline>
+		<tripInfo class="tripInfo">
+			<section class="section order-section">
+				<div class="dayTrip">
+					<div class="dayTrip__imgBox">
+						<img class="dayTrip__statusImg" />
+					</div>
+					<div class="dayTrip__infoBox">
+						<div class="dayTrip__info bodyBold">
+							訂單編號：
+							<div class="dayTrip__orderId bodyMedium"></div>
+						</div>
+						<div class="dayTrip__info bodyBold">
+							聯絡人姓名：
+							<div class="dayTrip__username bodyMedium"></div>
+						</div>
+						<div class="dayTrip__info bodyBold">
+							聯絡人電話：
+							<div class="dayTrip__phone bodyMedium"></div>
+						</div>
+						<div class="dayTrip__info bodyBold">
+							聯絡人 Email：
+							<div class="dayTrip__email bodyMedium"></div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<hr class="hr" />
+			<headline class="headline buttonBold">
+				<div>以下是您所預約的景點資訊</div>
+			</headline>
+
+			<section class="section card">
+				<div class="dayTrip">
+					<div class="dayTrip__imgBox">
+						<a class="dayTrip__imgAtt">
+							<img class="dayTrip__img" />
+						</a>
+					</div>
+					<div class="dayTrip__infoBox">
+						<a class="dayTrip__info attLink bodyBold">
+							臺北一日遊：
+							<div class="dayTrip__name"></div>
+						</a>
+						<div class="dayTrip__info bodyBold">
+							日期：
+							<div class="dayTrip__date bodyMedium"></div>
+						</div>
+						<div class="dayTrip__info bodyBold">
+							時間：
+							<div class="dayTrip__time bodyMedium"></div>
+						</div>
+						<div class="dayTrip__info bodyBold">
+							費用：
+							<div class="dayTrip__fee bodyMedium"></div>
+						</div>
+						<div class="dayTrip__info bodyBold">
+							地點：
+							<div class="dayTrip__address bodyMedium"></div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section class="section card-template">
+				<div class="dayTrip">
+					<div class="dayTrip__imgBox">
+						<img class="dayTrip__img skeleton" />
+					</div>
+					<div class="dayTrip__infoBox">
+						<div class="dayTrip__skeleton">
+							<div class="skeleton skeleton-text"></div>
+							<div class="skeleton skeleton-text"></div>
+							<div class="skeleton skeleton-text"></div>
+							<div class="skeleton skeleton-text"></div>
+							<div class="skeleton skeleton-text"></div>
+							<div class="skeleton skeleton-text"></div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</tripInfo>
+		<div class="noOrder bodyMedium"></div>
+		<confirm class="confirm">
+			<div class="confirm__box">
+				<button class="confirmBtn backToHomePage">返回首頁</button>
+				<button class="confirmBtn backToBooking">返回預訂行程</button>
+			</div>
+		</confirm>
+
+		<div>{% include 'components/sign_in.html'%}</div>
+		<div>{% include 'components/sign_up.html'%}</div>
+		<div>{% include 'components/footer.html'%}</div>
+
+		<script
+			type="text/javascript "
+			src="../static/javascript/login.js "
+		></script>
+		<script
+			type="text/javascript "
+			src="../static/javascript/thankyou.js "
+		></script>
+	</body>
+</html>

@@ -43,7 +43,7 @@ function catchKeyword() {
 }
 catchKeyword()
 
-/* fetch keyword 第一頁資料 */
+/* search keyword fetch 第一頁資料 */
 function fetchKeyword1stPage() {
 	fetch(`/api/attractions?page=0&keyword=${keyword}`)
 		.then(res => res.json())
@@ -73,27 +73,49 @@ function cleanNode() {
 }
 
 /* 首頁載入總景點的第一頁資料  */
-window.addEventListener("load", () => {
+function fetchFirstPageData() {
 	fetch(`/api/attractions?page=0`)
 		.then((res) => res.json())
 		.then(data => loadAttractions(data))
-});
+}
+fetchFirstPageData()
 
 /* 將 data 新增至 html，並判斷是否還有下一頁 */
 function loadAttractions(data) {
 	let attArray = data.data
 	let str = ``
-	const attractionGroup = document.querySelector('.attractionGroup')
 
+	//載入 preload
+	const attractionGroup = document.querySelector('.attractionGroup')
+	for (i = 0; i < attArray.length; i++) {
+		str = `
+		<a class="attContainer card-template">
+			<div class="attMain">
+				<img class="attImg skeleton">
+				<div class="attNameArea skeleton-edit">
+					<div class="attName skeleton skeleton-text"></div>
+				</div>
+			</div>
+			<div class="attInfo">
+				<div class="attInfoTrans skeleton skeleton-text"></div>
+				<div class="attInfoCat skeleton skeleton-text"></div>
+			</div>
+		</a>
+		`
+		attractionGroup.insertAdjacentHTML("beforeend", str)
+	}
+
+	//載入頁面 data
+	let isLoaded = 0
 	for (i = 0; i < attArray.length; i++) {
 		mrt = attArray[i].mrt
 		if (mrt === null) {
 			mrt = "無捷運站"
 		}
 		str = `
-		<a class="attContainer" href="/attraction/${attArray[i].id}">
+		<a class="attContainer card" href="/attraction/${attArray[i].id}">
 			<div class="attMain">
-				<img class="attImg " src="${attArray[i].images[0]}" alt="景點照片">
+				<img class="attImg img${attArray[i].id}" src="${attArray[i].images[0]}" alt="景點照片">
 				<div class="attNameArea">
 					<div class="attName bodyBold">${attArray[i].name}</div>
 				</div>
@@ -105,6 +127,29 @@ function loadAttractions(data) {
 		</a>
 		`
 		attractionGroup.insertAdjacentHTML("beforeend", str)
+
+		//判斷當前景點照片是否載入完成
+		const currentImg = document.querySelector(`.img${attArray[i].id}`)
+		currentImg.addEventListener('load', () => {
+			isLoaded++ //載入完成則 isLoaded+1
+
+			//如果載入次數等於目前 data 景點的資料量
+			if (isLoaded === attArray.length) {
+
+				//移除所有當前的 preload
+				const cardTemplates = document.querySelectorAll(`.card-template`)
+				cardTemplates.forEach(cardTemplate => {
+					cardTemplate.remove()
+				})
+
+				//顯示當前所有載入完成的景點
+				const cards = document.querySelectorAll(`.card`)
+				cards.forEach(card => {
+					card.style.display = 'grid'
+				})
+				scrollDown()
+			}
+		})
 	}
 
 	let nextpage = data.nextpage
@@ -112,7 +157,6 @@ function loadAttractions(data) {
 		showEndMessage('已經沒有更多景點囉！')
 		return
 	}
-	scrollDown()
 }
 
 /* 判斷是否已到頁尾 */

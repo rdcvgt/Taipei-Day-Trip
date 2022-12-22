@@ -6,11 +6,13 @@
 		<img class="boxCloseBtn closeSignIn" src="../static/Images/components/close.png" alt="關閉">
 		<form class="boxForm signInForm">
 			<input class="input signInEmail bodyMedium" type="text" placeholder="輸入電子信箱">
-			<input class="input signInPassword bodyMedium" type="password" placeholder="輸入密碼">
-			<button class="Btn signInBtn buttonRegular" type="submit">登入帳戶</button>
-			<div class="goToText bodyMedium">
-				還沒有帳戶？
-				<a class="goToBtn goToSignUp bodyMedium">點此註冊</a>
+			<div class="notice "></div>
+			<input class="input signInPassword bodyMedium" type="password" placeholder="輸入密碼" maxlength="20">
+			<div class="notice "></div>
+			<div class="message"></div>
+			<button class="Btn confirmBtn signInBtn buttonRegular" type="submit">登入帳戶</button>
+			<div class="goToText goToSignUp bodyMedium">
+				還沒有帳戶？ 點此註冊
 			</div>
 		</form>
 	</div>

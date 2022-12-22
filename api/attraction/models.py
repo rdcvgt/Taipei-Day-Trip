@@ -65,6 +65,7 @@ class Attraction:
 		except:
 			return False	
 		finally:
+			
 			close(c, cursor)
 			
 
@@ -107,6 +108,7 @@ class Attraction:
 				'images':result[9].split(',')
 			}
 			return attraction
+			
 		except TypeError:
 			return None
 		except:
