@@ -177,7 +177,6 @@ function examineAllInput(orderData) {
 
 		if (userName && email && phone) {
 			primeStatus = getPrime(orderData, phoneNumber);
-			console.log(primeStatus);
 			if (!primeStatus) {
 				enableCardErrMessage();
 			}

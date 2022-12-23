@@ -1,11 +1,9 @@
 import sys
 sys.path.append("../../")
-from modules.connect_to_db import conn, selectDb, close
-from modules.error_message import errorMessage
-from icecream import ic
+from packages.database import *
 
 class Booking:
-	def saveUserBookingTrip(data, userId):
+	def save_user_booking_trip(data, userId):
 		try:
 			attractionId = data['attractionId']
 			date = data['date']
@@ -16,14 +14,16 @@ class Booking:
 		try:
 			c = conn()
 			cursor = selectDb(c)
-			sql = '''insert into user_booking 
-			(
-				user_id, 
-				att_id, 
-				date, 
-				time
+			sql = '''
+   			INSERT INTO 
+      			user_booking (
+					user_id, 
+					att_id, 
+					date, 
+					time
 			) 
-				values (%s, %s, %s, %s)'''
+			VALUES (%s, %s, %s, %s)
+   			'''
 			bookingInfo = (userId, attractionId, date, time) 
 			cursor.execute(sql, bookingInfo)
 			c.commit()
@@ -34,24 +34,24 @@ class Booking:
 
 		return "已新增資料"
 
-	def checkBookingTrip(userId):
+	def check_booking_Trip(userId):
 		try:
 			c = conn()
-			cursor = c.cursor(dictionary=True)
-			cursor.execute("use taipei_trip;") 
+			cursor = selectDb(c)
 			sql = '''
-			select 
+			SELECT  
 				UO.payment_status
-			from
-				user_order as UO
-			right join
-				user_booking as UB
-				on UO.booking_id = UB.id
-			where 
+			FROM
+				user_order AS UO
+			RIGHT JOIN
+				user_booking AS UB
+				ON UO.booking_id = UB.id
+			WHERE 
 				UB.user_id = %s
-			order by
+			ORDER BY
 				UB.created_at desc
-			limit 1
+			LIMIT
+   				1
 			'''
 			userInfo = (userId, )
 			cursor.execute(sql, userInfo)
@@ -71,13 +71,12 @@ class Booking:
 			close(c, cursor)
 		
 
-	def getUserBookingTrip(userId):
+	def get_user_booking_trip(userId):
 		try:
 			c = conn()
-			cursor = c.cursor(dictionary=True)
-			cursor.execute("use taipei_trip;") 
+			cursor = selectDb(c)
 			sql = '''
-			select 
+			SELECT 
 				UB.att_id, 
 				A.name, 
 				A.address, 
@@ -85,22 +84,23 @@ class Booking:
 				UB.date, 
 				UB.time, 
 				BP.price
-			from
-				user_booking as UB 
-			inner join 
-				booking_price as BP 
-				on UB.time = BP.time 
-			inner join 
-				attraction as A 
-				on UB.att_id = A.id
-			inner join 
-				attraction_img as AI 
-				on UB.att_id = AI.att_id
-			where 
+			FROM
+				user_booking AS UB 
+			INNER JOIN 
+				booking_price AS BP 
+				ON UB.time = BP.time 
+			INNER JOIN 
+				attraction AS A 
+				ON UB.att_id = A.id
+			INNER JOIN 
+				attraction_img AS AI 
+				ON UB.att_id = AI.att_id
+			WHERE 
 				UB.user_id = %s
-			order by
+			ORDER BY
 				UB.created_at desc
-			limit 1
+			LIMIT 
+   				1
 			'''
 			userInfo = (userId, )
 			cursor.execute(sql, userInfo)
@@ -128,12 +128,15 @@ class Booking:
 		except:
 			return False
 			
-	def deleteUserBookingTrip(userId):
+	def delete_user_booking_trip(userId):
 		try:
 			c = conn()
 			cursor = selectDb(c)
-			sql = '''delete from user_booking
-			where user_id  = %s'''
+			sql = '''
+   			DELETE FROM 
+      			user_booking
+			WHERE 
+   				user_id  = %s'''
 			userInfo = (userId, )
 			cursor.execute(sql, userInfo)
 			c.commit()

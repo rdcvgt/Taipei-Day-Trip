@@ -1,18 +1,26 @@
-from flask import jsonify
 import mysql.connector
 import re  #regex
 import sys
 sys.path.append("../../")
-from modules.connect_to_db import conn, selectDb, close
+from packages.database import *
+
 
 class UserData:
 	#加入新註冊資料
-	def post(name, email, hashed_password):
+	def save_new_user_data(name, email, hashed_password):
 		try:
 			c = conn()
 			cursor = selectDb(c)
-			sql = '''insert into user (name, email, password) 
-			values (%s, %s, %s)'''
+			sql = '''
+   			INSERT INTO 
+      			user (
+             		name, 
+               		email, 
+                 	password
+                ) 
+			VALUES 
+   				(%s, %s, %s)
+   			'''
 			userInfo = (name, email, hashed_password) 
 			cursor.execute(sql, userInfo)
 			c.commit()
@@ -25,19 +33,28 @@ class UserData:
 		return True
 
 	#查詢 request 資料
-	def get(isValidToken):
+	def get_user_data_by_id(isValidToken):
 		try:
 			c = conn()
 			cursor = selectDb(c)
-			sql = '''select id, name, email from user where id = %s '''
+			sql = '''
+   			SELECT 
+      			id, 
+         		name, 
+           		email 
+        	FROM 
+         		user 
+           	WHERE 
+            	id = %s
+            '''
 			userId = isValidToken['data']['userId']
 			userInfo = (userId,) 
 			cursor.execute(sql, userInfo)
 			result = cursor.fetchone() 
 			data = {
-				'id': result[0],
-				'name': result[1],
-				'email': result[2]
+				'id': result['id'],
+				'name': result['name'],
+				'email': result['email']
 			}
 			return data	
 		except:
@@ -46,11 +63,19 @@ class UserData:
 			close(c, cursor)
 
 	#查詢使用者登入資訊
-	def put(email):
+	def get_user_data_by_email(email):
 		try:
 			c = conn()
 			cursor = selectDb(c)
-			sql = '''select password, id from user where email = %s '''
+			sql = '''
+   			SELECT 
+      			password, 
+         		id 
+           	FROM 
+            	user 
+            WHERE 
+            	email = %s
+            '''
 			userInfo = (email,) 
 			cursor.execute(sql, userInfo)
 			result = cursor.fetchone()
@@ -62,7 +87,7 @@ class UserData:
 
 
 class Regex:
-	def emailIsValid(email):
+	def email_validation(email):
 		regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
 		if re.fullmatch(regex, email):
 			return True

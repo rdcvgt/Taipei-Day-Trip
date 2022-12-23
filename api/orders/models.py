@@ -1,12 +1,11 @@
 import sys
 sys.path.append("../../")
-from modules.connect_to_db import conn, selectDb, close
-from modules.error_message import errorMessage
+from packages.database import *
 from icecream import ic
 
 class Order:
 	#檢查是否有 booking 資訊，並回傳 booking_id
-	def getBookingId(userId, data):
+	def get_booking_id(userId, data):
 		try:		
 			att_id = data['order']['trip']['attraction']['id']
 			date = data['order']['trip']['date']
@@ -18,26 +17,25 @@ class Order:
 			c = conn()
 			cursor = selectDb(c)
 			sql = '''
-			select
+			SELECT
 				id 
-			from 
-				user_booking as UB
-			where 
+			FROM 
+				user_booking AS UB
+			WHERE 
 				user_id = %s and
 				att_id = %s and
 				date = %s and
 				time = %s
-			order by
-				UB.created_at desc
-			limit 1
+			ORDER BY
+				UB.created_at DESC
+			LIMIT 1
 			'''
 			userInfo = (userId, att_id, date, time)
 			cursor.execute(sql, userInfo)
 			result = cursor.fetchone()
 			if (not result):
 				return None
-
-			bookingId = result[0] 
+			bookingId = result['id'] 
 			return bookingId
 		except:
 			return None
@@ -45,16 +43,16 @@ class Order:
 			close(c, cursor)
 
 
-	def checkOrderId(bookingId):
+	def check_order_id(bookingId):
 		try:
 			c = conn()
 			cursor = selectDb(c)
 			sql = '''
-			select
+			SELECT
 				order_id 
-			from 
+			FROM 
 				user_order 
-			where 
+			WHERE 
 				booking_id = %s;
 			'''
 			orderInfo = (bookingId, )
@@ -62,8 +60,8 @@ class Order:
 			result = cursor.fetchone()
 			if (not result):
 				return None
-
-			orderId = result[0]
+			ic(result)
+			orderId = result['order_id']
 		except:
 			return None
 		finally:
@@ -73,7 +71,7 @@ class Order:
 
 
 	#儲存訂單，包含訂單編號、使用者資訊及付款狀況
-	def saveOrder(bookingId, data, orderId):
+	def save_order(bookingId, data, orderId):
 		try:		
 			email = data['contact']['email']
 			name = data['contact']['name']
@@ -116,7 +114,7 @@ class Order:
 		return True
 
 	#儲存交易資訊
-	def savePaymentInfo(bookingId, paymentInfo):
+	def save_payment_info(bookingId, paymentInfo):
 		status = paymentInfo['status']
 		message = paymentInfo['msg']		
 		rec_trade_id = paymentInfo['rec_trade_id'] 
@@ -158,7 +156,7 @@ class Order:
 		finally:
 			close(c, cursor)
 
-	def saveFailPaymentInfo(bookingId, paymentInfo):
+	def save_fail_payment_info(bookingId, paymentInfo):
 		status = paymentInfo['status']
 		message = paymentInfo['msg']		
 
@@ -189,7 +187,7 @@ class Order:
 			close(c, cursor)
    
 	
-	def changePaymentStatus(orderId):
+	def change_payment_status(orderId):
 		try:
 			c = conn()
 			cursor = selectDb(c)
@@ -209,77 +207,77 @@ class Order:
 		finally:
 			close(c, cursor)
    
-	def getOrderInfo(userId, orderId):
+	def get_order_info(userId, orderId):
 		try:
 			c = conn()
-			cursor = c.cursor(dictionary=True)
-			cursor.execute("use taipei_trip;") 
+			cursor = selectDb(c)
 			sql = '''
-			select 
+			SELECT 
 				A.id,
 				A.name, 
 				A.address, 
 				AM.url, 
 				UB.date, 
 				UB.time, 
-				UO.name as username, 
+				UO.name AS username, 
 				UO.email,
 				UO.phone, 
 				P.status 
-			from
-				user_order as UO
-			inner join 
-				user_booking as UB 
-				on UO.booking_id = UB.id
-			inner join
-				attraction as A 
-				on UB.att_id = A.id 
-			inner join 
-				attraction_img as AM 
-				on UB.att_id = AM.att_id
-			inner join 
-				payment as P 
-				on UO.booking_id = P.booking_id
-			where 
+			FROM
+				user_order AS UO
+			INNER JOIN 
+				user_booking AS UB 
+				ON UO.booking_id = UB.id
+			INNER JOIN
+				attraction AS A 
+				ON UB.att_id = A.id 
+			INNER JOIN 
+				attraction_img AS AM 
+				ON UB.att_id = AM.att_id
+			INNER JOIN 
+				payment AS P 
+				ON UO.booking_id = P.booking_id
+			WHERE 
 				UO.order_id = %s 
 				and
 				UB.user_id = %s
-			order by 
-				P.created_at desc 
-			limit 1 ;
+			ORDER BY 
+				P.created_at DESC 
+			LIMIT 1 ;
 			'''
 			orderData = (orderId, userId)
 			cursor.execute(sql, orderData)
 			result = cursor.fetchone()	
-			
-			if (not result):
-				orderInfo = {
-					"data": None
-				}
-				return orderInfo
-			orderInfo = {
-				"data": {
-					"number": orderId,
-					"price": 2000 if result['time'] == 'morning' else 2500,
-					"trip": {
-					"attraction": {
-						"id": result['id'],
-						"name": result['name'],
-						"address": result['address'],
-						"image": result['url']
-					},
-					"date": result['date'],
-					"time": result['time']
-					},
-					"contact": {
-					"name": result['username'],
-					"email": result['email'],
-					"phone": result['phone']
-					},
-					"status": result['status']
-				}
-			}
-			return orderInfo
 		finally:
 			close(c, cursor)
+   
+		if (not result):
+			orderInfo = {
+				"data": None
+			}
+			return orderInfo
+		orderInfo = {
+			"data": {
+				"number": orderId,
+				"price": 2000 if result['time'] == 'morning' else 2500,
+				"trip": {
+				"attraction": {
+					"id": result['id'],
+					"name": result['name'],
+					"address": result['address'],
+					"image": result['url']
+				},
+				"date": result['date'],
+				"time": result['time']
+				},
+				"contact": {
+				"name": result['username'],
+				"email": result['email'],
+				"phone": result['phone']
+				},
+				"status": result['status']
+			}
+		}
+		return orderInfo
+
    
