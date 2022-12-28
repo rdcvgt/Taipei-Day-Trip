@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title></title>
+		{% include 'components/head.html'%}
+		<link rel="stylesheet" href="../static/CSS/pages/history.css" />
+		<style></style>
+	</head>
+
+	<body>
+		{% include 'components/navigation.html'%}
+		<headline class="headline orderTitle buttonBold">
+			<div class="order-message"></div>
+			<div>您的訂單資訊如下：</div>
+		</headline>
+		<tripInfo class="tripInfo">
+			<headline class="headline buttonBold">
+				<div>以下是您所預約的景點資訊</div>
+			</headline>
+
+			<section class="section card">
+				<div class="dayTrip">
+					<div class="dayTrip__imgBox">
+						<a class="dayTrip__imgAtt">
+							<img
+								class="dayTrip__img"
+								src="../static/Images/test.png"
+							/>
+						</a>
+					</div>
+					<div class="dayTrip__infoBox">
+						<a class="dayTrip__info attLink bodyBold">
+							行天宮
+							<div class="dayTrip__name"></div>
+						</a>
+						<div class="dayTrip__info bodyBold">
+							日期：2022-12-13
+							<div class="dayTrip__date bodyMedium"></div>
+						</div>
+						<div class="dayTrip__info bodyBold">
+							時間：下午一點
+							<div class="dayTrip__time bodyMedium"></div>
+						</div>
+						<div class="dayTrip__info bodyBold">
+							地點：臺北市中山區
+							<div class="dayTrip__address bodyMedium"></div>
+						</div>
+					</div>
+					<button class="confirmBtn backToOrder">查看詳細資訊</button>
+				</div>
+			</section>
+			<section class="section card-template">
+				<div class="dayTrip">
+					<div class="dayTrip__imgBox">
+						<img class="dayTrip__img skeleton" />
+					</div>
+					<div class="dayTrip__infoBox">
+						<div class="dayTrip__skeleton">
+							<div class="skeleton skeleton-text"></div>
+							<div class="skeleton skeleton-text"></div>
+							<div class="skeleton skeleton-text"></div>
+							<div class="skeleton skeleton-text"></div>
+							<div class="skeleton skeleton-text"></div>
+							<div class="skeleton skeleton-text"></div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</tripInfo>
+		<div class="noOrder bodyMedium"></div>
+
+		<div>{% include 'components/sign_in.html'%}</div>
+		<div>{% include 'components/sign_up.html'%}</div>
+		<div>{% include 'components/footer.html'%}</div>
+
+		<script
+			type="text/javascript "
+			src="../static/javascript/sign_box.js "
+		></script>
+		<script
+			type="text/javascript "
+			src="../static/javascript/history.js "
+		></script>
+	</body>
+</html>

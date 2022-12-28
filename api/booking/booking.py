@@ -25,9 +25,9 @@ def get_booking_info():
 		return error_message("登入驗證失敗"), 403
 
 	#確認當前預訂行程時是否已經付款過
-	result = Booking.check_booking_Trip(userId)
-	if (not result):
-		return jsonify({'data': None})
+	# result = Booking.check_booking_payment(userId)
+	# if (not result):
+	# 	return jsonify({'data': None})
 
 	#若目前沒有行程，或是訂單尚未付款
 	data = Booking.get_user_booking_trip(userId)
@@ -55,8 +55,6 @@ def booking_trip():
 		return error_message("輸入資訊不正確，請再試一次"), 400
 	if (status == False):
 		return error_message("伺服器出現問題，請再試一次"), 500
-	if (status == "已更新資料"):
-		return jsonify({"ok": True, "message": "已成功更新您的預約，2 秒後將跳轉至預訂行程頁面..."})
 	if (status == "已新增資料"):
 		return jsonify({"ok": True, "message": "預約成功！2 秒後將跳轉至預訂行程頁面..."})	
 
@@ -72,7 +70,8 @@ def delete_booking():
 	if ((not userInfo) or (userIdFromHeader != userId)):
 		return error_message("登入驗證失敗"), 403
 
-	status = Booking.delete_user_booking_trip(userId)
+	bookingId = int(request.headers.get('bookingId'))
+	status = Booking.delete_user_booking_trip(userId, bookingId)
 	if (status == False):
 		return error_message("登入驗證失敗"), 403
 	return jsonify({"ok": True})

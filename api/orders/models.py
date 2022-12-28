@@ -43,36 +43,66 @@ class Order:
 			close(c, cursor)
 
 
-	def check_order_id(bookingId):
+	# def check_order_id(bookingId):
+	# 	try:
+	# 		c = conn()
+	# 		cursor = selectDb(c)
+	# 		sql = '''
+	# 		SELECT
+	# 			order_id 
+	# 		FROM 
+	# 			user_order 
+	# 		WHERE 
+	# 			booking_id = %s;
+	# 		'''
+	# 		orderInfo = (bookingId, )
+	# 		cursor.execute(sql, orderInfo)
+	# 		result = cursor.fetchone()
+	# 		if (not result):
+	# 			return None
+	# 		ic(result)
+	# 		orderId = result['order_id']
+	# 	except:
+	# 		return None
+	# 	finally:
+	# 		close(c, cursor)
+		
+	# 	return orderId
+
+	def save_order_bookings(bookingId,orderId):
 		try:
 			c = conn()
 			cursor = selectDb(c)
-			sql = '''
-			SELECT
-				order_id 
-			FROM 
-				user_order 
-			WHERE 
-				booking_id = %s;
-			'''
-			orderInfo = (bookingId, )
-			cursor.execute(sql, orderInfo)
-			result = cursor.fetchone()
-			if (not result):
-				return None
-			ic(result)
-			orderId = result['order_id']
+			for oneBkId in bookingId:
+				sql = '''
+				INSERT INTO 
+					order_bookings (
+						order_id, 
+						booking_id
+				)
+				VALUES (
+					%s, %s
+				);
+				'''
+				orderInfo = (
+					orderId, 
+					oneBkId
+				)
+				cursor.execute(sql, orderInfo)
+				c.commit()
 		except:
-			return None
+			return False
 		finally:
 			close(c, cursor)
-		
-		return orderId
+			
+      
+			
 
 
 	#儲存訂單，包含訂單編號、使用者資訊及付款狀況
-	def save_order(bookingId, data, orderId):
+	def save_order(paymentStatus, data, orderId):
 		try:		
+			status = 1 if paymentStatus == 0 else 1
 			email = data['contact']['email']
 			name = data['contact']['name']
 			phone = data['contact']['phone']
@@ -85,7 +115,6 @@ class Order:
 			sql = '''
 			INSERT INTO 
 				user_order (
-					booking_id, 
 					order_id, 
 					payment_status,
 					name,
@@ -93,13 +122,12 @@ class Order:
 					phone
 			)
 			VALUES (
-				%s, %s, %s, %s, %s, %s
+				%s, %s, %s, %s, %s
 			);
 			'''
 			orderInfo = (
-				bookingId, 
 				orderId, 
-				0, 
+				status, 
 				name,
 				email, 
 				phone
@@ -114,7 +142,7 @@ class Order:
 		return True
 
 	#儲存交易資訊
-	def save_payment_info(bookingId, paymentInfo):
+	def save_payment_info(orderId, paymentInfo):
 		status = paymentInfo['status']
 		message = paymentInfo['msg']		
 		rec_trade_id = paymentInfo['rec_trade_id'] 
@@ -128,7 +156,7 @@ class Order:
 			sql = '''
 			INSERT INTO 
 				payment (
-					booking_id, 
+					order_id, 
 					status, 
 					message,
 					rec_trade_id,
@@ -141,7 +169,7 @@ class Order:
 			);
 			'''
 			paymentInfo = (
-				bookingId, 
+				orderId, 
 				status, 
 				message,
 				rec_trade_id, 
@@ -156,7 +184,7 @@ class Order:
 		finally:
 			close(c, cursor)
 
-	def save_fail_payment_info(bookingId, paymentInfo):
+	def save_fail_payment_info(orderId, paymentInfo):
 		status = paymentInfo['status']
 		message = paymentInfo['msg']		
 
@@ -166,7 +194,7 @@ class Order:
 			sql = '''
 			INSERT INTO 
 				payment (
-					booking_id, 
+					order_id, 
 					status, 
 					message
 			)
@@ -175,7 +203,7 @@ class Order:
 			);
 			'''
 			paymentInfo = (
-				bookingId, 
+				orderId, 
 				status, 
 				message
 			)
@@ -187,25 +215,25 @@ class Order:
 			close(c, cursor)
    
 	
-	def change_payment_status(orderId):
-		try:
-			c = conn()
-			cursor = selectDb(c)
-			sql = '''
-			UPDATE 
-   				user_order
-			SET 
-   				payment_status = %s
-			WHERE
-   				order_id= %s;
-			'''
-			orderInfo = (
-				1, orderId
-			)
-			cursor.execute(sql, orderInfo)
-			c.commit()
-		finally:
-			close(c, cursor)
+	# def change_payment_status(orderId):
+	# 	try:
+	# 		c = conn()
+	# 		cursor = selectDb(c)
+	# 		sql = '''
+	# 		UPDATE 
+   	# 			user_order
+	# 		SET 
+   	# 			payment_status = %s
+	# 		WHERE
+   	# 			order_id= %s;
+	# 		'''
+	# 		orderInfo = (
+	# 			1, orderId
+	# 		)
+	# 		cursor.execute(sql, orderInfo)
+	# 		c.commit()
+	# 	finally:
+	# 		close(c, cursor)
    
 	def get_order_info(userId, orderId):
 		try:

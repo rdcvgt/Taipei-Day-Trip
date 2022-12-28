@@ -20,5 +20,9 @@ app.register_blueprint(api_orders_bp)
 def index():
 	return render_template("index.html")
 
+@app.route("/history")
+def history():
+	return render_template("history.html")
+
 
 app.run(port=3000)
