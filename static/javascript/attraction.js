@@ -256,9 +256,6 @@ function bookingTrip() {
 				if (res.ok === true) {
 					str = `<div class="message success">${res.message}</div>`;
 					confirmBtn.insertAdjacentHTML("beforeBegin", str);
-					setTimeout(() => {
-						window.location.href = "/booking";
-					}, "2000");
 				}
 				if (res.error === true) {
 					str = `<div class="message error">${res.message}</div>`;

@@ -212,7 +212,7 @@ body {
   margin: 0 auto;
   height: auto;
   display: flex;
-  margin-top: 40px;
+  display: block;
 }
 @media (max-width: 1200px) {
   .section {
@@ -232,11 +232,13 @@ body {
   display: flex;
   justify-content: left;
   align-items: center;
-  margin-bottom: 40px;
+  padding-bottom: 30px;
+  padding-top: 30px;
   position: relative;
+  border-bottom: 1px solid #e8e8e8;
 }
-.dayTrip:nth-of-type(n) {
-  margin-bottom: 0px;
+.dayTrip:nth-last-child(1) {
+  border-bottom: 0;
 }
 .dayTrip__imgBox {
   width: 266px;
@@ -270,9 +272,11 @@ body {
   margin-bottom: 20px;
   color: #666;
 }
+.dayTrip__info:nth-of-type(4) {
+  margin-bottom: 0;
+}
 a.dayTrip__info:nth-of-type(1) {
   text-decoration: none;
-  margin-bottom: 30px;
   color: #489;
   transition: 0.2s;
 }
@@ -319,7 +323,6 @@ a.dayTrip__info:nth-of-type(1):hover {
   color: #489;
 }
 .hr {
-  margin-top: 30px;
   margin-bottom: 30px;
 }
 .input {
@@ -332,9 +335,6 @@ a.dayTrip__info:nth-of-type(1):hover {
   left: 90px;
 }
 /* skeleton */
-.card {
-  display: none;
-}
 .card-template {
   display: block;
 }
@@ -358,6 +358,9 @@ a.dayTrip__info:nth-of-type(1):hover {
     top: auto;
     bottom: -30px;
   }
+  .section {
+    display: block;
+  }
 }
 @media (max-width: 600px) {
   .dayTrip {
@@ -366,7 +369,6 @@ a.dayTrip__info:nth-of-type(1):hover {
     display: flex;
     flex-wrap: wrap;
     justify-content: left;
-    margin-bottom: 40px;
     position: relative;
   }
   .dayTrip__imgBox {

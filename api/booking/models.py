@@ -34,43 +34,6 @@ class Booking:
 
 		return "已新增資料"
 
-	def check_booking_payment(userId):
-		try:
-			c = conn()
-			cursor = selectDb(c)
-			sql = '''
-			SELECT  
-				UO.payment_status
-			FROM
-				user_order AS UO
-			RIGHT JOIN
-				user_booking AS UB
-				ON UO.booking_id = UB.id
-			WHERE 
-				UB.user_id = %s
-			ORDER BY
-				UB.created_at desc
-			LIMIT
-   				1
-			'''
-			userInfo = (userId, )
-			cursor.execute(sql, userInfo)
-			result = cursor.fetchone()
-			
-			#如果 payment_status 爲 Null 則代表尚未建立訂單
-			if(not result['payment_status']):
-				return True
-
-			#如果 payment_status 爲 0 則代表尚未付款完成
-			if (result['payment_status'] == 0):
-				return True
-			return False
-		except:
-			return False
-		finally:
-			close(c, cursor)
-		
-
 	def get_user_booking_trip(userId):
 		try:
 			c = conn()

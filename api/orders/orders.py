@@ -34,22 +34,7 @@ def orders():
 	if ((not userInfo) or (userIdFromHeader != userId)):
 		return error_message("登入驗證失敗"), 403
 
-	#使用 userId, data 查詢是否有預訂行程資料，並回傳 bookingId
-	# try:
-		
-	# 	data = request.json
-		
-	# 	bookingId = data['order']['trip']['data']
-	# 	ic(bookingId)
-	# except:
-	# 	return error_message("訂單建立失敗"), 400
-	# bookingId = 
-	# bookingId = Order.get_booking_id(userId, data)
-	# if (not bookingId):
-	# 	return error_message("查無預訂行程"), 400
-
 	#如果沒有 orderId，建立訂單編號並儲存訂單資訊
-	# orderId = Order.check_order_id(bookingId)
 	today = date.today()
 	dateNum = today.strftime("%Y%m%d")
 	randomNum = str(math.floor(random.random()*100000))
@@ -79,11 +64,10 @@ def orders():
 	headers = {'Content-type': 'application/json', 'x-api-key': partnerKey};
 	response = requests.post(url, data=userOrder, headers=headers)
  
+ 
 	#如果 status 是 0 則更新 order 資料表當中的 payment_status
 	paymentInfo = json.loads(response.text)
 	paymentStatus = paymentInfo['status']
-	# if (paymentStatus == 0):
-	# 	Order.change_payment_status(orderId)
 	paymentMessage = {
 		"data": {
 		"number": orderId,
@@ -131,6 +115,7 @@ def get_order_by_id(id):
 		return error_message("登入驗證失敗"), 403
     
     #獲取訂單資訊並回傳給前端
+
 	orderId = id
 	orderInfo = Order.get_order_info(userId, orderId)
 	return jsonify(orderInfo)

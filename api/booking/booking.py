@@ -24,11 +24,6 @@ def get_booking_info():
 	if ((not userInfo) or (userIdFromHeader != userId)):
 		return error_message("登入驗證失敗"), 403
 
-	#確認當前預訂行程時是否已經付款過
-	# result = Booking.check_booking_payment(userId)
-	# if (not result):
-	# 	return jsonify({'data': None})
-
 	#若目前沒有行程，或是訂單尚未付款
 	data = Booking.get_user_booking_trip(userId)
 	if (not data):
@@ -56,7 +51,8 @@ def booking_trip():
 	if (status == False):
 		return error_message("伺服器出現問題，請再試一次"), 500
 	if (status == "已新增資料"):
-		return jsonify({"ok": True, "message": "預約成功！2 秒後將跳轉至預訂行程頁面..."})	
+		return jsonify({"ok": True, "message": "已成功加入預訂行程！"})	
+
 
 @api_booking_bp.route("/api/booking", methods=['DELETE'])
 def delete_booking():
