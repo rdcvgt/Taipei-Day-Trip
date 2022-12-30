@@ -237,10 +237,9 @@ function examineAllInput() {
 		let userName = examineName(contact__name);
 		let email = examineEmail(contact__email);
 		let phone = examinePhone(contact__phone);
-		let phoneNumber = contact__phone.value;
 		let booking = examineOrder();
 		if (userName && email && phone && booking) {
-			primeStatus = getPrime(phoneNumber);
+			primeStatus = getPrime();
 			if (!primeStatus) {
 				enableCardErrMessage();
 			}
@@ -251,7 +250,7 @@ function examineAllInput() {
 examineAllInput();
 
 /* 取得 prime */
-function getPrime(phoneNumber) {
+function getPrime() {
 	// 取得 TapPay Fields 的 status
 	const tappayStatus = TPDirect.card.getTappayFieldsStatus();
 
@@ -263,18 +262,18 @@ function getPrime(phoneNumber) {
 	let prime;
 	TPDirect.card.getPrime((result) => {
 		if (result.status !== 0) {
-			// console.log("get prime error " + result.msg);
 			return false;
 		}
 		prime = result.card.prime;
-		sendOrderToBackend(prime, phoneNumber);
+		sendOrderToBackend(prime);
+		showLoadingStatus();
 	});
 
 	return true;
 }
 
 /* 將使用用的訂單資訊及 prime 傳送至 /api/orders */
-function sendOrderToBackend(prime, phoneNumber) {
+function sendOrderToBackend(prime) {
 	const dayTrip__checkbox = document.querySelectorAll(
 		".dayTrip__checkbox:checked"
 	);
@@ -291,6 +290,9 @@ function sendOrderToBackend(prime, phoneNumber) {
 	});
 
 	let userInfo = JSON.parse(sessionStorage.user);
+	const name = document.querySelector(".contact__name").value;
+	const email = document.querySelector(".contact__email").value;
+	const phone = document.querySelector(".contact__phone").value;
 	let token = getTokenFromCookie();
 	orderData = {
 		prime,
@@ -301,9 +303,9 @@ function sendOrderToBackend(prime, phoneNumber) {
 			},
 		},
 		contact: {
-			name: userInfo.name,
-			email: userInfo.email,
-			phone: phoneNumber,
+			name,
+			email,
+			phone,
 		},
 	};
 
@@ -319,12 +321,27 @@ function sendOrderToBackend(prime, phoneNumber) {
 		.then((res) => res.json())
 		.then((res) => {
 			if (res.data) {
+				hideLoadingStatus();
 				location.href = `/thankyou?number=${res.data.number}`;
 			}
 			if (res.error === true) {
 				console.log("失敗"); //todo
 			}
 		});
+}
+
+function showLoadingStatus() {
+	const loading = document.querySelector(".loading");
+	loading.style.display = "flex";
+	loading.style.animation = "fadeIn 0.3s forwards";
+}
+
+function hideLoadingStatus() {
+	const loading = document.querySelector(".loading");
+	loading.style.animation = "fadeOut 0.3s forwards";
+	setTimeout(() => {
+		loading.removeAttribute = "style";
+	}, 300);
 }
 
 /* 驗證是否有選擇行程 */

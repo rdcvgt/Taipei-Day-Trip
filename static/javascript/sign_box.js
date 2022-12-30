@@ -273,7 +273,7 @@ function examineName(className) {
 	}
 	let regex = /^[\u4e00-\u9fa5A-Za-z]+$/.test(input);
 	if (!regex) {
-		enableNotice(className, "姓名限用中文或英文組成");
+		enableNotice(className, "姓名限用中文或英文組成");
 		return false;
 	}
 	disableNotice(className);

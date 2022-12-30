@@ -166,7 +166,7 @@ body {
   height: auto;
   display: flex;
   position: relative;
-  color: #666;
+  color: #757575;
 }
 @media (max-width: 1200px) {
   .headline {
@@ -180,6 +180,29 @@ body {
     flex: wrap;
   }
 }
+.headline__upcoming {
+  margin-right: 30px;
+  width: 220px;
+  background-color: #489;
+  color: #fff;
+}
+.headline__past {
+  width: 150px;
+}
+.toggleButton {
+  height: 50px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 1px solid #e8e8e8;
+  transition: 0.2s;
+}
+.toggleButton:hover {
+  box-shadow: 3px 3px 12px rgba(157,157,157,0.3);
+  transition: 0.2s;
+}
 .noOrder {
   width: 1200px;
   padding: 0 100px 0 100px;
@@ -190,6 +213,7 @@ body {
   height: 100px;
   position: relative;
   color: #666;
+  left: 10px;
 }
 @media (max-width: 1200px) {
   .noOrder {
@@ -204,7 +228,13 @@ body {
   }
 }
 .tripInfo {
+  margin-bottom: 60px;
+}
+.upcomingTrip {
   display: block;
+}
+.pastTrip {
+  display: none;
 }
 .section {
   width: 1200px;
@@ -226,61 +256,103 @@ body {
     flex: wrap;
   }
 }
+.dateBar {
+  width: 100%;
+  height: 60px;
+  border-radius: 5px;
+  border: 1px solid #e8e8e8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  user-select: none;
+  position: sticky;
+  top: 70px;
+  z-index: 1;
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  background-color: rgba(240,240,240,0.7);
+  box-shadow: 3px 3px 12px rgba(157,157,157,0.3);
+}
+.dateBar__info {
+  display: flex;
+  align-items: center;
+}
+.dateBar__date {
+  margin-right: 20px;
+  color: #666;
+}
+.dateBar__trip {
+  color: #757575;
+}
+.dateBar__imgBox {
+  width: 25px;
+  height: 25px;
+}
+.dateBar__img {
+  width: 100%;
+  height: 100%;
+}
 .dayTrip {
+  width: 100%;
+  height: auto;
+}
+.dayTrip__container {
   width: 100%;
   height: auto;
   display: flex;
   justify-content: left;
   align-items: center;
-  margin-bottom: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 60px;
+  margin-top: 30px;
   position: relative;
-  border: 1px solid #e8e8e8;
-  border-radius: 10px;
-  overflow: hidden;
-  position: relative;
+  border-bottom: 1px solid #e8e8e8;
 }
-.dayTrip:nth-of-type(n) {
-  margin-bottom: 0px;
+.dayTrip__container:nth-last-child(1) {
+  border-bottom: 0;
 }
 .dayTrip__imgBox {
   width: 266px;
   height: 200px;
   overflow: hidden;
-  display: flex;
-  align-items: center;
+  border-radius: 5px;
+  overflow: hidden;
 }
 .dayTrip__imgAtt {
   cursor: pointer;
 }
 .dayTrip__img {
-  width: 110%;
+  width: 100%;
   height: 100%;
   object-fit: cover;
   transition: 0.2s;
 }
-.dayTrip__statusImg {
-  width: 100%;
-  height: 60%;
-  object-fit: contain;
-}
 .dayTrip__infoBox {
   flex: auto;
-  margin-left: 40px;
-  align-items: center;
+  margin-left: 20px;
+  height: 100%;
+  width: 60%;
 }
 .dayTrip__info {
   display: flex;
   margin-bottom: 20px;
   color: #666;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.dayTrip__info:nth-of-type(3) {
-  margin-bottom: 0px;
+.dayTrip__info:nth-of-type(4) {
+  margin-bottom: 0;
 }
 a.dayTrip__info:nth-of-type(1) {
   text-decoration: none;
-  margin-bottom: 30px;
   color: #489;
   transition: 0.2s;
+  display: inline-block;
 }
 a.dayTrip__info:nth-of-type(1):hover {
   filter: brightness(1.3);
@@ -291,6 +363,7 @@ a.dayTrip__info:nth-of-type(1):hover {
   position: absolute;
   bottom: 20px;
   right: 20px;
+  text-decoration: none;
 }
 .hr {
   margin-top: 30px;
@@ -310,7 +383,7 @@ a.dayTrip__info:nth-of-type(1):hover {
   display: block;
 }
 .card-template {
-  display: none;
+  display: block;
 }
 .dayTrip__skeleton {
   width: 100%;
@@ -327,14 +400,16 @@ a.dayTrip__info:nth-of-type(1):hover {
 }
 /* RWD */
 @media (max-width: 1200px) {
-  .dayTrip__delete {
-    position: absolute;
-    top: auto;
-    bottom: -30px;
+  .dayTrip__imgBox {
+    width: 266px;
+    height: 200px;
+  }
+  .backToOrder {
+    bottom: 20px;
   }
 }
 @media (max-width: 600px) {
-  .dayTrip {
+  .dayTrip__container {
     width: 100%;
     height: auto;
     display: flex;
@@ -342,6 +417,7 @@ a.dayTrip__info:nth-of-type(1):hover {
     justify-content: left;
     margin-bottom: 40px;
     position: relative;
+    padding-bottom: 50px;
   }
   .dayTrip__imgBox {
     width: 100%;

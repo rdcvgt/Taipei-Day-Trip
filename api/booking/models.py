@@ -75,13 +75,15 @@ class Booking:
 			) AS I
 				ON UB.att_id = I.att_id
 			WHERE 
-				UB.user_id = %s AND
+				UB.user_id = %s 
+    		AND
 				(UB.id NOT IN (
 					SELECT 
 						booking_id 
 					FROM 
 						order_bookings
-				) OR
+				) 
+    		OR
 				UB.id IN(
 					SELECT id FROM (
 						SELECT

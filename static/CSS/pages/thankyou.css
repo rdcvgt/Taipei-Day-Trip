@@ -279,6 +279,7 @@ a.dayTrip__info:nth-of-type(1) {
   text-decoration: none;
   color: #489;
   transition: 0.2s;
+  display: inline-block;
 }
 a.dayTrip__info:nth-of-type(1):hover {
   filter: brightness(1.3);
