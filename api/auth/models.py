@@ -1,5 +1,5 @@
 import mysql.connector
-import re  #regex
+
 import sys
 sys.path.append("../../")
 from packages.database import *
@@ -44,6 +44,7 @@ class UserData:
       			id, 
          		name, 
            		email,
+				phone_number,
 				user_photo
         	FROM 
          		user 
@@ -58,6 +59,7 @@ class UserData:
 				'id': result['id'],
 				'name': result['name'],
 				'email': result['email'],
+				'phone': result['phone_number'],
 				'photo': result['user_photo']
 			}
 			return data	
@@ -141,12 +143,7 @@ class UserData:
 			close(c, cursor)
 
 
-class Regex:
-	def email_validation(email):
-		regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
-		if re.fullmatch(regex, email):
-			return True
-		return False
+
 
 	# def nameIsValid(name):
 	# 	regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')

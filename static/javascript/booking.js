@@ -60,8 +60,11 @@ function loadBookingInfo(attractions) {
 	let userInfo = JSON.parse(sessionStorage.user);
 	const contact__name = document.querySelector(".contact__name");
 	const contact__email = document.querySelector(".contact__email");
+	const contact__phone = document.querySelector(".contact__phone");
+
 	contact__name.value = userInfo.name;
 	contact__email.value = userInfo.email;
+	contact__phone.value = userInfo.phone;
 
 	//載入使用者所有預訂行程
 	const section = document.querySelector(".section");

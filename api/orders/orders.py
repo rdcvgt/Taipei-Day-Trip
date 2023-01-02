@@ -12,8 +12,8 @@ import sys
 sys.path.append("../../")
 from packages.error_message import *
 from packages.jwt_token import *
+from packages.regular_expression import *
 
-from icecream import ic
 
 api_orders_bp = Blueprint('api_orders_bp', __name__)
 
@@ -42,11 +42,26 @@ def orders():
     
     #清理 request 資料，以提交 tappay 付款資訊
 	data = request.json
+	prime = data['prime'] 
 	price = int(data['order']['price'])
-	phone = '+886' + data['contact']['phone'][1:]
 	name =  data['contact']['name']
 	email = data['contact']['email']
-	prime = data['prime'] 
+	phone = data['contact']['phone']
+
+	
+	#input資料驗證
+	if (not prime or not price or not phone or not name or not email):
+		return error_message("訂單資料不齊全"), 400
+	nameResult = Regex.name_validation(name)
+	if (nameResult != True):
+		return error_message(nameResult), 400
+	emailResult = Regex.email_validation(email)
+	if (emailResult != True):
+		return error_message(emailResult), 400
+	phoneResult = Regex.phone_validation(phone)
+	if (phoneResult != True):
+		return error_message(phoneResult), 400
+
 	userData = {
 			"prime": prime,
 			"partner_key": partnerKey,

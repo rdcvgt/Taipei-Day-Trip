@@ -1,27 +1,37 @@
 from flask import Blueprint, jsonify, request, make_response
 from flask_bcrypt import Bcrypt
 from .models import *
-from icecream import ic
 
 import sys
 sys.path.append("../../")
 from packages.error_message import *
 from packages.jwt_token import *
+from packages.regular_expression import *
 
 api_auth_bp = Blueprint('api_auth_bp', __name__)
 
 #使用者註冊
 @api_auth_bp.route("/api/user", methods=['POST'])
 def handle_user_sign_up():
+    
+    #input 資料驗證
 	data = request.json
 	name = data["name"]
 	email = data["email"]
 	password = data["password"]
 	if (not name or not email or not password):
 		return error_message("欄位不得爲空"), 400
-	if (not Regex.email_validation(email)):
-		return error_message("電子郵件格式不正確"), 400
+	nameResult = Regex.name_validation(name)
+	if (nameResult != True):
+		return error_message(nameResult), 400
+	emailResult = Regex.email_validation(email)
+	if (emailResult != True):
+		return error_message(emailResult), 400
+	passwordResult = Regex.password_validation(password)
+	if (passwordResult != True):
+		return error_message(passwordResult), 400
 
+	#密碼加密
 	bcrypt = Bcrypt()
 	hashed_password = bcrypt.generate_password_hash(password)
 	result = UserData.save_new_user_data(name, email, hashed_password)
@@ -60,9 +70,13 @@ def handle_user_sign_in():
 	password = data["password"]
 	if (not email or not password):
 		return error_message("欄位不得爲空"), 400
-	if (not Regex.email_validation(email)):
-		return error_message("電子郵件格式不正確"), 400
-	#todo: password regex
+	emailResult = Regex.email_validation(email)
+	if (emailResult != True):
+		return error_message(emailResult), 400
+	passwordResult = Regex.password_validation(password)
+	if (passwordResult != True):
+		return error_message(passwordResult), 400
+
 
 	try:
 		result = UserData.get_user_data_by_email(email)

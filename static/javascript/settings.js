@@ -236,6 +236,7 @@ function examineEmail(contact__email) {
 /* 手機號碼欄位的驗證細節 */
 function examinePhone(contact__phone) {
 	input = contact__phone.value;
+	if (input === "") return true;
 	regex = /^09\d{8}$/.test(input);
 	if (!regex) {
 		enableNotice(

@@ -1,14 +1,12 @@
 from flask import Blueprint, jsonify, request, render_template
-from .models import *
-from werkzeug.utils import secure_filename
+from .models import * 
 from datetime import datetime
 
 import sys
 sys.path.append("../../")
 from packages.error_message import *
 from packages.jwt_token import *
-
-from icecream import ic
+from packages.regular_expression import *
 
 api_settings_bp = Blueprint('api_settings_bp', __name__)
 
@@ -71,8 +69,6 @@ def get_user_data():
 		return error_message("伺服器出現問題，請再試一次"), 500
 	return jsonify({'data': data})
 	
-	
-
 
 @api_settings_bp.route("/api/settings", methods=['DELETE'])
 def delete_user_photo():
@@ -112,8 +108,25 @@ def update_user_Data():
 	if ((not userInfo) or (userIdFromHeader != userId)):
 		return error_message("登入驗證失敗"), 403
 
-	
+	#input 資料驗證
 	userData = request.json
+	name = userData['name']
+	email = userData['email']
+	phone = userData['phone']
+	if (not name or not email):
+		return error_message("名稱與電子郵件爲必填欄位"), 400
+	nameResult = Regex.name_validation(name)
+	if (nameResult != True):
+		return error_message(nameResult), 400
+	emailResult = Regex.email_validation(email)
+	if (emailResult != True):
+		return error_message(emailResult), 400
+
+	if (phone):
+		phoneResult = Regex.phone_validation(phone)
+		if (phoneResult != True):
+			return error_message(phoneResult), 400
+ 
 	#搜尋出 user_photo 檔名並且刪除路徑下的檔案
 	status = Settings.update_user_data(userId, userData)
 	if (not status):
