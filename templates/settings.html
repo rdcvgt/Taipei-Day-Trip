@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title></title>
+	{% include 'components/head.html'%}
+	<link rel="stylesheet" href="../static/CSS/pages/settings.css">
+	<script src="https://js.tappaysdk.com/sdk/tpdirect/v5.14.0"></script>
+	<style>
+
+	</style>
+</head>
+
+<body>
+	{% include 'components/navigation.html'%}
+	
+	<tripInfo class="tripInfo">
+		</div>
+		<contact class="contact">
+			
+			<div class="contact__box">
+				<div class="contact__header buttonBold">編輯個人檔案</div>
+
+				<div class="contact__info bodyMedium">
+					<div>照片</div>
+					<div class="contact__photoBlock">
+						<div class="contact__Preview">
+							<img class="contact__photo">
+						</div>
+						<button class="confirmBtn contact__button upload" onclick='uploadPhoto()'>
+							更換
+						</button>
+						<button class="confirmBtn contact__button delete" onclick='deletePhoto()'>
+							刪除
+						</button>
+						<input type="file" class="contact__upload" name="img" accept="image/*">
+					</div>
+					
+					<div class="notice"></div>
+				</div>
+
+				<div class="contact__info bodyMedium">
+					<div>使用者名稱</div>
+					<input class="contact__name input" type="text" maxlength="20">
+					<div class="notice"></div>
+				</div>
+				<div class="contact__info bodyMedium">
+					<div>電子信箱</div>
+					<input class="contact__email input" type="text">
+					<div class="notice"></div>
+				</div>
+				<div class="contact__info bodyMedium">
+					<div>手機號碼</div>
+					<input class="contact__phone input" type="text" maxlength="10" oninput="value=value.replace(/[^0-9]/g,'')">
+					<div class="notice "></div>
+				</div>
+			</div>
+		</contact>
+		<confirm class="confirm ">
+			<div class="confirm__box ">
+				<button class="confirmBtn cancel">
+					取消
+				</button>
+				<button class="confirmBtn save" onclick="examineAllInput()">
+					儲存檔案
+				</button>
+			</div>
+		</confirm>
+	</tripInfo>
+	<message class="messageCard contentBold">
+	</message>
+
+
+	<div>
+		{% include 'components/sign_in.html'%}
+	</div>
+	<div>
+		{% include 'components/sign_up.html'%}
+	</div>
+	<div>
+		{% include 'components/footer.html'%}
+	</div>
+	
+	<script type="text/javascript " src="../static/javascript/sign_box.js "></script>
+	<script type="text/javascript " src="../static/javascript/settings.js "></script>
+</body>
+
+</html>

@@ -281,6 +281,11 @@ body {
   border: 1px solid #e8e8e8;
   cursor: pointer;
   text-decoration: none;
+  transition: 0.3s;
+}
+.att__container:hover {
+  box-shadow: 5px 5px 12px rgba(157,157,157,0.5);
+  transition: 0.3s;
 }
 .att__container:hover .att__Img {
   scale: 1.1;
@@ -381,7 +386,7 @@ body {
     grid-template-columns: repeat(2, 50%);
     grid-template-rows: repeat(2, 242px);
   }
-  .att .att__container {
+  .att__container {
     width: 100%;
     height: 242px;
   }
@@ -391,5 +396,8 @@ body {
     width: 90%;
     grid-template-columns: repeat(1, 322px);
     grid-template-rows: repeat(2, 280px);
+  }
+  .att__container {
+    max-width: 100%;
   }
 }

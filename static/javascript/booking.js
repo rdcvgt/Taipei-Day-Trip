@@ -12,8 +12,8 @@ getTokenFromCookie();
 /* 顯示使用者名稱 */
 function showUserName() {
 	let userInfo = JSON.parse(sessionStorage.user);
-	const headline_username = document.querySelector(".headline_username");
-	headline_username.textContent = userInfo.name;
+	const headline = document.querySelector(".headline");
+	headline.textContent = `您好，${userInfo.name}，待預訂的行程如下：`;
 }
 showUserName();
 
@@ -32,7 +32,10 @@ function fetchUserBooking() {
 		.then((res) => {
 			//登入驗證失敗導回首頁
 			if (res.error === true) {
-				window.location.href = "/";
+				showMassage(res.message, false);
+				setTimeout(() => {
+					window.location.href = "/";
+				}, 1000);
 				return;
 			}
 			if (res.data.length !== 0) {
@@ -169,9 +172,14 @@ function deleteBookingTrip() {
 			.then((res) => {
 				//登入驗證失敗導回首頁
 				if (res.error === true) {
-					window.location.href = "/";
+					showMassage(res.message, false);
+					setTimeout(() => {
+						window.location.href = "/";
+					}, 1000);
 					return;
 				}
+				//顯示移除成功訊息
+				showMassage("刪除成功！", true);
 
 				//移除已刪除的行程欄位
 				const currentTrip = document.querySelector(`.trip${bookingId}`);
@@ -179,8 +187,10 @@ function deleteBookingTrip() {
 
 				//若預訂行程已完全刪除，則重新整理頁面
 				const card = document.querySelector(".card");
-				if (card.children.length === 0) {
-					window.location.reload("/booking");
+				if (card.children.length === 1) {
+					setTimeout(() => {
+						window.location.reload("/booking");
+					}, 1000);
 				}
 			});
 	});
@@ -443,4 +453,17 @@ function disableNotice(className) {
 	className.nextElementSibling.textContent = "";
 	className.nextElementSibling.style.display = "none";
 	className.removeAttribute("style");
+}
+
+/* 顯示卡片提示 */
+function showMassage(messageContent, status) {
+	const color = status ? "#4ad27a" : "#ff4949";
+
+	const messageCard = document.querySelector(".messageCard");
+	messageCard.textContent = messageContent;
+	messageCard.style.background = color;
+	messageCard.style.animation = "messageCardFadeIn 0.7s both";
+	setTimeout(() => {
+		messageCard.style.animation = "messageCardFadeOut 0.7s both";
+	}, 1200);
 }

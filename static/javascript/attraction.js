@@ -208,12 +208,10 @@ function bookingTrip() {
 
 	confirmBtn.addEventListener("click", (e) => {
 		e.preventDefault();
-		removeMessage();
 
 		let token = document.cookie.split("=")[1];
 		if (token === undefined || token === "") {
-			str = `<div class="message error">抱歉！請先登入，再開始預約行程</div>`;
-			confirmBtn.insertAdjacentHTML("beforeBegin", str);
+			showMassage("請先登入，再開始預約行程", false);
 			showLoginBox();
 			return;
 		}
@@ -223,8 +221,7 @@ function bookingTrip() {
 		const book__dateInput = document.querySelector(".book__dateInput");
 		date = book__dateInput.value;
 		if (date === "") {
-			str = `<div class="message error">尚未選擇日期</div>`;
-			confirmBtn.insertAdjacentHTML("beforeBegin", str);
+			showMassage("尚未選擇日期", false);
 			book__dateInput.style.border = "2px solid #d20000";
 			return;
 		}
@@ -254,24 +251,25 @@ function bookingTrip() {
 			.then((res) => res.json())
 			.then((res) => {
 				if (res.ok === true) {
-					str = `<div class="message success">${res.message}</div>`;
-					confirmBtn.insertAdjacentHTML("beforeBegin", str);
+					showMassage(res.message, true);
 				}
 				if (res.error === true) {
-					str = `<div class="message error">${res.message}</div>`;
-					confirmBtn.insertAdjacentHTML("beforeBegin", str);
+					showMassage(res.message, false);
 				}
 			});
 	});
 }
 bookingTrip();
 
-function removeMessage() {
-	let message = document.querySelector(".message");
-	if (message === null) return;
-	if (message.parentNode) {
-		message.parentNode.removeChild(message);
-	}
-	const book__dateInput = document.querySelector(".book__dateInput");
-	book__dateInput.style.border = "none";
+/* 顯示卡片提示 */
+function showMassage(messageContent, status) {
+	const color = status ? "#4ad27a" : "#ff4949";
+
+	const messageCard = document.querySelector(".messageCard");
+	messageCard.textContent = messageContent;
+	messageCard.style.background = color;
+	messageCard.style.animation = "messageCardFadeIn 0.7s both";
+	setTimeout(() => {
+		messageCard.style.animation = "messageCardFadeOut 0.7s both";
+	}, 1200);
 }

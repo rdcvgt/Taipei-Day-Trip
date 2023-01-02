@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request, make_response
 from flask_bcrypt import Bcrypt
 from .models import *
+from icecream import ic
 
 import sys
 sys.path.append("../../")
@@ -42,9 +43,14 @@ def handle_user_validation():
 		return invalidUser
 
 	data = UserData.get_user_data_by_id(isValidToken)
+	userId = data['id']
+	count = UserData.get_booking_count(userId)
 	if (data == False):
 		return invalidUser
-	return jsonify({'data': data})
+	return jsonify({
+		'data': data,
+		'bookings': count
+		})
 		
 #使用者登入
 @api_auth_bp.route("/api/user/auth", methods=['PUT'])

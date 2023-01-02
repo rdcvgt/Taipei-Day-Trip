@@ -18,14 +18,15 @@ function onLoadPage() {
 		.then((data) => {
 			let userInfo = data.data;
 			sessionStorage.setItem("user", JSON.stringify(userInfo));
-			if (userInfo !== null) {
-				//修改登入按鈕爲登出
-				const navLoginBtn = document.querySelector(".navLoginBtn");
-				navLoginBtn.classList.add("navLogoutBtn");
+			const navLoginBtn = document.querySelector(".navLoginBtn");
+			const menuBtn = document.querySelector(".menuBtn");
 
-				const navLogoutBtn = document.querySelector(".navLogoutBtn");
-				navLogoutBtn.textContent = "登出系統";
-				navLogoutBtn.classList.remove("navLoginBtn");
+			if (userInfo !== null) {
+				//隱藏登入按鈕，開啓 menuBtn
+				navLoginBtn.removeAttribute("style");
+				menuBtn.removeAttribute("style");
+
+				//啓動登出按鈕
 				clickToLogout(token);
 
 				//可點擊預訂行程按鈕至頁面
@@ -33,6 +34,9 @@ function onLoadPage() {
 				navBookBtn.addEventListener("click", () => {
 					window.location.href = "/booking";
 				});
+
+				//串接使用者資料
+				showNavUserData(data);
 				return;
 			}
 			//若使用者資料爲 null，無法進入 booking 頁面
@@ -44,6 +48,41 @@ function onLoadPage() {
 }
 onLoadPage();
 
+function toggleSubMenu() {
+	const menuBtn = document.querySelector(".menuBtn");
+	const subMenu = document.querySelector(".subMenu");
+	document.addEventListener("click", (e) => {
+		if (menuBtn.contains(e.target)) {
+			subMenu.style.display = "block";
+			subMenu.style.animation = "fadeInMenu 0.3s forwards";
+		} else if (!menuBtn.contains(e.target)) {
+			subMenu.style.animation = "fadeOutMenu 0.3s forwards";
+			setTimeout(() => {
+				subMenu.removeAttribute("style");
+			}, 300);
+		}
+	});
+}
+toggleSubMenu();
+
+function showNavUserData(info) {
+	const username = document.querySelector(".username");
+	username.textContent = info.data.name;
+
+	const photo = document.querySelector(".photo");
+	photo.src =
+		info.data.photo !== null
+			? `../static/Images/user_photo/${info.data.photo}`
+			: `../static/Images/components/user.png`;
+
+	const bookingCount = document.querySelector(".bookingCount");
+	count = info.bookings;
+	if (count > 0) {
+		bookingCount.removeAttribute("style");
+		bookingCount.textContent = count > 99 ? "99+" : count;
+	}
+}
+
 /* 登出系統 */
 function clickToLogout(token) {
 	const navLogoutBtn = document.querySelector(".navLogoutBtn");
@@ -54,12 +93,6 @@ function clickToLogout(token) {
 		})
 			.then((res) => res.json())
 			.then((data) => {
-				const navLogoutBtn = document.querySelector(".navLogoutBtn");
-				navLogoutBtn.classList.add("navLoginBtn");
-				const navLoginBtn = document.querySelector(".navLoginBtn");
-				navLoginBtn.textContent = "登入/註冊";
-				navLoginBtn.classList.remove("navLogoutBtn");
-
 				//如果在 booking 頁面登出，則導回首頁
 				if (window.location.href.split("/")[3] === "booking") {
 					window.location.href = "/";
