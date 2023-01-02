@@ -61,6 +61,7 @@ function cancelEditUserData(data) {
 		contact__name.value = data.name;
 		contact__email.value = data.email;
 		contact__phone.value = data.phone;
+		showMassage("已恢復編輯前的資料", true);
 	});
 }
 
