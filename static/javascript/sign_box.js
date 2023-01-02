@@ -18,14 +18,15 @@ function onLoadPage() {
 		.then((data) => {
 			let userInfo = data.data;
 			sessionStorage.setItem("user", JSON.stringify(userInfo));
-			if (userInfo !== null) {
-				//修改登入按鈕爲登出
-				const navLoginBtn = document.querySelector(".navLoginBtn");
-				navLoginBtn.classList.add("navLogoutBtn");
+			const navLoginBtn = document.querySelector(".navLoginBtn");
+			const menuBtn = document.querySelector(".menuBtn");
 
-				const navLogoutBtn = document.querySelector(".navLogoutBtn");
-				navLogoutBtn.textContent = "登出系統";
-				navLogoutBtn.classList.remove("navLoginBtn");
+			if (userInfo !== null) {
+				//隱藏登入按鈕，開啓 menuBtn
+				navLoginBtn.removeAttribute("style");
+				menuBtn.removeAttribute("style");
+
+				//啓動登出按鈕
 				clickToLogout(token);
 
 				//可點擊預訂行程按鈕至頁面
@@ -33,6 +34,9 @@ function onLoadPage() {
 				navBookBtn.addEventListener("click", () => {
 					window.location.href = "/booking";
 				});
+
+				//串接使用者資料
+				showNavUserData(data);
 				return;
 			}
 			//若使用者資料爲 null，無法進入 booking 頁面
@@ -44,6 +48,41 @@ function onLoadPage() {
 }
 onLoadPage();
 
+function toggleSubMenu() {
+	const menuBtn = document.querySelector(".menuBtn");
+	const subMenu = document.querySelector(".subMenu");
+	document.addEventListener("click", (e) => {
+		if (menuBtn.contains(e.target)) {
+			subMenu.style.display = "block";
+			subMenu.style.animation = "fadeInMenu 0.3s forwards";
+		} else if (!menuBtn.contains(e.target)) {
+			subMenu.style.animation = "fadeOutMenu 0.3s forwards";
+			setTimeout(() => {
+				subMenu.removeAttribute("style");
+			}, 300);
+		}
+	});
+}
+toggleSubMenu();
+
+function showNavUserData(info) {
+	const username = document.querySelector(".username");
+	username.textContent = info.data.name;
+
+	const photo = document.querySelector(".photo");
+	photo.src =
+		info.data.photo !== null
+			? `../static/Images/user_photo/${info.data.photo}`
+			: `../static/Images/components/user.png`;
+
+	const bookingCount = document.querySelector(".bookingCount");
+	count = info.bookings;
+	if (count > 0) {
+		bookingCount.removeAttribute("style");
+		bookingCount.textContent = count > 99 ? "99+" : count;
+	}
+}
+
 /* 登出系統 */
 function clickToLogout(token) {
 	const navLogoutBtn = document.querySelector(".navLogoutBtn");
@@ -54,12 +93,6 @@ function clickToLogout(token) {
 		})
 			.then((res) => res.json())
 			.then((data) => {
-				const navLogoutBtn = document.querySelector(".navLogoutBtn");
-				navLogoutBtn.classList.add("navLoginBtn");
-				const navLoginBtn = document.querySelector(".navLoginBtn");
-				navLoginBtn.textContent = "登入/註冊";
-				navLoginBtn.classList.remove("navLogoutBtn");
-
 				//如果在 booking 頁面登出，則導回首頁
 				if (window.location.href.split("/")[3] === "booking") {
 					window.location.href = "/";
@@ -75,22 +108,22 @@ function clickToLogout(token) {
 /*  點擊「登入/註冊」按鈕 */
 function showLoginBox() {
 	const boxBG = document.querySelector(".boxBG");
-	const boxForSignIn = document.querySelector(".boxForSignIn");
+	const signIn = document.querySelector(".signIn");
 	const navLoginBtn = document.querySelector(".navLoginBtn");
 	const navBookBtn = document.querySelector(".navBookBtn");
 
 	navLoginBtn.addEventListener("click", () => {
 		boxBG.style.display = "block";
-		boxForSignIn.style.display = "block";
+		signIn.style.display = "block";
 		boxBG.style.animation = "fadeIn 0.3s forwards";
-		boxForSignIn.style.animation = "fadeIn 0.4s forwards";
+		signIn.style.animation = "fadeIn 0.4s forwards";
 	});
 
 	navBookBtn.addEventListener("click", () => {
 		boxBG.style.display = "block";
-		boxForSignIn.style.display = "block";
+		signIn.style.display = "block";
 		boxBG.style.animation = "fadeIn 0.3s forwards";
-		boxForSignIn.style.animation = "fadeIn 0.4s forwards";
+		signIn.style.animation = "fadeIn 0.4s forwards";
 	});
 	closeBox();
 	clickToSignUpOrIn();
@@ -103,27 +136,26 @@ function showLoginBox() {
 /*  點擊關閉按鈕或背景來關閉登入/註冊區塊 */
 function closeBox() {
 	const boxBG = document.querySelector(".boxBG");
-	const closeSignIn = document.querySelector(".closeSignIn");
-	const closeSignUp = document.querySelector(".closeSignUp");
-	const boxForSignIn = document.querySelector(".boxForSignIn");
-	const boxForSignUp = document.querySelector(".boxForSignUp");
-	const boxForm = document.querySelector(".boxForSignUp");
+	const signIn__closeBtn = document.querySelector(".signIn__closeBtn");
+	const signUp__closeBtn = document.querySelector(".signUp__closeBtn");
+	const signIn = document.querySelector(".signIn");
+	const signUp = document.querySelector(".signUp");
 
 	close(boxBG);
-	close(closeSignIn);
-	close(closeSignUp);
+	close(signIn__closeBtn);
+	close(signUp__closeBtn);
 
 	function close(clickArea) {
 		clickArea.addEventListener("click", () => {
 			disableAllSignInMessage();
 			disableAllSignUpMessage();
 			boxBG.style.animation = "fadeOut 0.3s forwards";
-			boxForSignIn.style.animation = "fadeOut 0.2s forwards";
-			boxForSignUp.style.animation = "fadeOut 0.2s forwards";
+			signIn.style.animation = "fadeOut 0.2s forwards";
+			signUp.style.animation = "fadeOut 0.2s forwards";
 			setTimeout(() => {
 				boxBG.style.display = "none";
-				boxForSignIn.style.display = "none";
-				boxForSignUp.style.display = "none";
+				signIn.style.display = "none";
+				signUp.style.display = "none";
 			}, 400);
 		});
 	}
@@ -133,46 +165,46 @@ function closeBox() {
 function clickToSignUpOrIn() {
 	const goToSignUp = document.querySelector(".goToSignUp");
 	const goToSignIn = document.querySelector(".goToSignIn");
-	const boxForSignIn = document.querySelector(".boxForSignIn");
-	const boxForSignUp = document.querySelector(".boxForSignUp");
+	const signIn = document.querySelector(".signIn");
+	const signUp = document.querySelector(".signUp");
 
 	goToSignUp.addEventListener("click", (e) => {
 		disableAllSignInMessage();
 		setTimeout(() => {
-			boxForSignIn.style.display = "none";
+			signIn.style.display = "none";
 		}, 400);
 
-		boxForSignUp.style.display = "block";
-		boxForSignUp.style.animation = "fadeIn 0.4s forwards";
+		signUp.style.display = "block";
+		signUp.style.animation = "fadeIn 0.4s forwards";
 	});
 
 	goToSignIn.addEventListener("click", (e) => {
 		disableAllSignUpMessage();
-		boxForSignIn.style.display = "block";
-		boxForSignIn.style.animation = "fadeIn 0.3s forwards";
-		boxForSignUp.style.animation = "fadeOut 0.5s forwards";
+		signIn.style.display = "block";
+		signIn.style.animation = "fadeIn 0.3s forwards";
+		signUp.style.animation = "fadeOut 0.5s forwards";
 		setTimeout(() => {
-			boxForSignUp.style.display = "none";
+			signUp.style.display = "none";
 		}, 500);
 	});
 }
 
 /* 提交用戶註冊資訊*/
 function getUserSignUpInfo() {
-	const signUpForm = document.querySelector(".signUpForm");
-	const signUpName = document.querySelector(".signUpName");
-	const signUpEmail = document.querySelector(".signUpEmail");
-	const signUpPassword = document.querySelector(".signUpPassword");
+	const signUp__form = document.querySelector(".signUp__form");
+	const signUp__Name = document.querySelector(".signUp__Name");
+	const signUp__Email = document.querySelector(".signUp__Email");
+	const signUp__password = document.querySelector(".signUp__password");
 
-	signUpForm.addEventListener("submit", (e) => {
+	signUp__form.addEventListener("submit", (e) => {
 		disableAllSignUpMessage();
 		e.preventDefault();
-		let name = signUpName.value;
-		let email = signUpEmail.value;
-		let password = signUpPassword.value;
-		let nameIsValid = examineName(signUpName);
-		let emailIsValid = examineEmail(signUpEmail);
-		let passwordIsValid = examinePassword(signUpPassword);
+		let name = signUp__Name.value;
+		let email = signUp__Email.value;
+		let password = signUp__password.value;
+		let nameIsValid = examineName(signUp__Name);
+		let emailIsValid = examineEmail(signUp__Email);
+		let passwordIsValid = examinePassword(signUp__password);
 		if (!emailIsValid || !passwordIsValid || !nameIsValid) {
 			return;
 		}
@@ -186,10 +218,10 @@ function getUserSignUpInfo() {
 			.then((res) => res.json())
 			.then((res) => {
 				if (res.ok === true) {
-					const signUpPassword =
-						document.querySelector(".signUpPassword");
+					const signUp__password =
+						document.querySelector(".signUp__password");
 					str = `<div class="message success">註冊成功，請點擊下方進行登入！</div>`;
-					signUpPassword.insertAdjacentHTML("afterend", str);
+					signUp__password.insertAdjacentHTML("afterend", str);
 				}
 				if (res.error === true) {
 					enableBackEndMessage(res.message, "signUp");
@@ -200,17 +232,17 @@ function getUserSignUpInfo() {
 
 /* 提交用戶登入資訊 */
 function getUserSignInInfo() {
-	const signInForm = document.querySelector(".signInForm");
-	const signInEmail = document.querySelector(".signInEmail");
-	const signInPassword = document.querySelector(".signInPassword");
+	const signIn__form = document.querySelector(".signIn__form");
+	const signIn__Email = document.querySelector(".signIn__Email");
+	const signIn__password = document.querySelector(".signIn__password");
 
-	signInForm.addEventListener("submit", (e) => {
+	signIn__form.addEventListener("submit", (e) => {
 		disableBackEndSignInMessage();
 		e.preventDefault();
-		let email = signInEmail.value;
-		let password = signInPassword.value;
-		let emailIsValid = examineEmail(signInEmail);
-		let passwordIsValid = examinePassword(signInPassword);
+		let email = signIn__Email.value;
+		let password = signIn__password.value;
+		let emailIsValid = examineEmail(signIn__Email);
+		let passwordIsValid = examinePassword(signIn__password);
 		if (!emailIsValid || !passwordIsValid) {
 			return;
 		}
@@ -236,32 +268,32 @@ function getUserSignInInfo() {
 
 /* 檢查登入區的所有 input 輸入內容是否正確*/
 function examineSignInInput() {
-	const signInEmail = document.querySelector(".signInEmail");
-	signInEmail.addEventListener("blur", () => {
-		examineEmail(signInEmail);
+	const signIn__Email = document.querySelector(".signIn__Email");
+	signIn__Email.addEventListener("blur", () => {
+		examineEmail(signIn__Email);
 	});
 
-	const signInPassword = document.querySelector(".signInPassword");
-	signInPassword.addEventListener("blur", () => {
-		examinePassword(signInPassword);
+	const signIn__password = document.querySelector(".signIn__password");
+	signIn__password.addEventListener("blur", () => {
+		examinePassword(signIn__password);
 	});
 }
 
 /* 檢查註冊區的所有 input 輸入內容是否正確*/
 function examineSignUpInput() {
-	const signUpName = document.querySelector(".signUpName");
-	signUpName.addEventListener("blur", () => {
-		examineName(signUpName);
+	const signUp__Name = document.querySelector(".signUp__Name");
+	signUp__Name.addEventListener("blur", () => {
+		examineName(signUp__Name);
 	});
 
-	const signUpEmail = document.querySelector(".signUpEmail");
-	signUpEmail.addEventListener("blur", () => {
-		examineEmail(signUpEmail);
+	const signUp__Email = document.querySelector(".signUp__Email");
+	signUp__Email.addEventListener("blur", () => {
+		examineEmail(signUp__Email);
 	});
 
-	const signUpPassword = document.querySelector(".signUpPassword");
-	signUpPassword.addEventListener("blur", () => {
-		examinePassword(signUpPassword);
+	const signUp__password = document.querySelector(".signUp__password");
+	signUp__password.addEventListener("blur", () => {
+		examinePassword(signUp__password);
 	});
 }
 
@@ -274,7 +306,7 @@ function examineName(className) {
 	}
 	let regex = /^[\u4e00-\u9fa5A-Za-z]+$/.test(input);
 	if (!regex) {
-		enableNotice(className, "姓名限用中文或英文組成");
+		enableNotice(className, "姓名限用中文或英文組成");
 		return false;
 	}
 	disableNotice(className);
@@ -346,78 +378,78 @@ function disableNotice(className) {
 /*顯示後端回傳錯誤提示*/
 function enableBackEndMessage(Message, from) {
 	if (from === "signUp") {
-		const signUpBtn = document.querySelector(".signUpBtn");
-		const signUpName = document.querySelector(".signUpName");
-		const signUpEmail = document.querySelector(".signUpEmail");
-		const signUpPassword = document.querySelector(".signUpPassword");
+		const signUp__btn = document.querySelector(".signUp__btn");
+		const signUp__Name = document.querySelector(".signUp__Name");
+		const signUp__Email = document.querySelector(".signUp__Email");
+		const signUp__password = document.querySelector(".signUp__password");
 
-		signUpBtn.previousElementSibling.textContent = Message;
-		signUpBtn.previousElementSibling.style.display = "block";
+		signUp__btn.previousElementSibling.textContent = Message;
+		signUp__btn.previousElementSibling.style.display = "block";
 		if (
 			Message === "電子郵件已被註冊" ||
 			Message === "電子郵件格式不正確"
 		) {
-			signUpEmail.style.border = "1px solid #d20000";
+			signUp__Email.style.border = "1px solid #d20000";
 			return;
 		}
 
-		signUpName.style.border = "1px solid #d20000";
-		signUpEmail.style.border = "1px solid #d20000";
-		signUpPassword.style.border = "1px solid #d20000";
+		signUp__Name.style.border = "1px solid #d20000";
+		signUp__Email.style.border = "1px solid #d20000";
+		signUp__password.style.border = "1px solid #d20000";
 	}
 
 	if (from === "signIn") {
-		const signInBtn = document.querySelector(".signInBtn");
-		const signInEmail = document.querySelector(".signInEmail");
-		const signInPassword = document.querySelector(".signInPassword");
-		signInBtn.previousElementSibling.textContent = Message;
-		signInBtn.previousElementSibling.style.display = "block";
-		signInEmail.style.border = "1px solid #d20000";
-		signInPassword.style.border = "1px solid #d20000";
+		const signIn__btn = document.querySelector(".signIn__btn");
+		const signIn__Email = document.querySelector(".signIn__Email");
+		const signIn__password = document.querySelector(".signIn__password");
+		signIn__btn.previousElementSibling.textContent = Message;
+		signIn__btn.previousElementSibling.style.display = "block";
+		signIn__Email.style.border = "1px solid #d20000";
+		signIn__password.style.border = "1px solid #d20000";
 	}
 	return;
 }
 
 /* 消除後端回傳在登入區的提示 */
 function disableBackEndSignInMessage() {
-	const signInBtn = document.querySelector(".signInBtn");
-	const signInEmail = document.querySelector(".signInEmail");
-	const signInPassword = document.querySelector(".signInPassword");
-	signInBtn.previousElementSibling.textContent = "";
-	signInBtn.previousElementSibling.style.display = "none";
-	signInEmail.removeAttribute("style");
-	signInPassword.removeAttribute("style");
+	const signIn__btn = document.querySelector(".signIn__btn");
+	const signIn__Email = document.querySelector(".signIn__Email");
+	const signIn__password = document.querySelector(".signIn__password");
+	signIn__btn.previousElementSibling.textContent = "";
+	signIn__btn.previousElementSibling.style.display = "none";
+	signIn__Email.removeAttribute("style");
+	signIn__password.removeAttribute("style");
 }
 
 /* 消除後端回傳在註冊區的提示 */
 function disableBackEndSignInMessage() {
-	const signUpBtn = document.querySelector(".signUpBtn");
-	const signUpName = document.querySelector(".signUpName");
-	const signUpEmail = document.querySelector(".signUpEmail");
-	const signUpPassword = document.querySelector(".signUpPassword");
-	signUpBtn.previousElementSibling.textContent = "";
-	signUpBtn.previousElementSibling.style.display = "none";
-	signUpName.removeAttribute("style");
-	signUpEmail.removeAttribute("style");
-	signUpPassword.removeAttribute("style");
+	const signUp__btn = document.querySelector(".signUp__btn");
+	const signUp__Name = document.querySelector(".signUp__Name");
+	const signUp__Email = document.querySelector(".signUp__Email");
+	const signUp__password = document.querySelector(".signUp__password");
+	signUp__btn.previousElementSibling.textContent = "";
+	signUp__btn.previousElementSibling.style.display = "none";
+	signUp__Name.removeAttribute("style");
+	signUp__Email.removeAttribute("style");
+	signUp__password.removeAttribute("style");
 }
 
 /* 消除所有登入區的提示 */
 function disableAllSignInMessage() {
-	const signInEmail = document.querySelector(".signInEmail");
-	const signInPassword = document.querySelector(".signInPassword");
+	const signIn__Email = document.querySelector(".signIn__Email");
+	const signIn__password = document.querySelector(".signIn__password");
 	disableBackEndSignInMessage();
-	disableNotice(signInEmail);
-	disableNotice(signInPassword);
+	disableNotice(signIn__Email);
+	disableNotice(signIn__password);
 }
 
 /* 消除所有註冊區的提示 */
 function disableAllSignUpMessage() {
-	const signUpName = document.querySelector(".signUpName");
-	const signUpEmail = document.querySelector(".signUpEmail");
-	const signUpPassword = document.querySelector(".signUpPassword");
+	const signUp__Name = document.querySelector(".signUp__Name");
+	const signUp__Email = document.querySelector(".signUp__Email");
+	const signUp__password = document.querySelector(".signUp__password");
 	disableBackEndSignInMessage();
-	disableNotice(signUpName);
-	disableNotice(signUpEmail);
-	disableNotice(signUpPassword);
+	disableNotice(signUp__Name);
+	disableNotice(signUp__Email);
+	disableNotice(signUp__password);
 }

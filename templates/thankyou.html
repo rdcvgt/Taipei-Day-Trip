@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title></title>
+		<title>訂單資訊</title>
 		{% include 'components/head.html'%}
 		<link rel="stylesheet" href="../static/CSS/pages/thankyou.css" />
 		<style></style>
@@ -44,54 +44,8 @@
 				<div>以下是您所預約的景點資訊</div>
 			</headline>
 
-			<section class="section card">
-				<div class="dayTrip">
-					<div class="dayTrip__imgBox">
-						<a class="dayTrip__imgAtt">
-							<img class="dayTrip__img" />
-						</a>
-					</div>
-					<div class="dayTrip__infoBox">
-						<a class="dayTrip__info attLink bodyBold">
-							臺北一日遊：
-							<div class="dayTrip__name"></div>
-						</a>
-						<div class="dayTrip__info bodyBold">
-							日期：
-							<div class="dayTrip__date bodyMedium"></div>
-						</div>
-						<div class="dayTrip__info bodyBold">
-							時間：
-							<div class="dayTrip__time bodyMedium"></div>
-						</div>
-						<div class="dayTrip__info bodyBold">
-							費用：
-							<div class="dayTrip__fee bodyMedium"></div>
-						</div>
-						<div class="dayTrip__info bodyBold">
-							地點：
-							<div class="dayTrip__address bodyMedium"></div>
-						</div>
-					</div>
-				</div>
-			</section>
-			<section class="section card-template">
-				<div class="dayTrip">
-					<div class="dayTrip__imgBox">
-						<img class="dayTrip__img skeleton" />
-					</div>
-					<div class="dayTrip__infoBox">
-						<div class="dayTrip__skeleton">
-							<div class="skeleton skeleton-text"></div>
-							<div class="skeleton skeleton-text"></div>
-							<div class="skeleton skeleton-text"></div>
-							<div class="skeleton skeleton-text"></div>
-							<div class="skeleton skeleton-text"></div>
-							<div class="skeleton skeleton-text"></div>
-						</div>
-					</div>
-				</div>
-			</section>
+			<section class="section trip-section card"></section>
+			<section class="section card-template"></section>
 		</tripInfo>
 		<div class="noOrder bodyMedium"></div>
 		<confirm class="confirm">
@@ -107,7 +61,7 @@
 
 		<script
 			type="text/javascript "
-			src="../static/javascript/login.js "
+			src="../static/javascript/sign_box.js "
 		></script>
 		<script
 			type="text/javascript "

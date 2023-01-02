@@ -1,80 +1,40 @@
 import sys
 sys.path.append("../../")
-from modules.connect_to_db import conn, selectDb, close
-from modules.error_message import errorMessage
+from packages.database import *
 from icecream import ic
 
 class Order:
-	#檢查是否有 booking 資訊，並回傳 booking_id
-	def getBookingId(userId, data):
-		try:		
-			att_id = data['order']['trip']['attraction']['id']
-			date = data['order']['trip']['date']
-			time = data['order']['trip']['time']
-		except:
-			return None
-
+	def save_order_bookings(bookingId,orderId):
 		try:
 			c = conn()
 			cursor = selectDb(c)
-			sql = '''
-			select
-				id 
-			from 
-				user_booking as UB
-			where 
-				user_id = %s and
-				att_id = %s and
-				date = %s and
-				time = %s
-			order by
-				UB.created_at desc
-			limit 1
-			'''
-			userInfo = (userId, att_id, date, time)
-			cursor.execute(sql, userInfo)
-			result = cursor.fetchone()
-			if (not result):
-				return None
-
-			bookingId = result[0] 
-			return bookingId
+			for oneBkId in bookingId:
+				sql = '''
+				INSERT INTO 
+					order_bookings (
+						order_id, 
+						booking_id
+				)
+				VALUES (
+					%s, %s
+				);
+				'''
+				orderInfo = (
+					orderId, 
+					oneBkId
+				)
+				cursor.execute(sql, orderInfo)
+				c.commit()
 		except:
-			return None
+			return False
 		finally:
 			close(c, cursor)
-
-
-	def checkOrderId(bookingId):
-		try:
-			c = conn()
-			cursor = selectDb(c)
-			sql = '''
-			select
-				order_id 
-			from 
-				user_order 
-			where 
-				booking_id = %s;
-			'''
-			orderInfo = (bookingId, )
-			cursor.execute(sql, orderInfo)
-			result = cursor.fetchone()
-			if (not result):
-				return None
-
-			orderId = result[0]
-		except:
-			return None
-		finally:
-			close(c, cursor)
-		
-		return orderId
-
+   
 
 	#儲存訂單，包含訂單編號、使用者資訊及付款狀況
-	def saveOrder(bookingId, data, orderId):
+	def save_order(paymentStatus, data, orderId):
 		try:		
+			status = 1 if paymentStatus == 0 else 1
 			email = data['contact']['email']
 			name = data['contact']['name']
 			phone = data['contact']['phone']
@@ -87,7 +47,6 @@ class Order:
 			sql = '''
 			INSERT INTO 
 				user_order (
-					booking_id, 
 					order_id, 
 					payment_status,
 					name,
@@ -95,13 +54,12 @@ class Order:
 					phone
 			)
 			VALUES (
-				%s, %s, %s, %s, %s, %s
+				%s, %s, %s, %s, %s
 			);
 			'''
 			orderInfo = (
-				bookingId, 
 				orderId, 
-				0, 
+				status, 
 				name,
 				email, 
 				phone
@@ -116,7 +74,7 @@ class Order:
 		return True
 
 	#儲存交易資訊
-	def savePaymentInfo(bookingId, paymentInfo):
+	def save_payment_info(orderId, paymentInfo):
 		status = paymentInfo['status']
 		message = paymentInfo['msg']		
 		rec_trade_id = paymentInfo['rec_trade_id'] 
@@ -130,7 +88,7 @@ class Order:
 			sql = '''
 			INSERT INTO 
 				payment (
-					booking_id, 
+					order_id, 
 					status, 
 					message,
 					rec_trade_id,
@@ -143,7 +101,7 @@ class Order:
 			);
 			'''
 			paymentInfo = (
-				bookingId, 
+				orderId, 
 				status, 
 				message,
 				rec_trade_id, 
@@ -158,7 +116,7 @@ class Order:
 		finally:
 			close(c, cursor)
 
-	def saveFailPaymentInfo(bookingId, paymentInfo):
+	def save_fail_payment_info(orderId, paymentInfo):
 		status = paymentInfo['status']
 		message = paymentInfo['msg']		
 
@@ -168,7 +126,7 @@ class Order:
 			sql = '''
 			INSERT INTO 
 				payment (
-					booking_id, 
+					order_id, 
 					status, 
 					message
 			)
@@ -177,7 +135,7 @@ class Order:
 			);
 			'''
 			paymentInfo = (
-				bookingId, 
+				orderId, 
 				status, 
 				message
 			)
@@ -188,98 +146,99 @@ class Order:
 		finally:
 			close(c, cursor)
    
-	
-	def changePaymentStatus(orderId):
+	def get_order_info(userId, orderId):
 		try:
 			c = conn()
 			cursor = selectDb(c)
 			sql = '''
-			UPDATE 
-   				user_order
-			SET 
-   				payment_status = %s
-			WHERE
-   				order_id= %s;
+				SELECT 
+					A.id,
+					A.name, 
+					A.address, 
+					AM.url,
+					UB.id AS ubID,
+					UB.date, 
+					UB.time, 
+					UO.name AS username, 
+					UO.email,
+					UO.phone, 
+					P.status 
+				FROM
+					attraction AS A, 
+					user_booking AS UB,
+					order_bookings AS OB, 
+					user_order AS UO,
+					payment AS P,
+					(
+					SELECT 
+						AI.att_id,
+						MAX(AI.url) as url
+					FROM 
+						attraction_img AS AI
+					INNER JOIN
+						user_booking AS UB
+						ON UB.att_id = AI.att_id
+					WHERE 
+						UB.user_id = %s
+					GROUP BY	
+						AI.att_id
+					) AS AM
+				WHERE
+					A.id = UB.att_id 
+				AND
+					AM.att_id = UB.att_id
+				AND
+					UB.id = OB.booking_id
+				AND
+					OB.order_id = UO.order_id
+				AND
+					UO.order_id = P.order_id
+				AND
+					UO.order_id = %s
+				AND
+					UB.user_id = %s
+				ORDER BY 
+					P.created_at DESC 
 			'''
-			orderInfo = (
-				1, orderId
-			)
-			cursor.execute(sql, orderInfo)
-			c.commit()
+			orderData = (userId, orderId, userId)
+			cursor.execute(sql, orderData)
+			result = cursor.fetchall()	
 		finally:
 			close(c, cursor)
    
-	def getOrderInfo(userId, orderId):
-		try:
-			c = conn()
-			cursor = c.cursor(dictionary=True)
-			cursor.execute("use taipei_trip;") 
-			sql = '''
-			select 
-				A.id,
-				A.name, 
-				A.address, 
-				AM.url, 
-				UB.date, 
-				UB.time, 
-				UO.name as username, 
-				UO.email,
-				UO.phone, 
-				P.status 
-			from
-				user_order as UO
-			inner join 
-				user_booking as UB 
-				on UO.booking_id = UB.id
-			inner join
-				attraction as A 
-				on UB.att_id = A.id 
-			inner join 
-				attraction_img as AM 
-				on UB.att_id = AM.att_id
-			inner join 
-				payment as P 
-				on UO.booking_id = P.booking_id
-			where 
-				UO.order_id = %s 
-				and
-				UB.user_id = %s
-			order by 
-				P.created_at desc 
-			limit 1 ;
-			'''
-			orderData = (orderId, userId)
-			cursor.execute(sql, orderData)
-			result = cursor.fetchone()	
-			
-			if (not result):
-				orderInfo = {
-					"data": None
-				}
-				return orderInfo
+		if (not result):
 			orderInfo = {
-				"data": {
-					"number": orderId,
-					"price": 2000 if result['time'] == 'morning' else 2500,
-					"trip": {
-					"attraction": {
-						"id": result['id'],
-						"name": result['name'],
-						"address": result['address'],
-						"image": result['url']
-					},
-					"date": result['date'],
-					"time": result['time']
-					},
-					"contact": {
-					"name": result['username'],
-					"email": result['email'],
-					"phone": result['phone']
-					},
-					"status": result['status']
-				}
+				"data": None
 			}
 			return orderInfo
-		finally:
-			close(c, cursor)
+		bookings = []
+		for booking in result:
+			data = {
+				"price": 2000 if booking['time'] == 'morning' else 2500,
+				"trip": {
+				"attraction": {
+					"id": booking['id'],
+					"name": booking['name'],
+					"address": booking['address'],
+					"image": booking['url']
+				},
+				"bookingId": booking['ubID'],
+				"date": booking['date'],
+				"time": booking['time']
+				}
+			}
+			bookings.append(data)
+
+		orderInfo = {
+			'data':bookings,
+          	"contact": {
+				"name": result[0]['username'],
+				"email": result[0]['email'],
+				"phone": result[0]['phone']
+			},
+			"status": result[0]['status'],
+			"number": orderId
+		}
+		return orderInfo
+
    

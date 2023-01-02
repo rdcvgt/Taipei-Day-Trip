@@ -1,0 +1,433 @@
+@import url("https://fonts.googleapis.com/earlyaccess/notosanstc.css");
+* {
+  font-family: 'Noto Sans TC';
+}
+.error {
+  color: #d20000;
+}
+.success {
+  color: #018400;
+}
+.sloganTitle {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.5em;
+}
+.headLine {
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.5em;
+}
+.dialogTitleBold {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.5em;
+}
+.dialogTitleRegular {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.5em;
+}
+.buttonBold {
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.5em;
+}
+.buttonRegular {
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 1.5em;
+}
+.contentBold {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5em;
+}
+.contentRegular {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5em;
+}
+.bodyBold {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5em;
+}
+.bodyMedium {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5em;
+}
+.categoryListMedium {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5em;
+}
+.hr {
+  width: 1200px;
+  border: 1px solid #e8e8e8;
+  position: relative;
+}
+.confirmBtn {
+  padding: 10px 20px 10px 20px;
+  border: 0px;
+  background-color: #489;
+  border-radius: 5px;
+  color: #fff;
+  width: 154px;
+  height: 36px;
+  cursor: pointer;
+  transition: 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 0;
+}
+.confirmBtn:hover {
+  filter: brightness(1.3);
+  transition: 0.2s;
+}
+.input {
+  outline-style: none;
+  border: 1px solid #e8e8e8;
+  padding: 10px;
+  border-radius: 5px;
+  transition: 0.1s;
+}
+.input:focus {
+  transition: 0.1s;
+  border: 2px solid #1a73e8;
+}
+.message {
+  font-size: 10px;
+  margin-bottom: 10px;
+  color: #d20000;
+}
+.notice {
+  font-size: 10px;
+  display: none;
+  color: #d20000;
+}
+.messageCard {
+  position: fixed;
+  width: 250px;
+  height: 60px;
+  border-radius: 70px;
+  z-index: 2;
+  top: 55px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  opacity: 0;
+}
+.skeleton {
+  animation: skeleton-loading 1s linear infinite alternate;
+}
+@media (max-width: 1200px) {
+  .hr {
+    width: 90%;
+  }
+}
+@-moz-keyframes messageCardFadeIn {
+  0% {
+    opacity: 0;
+    top: 55px;
+  }
+  100% {
+    opacity: 1;
+    top: 100px;
+  }
+}
+@-webkit-keyframes messageCardFadeIn {
+  0% {
+    opacity: 0;
+    top: 55px;
+  }
+  100% {
+    opacity: 1;
+    top: 100px;
+  }
+}
+@-o-keyframes messageCardFadeIn {
+  0% {
+    opacity: 0;
+    top: 55px;
+  }
+  100% {
+    opacity: 1;
+    top: 100px;
+  }
+}
+@keyframes messageCardFadeIn {
+  0% {
+    opacity: 0;
+    top: 55px;
+  }
+  100% {
+    opacity: 1;
+    top: 100px;
+  }
+}
+@-moz-keyframes messageCardFadeOut {
+  0% {
+    opacity: 1;
+    top: 100px;
+  }
+  100% {
+    opacity: 0;
+    top: 100px;
+  }
+}
+@-webkit-keyframes messageCardFadeOut {
+  0% {
+    opacity: 1;
+    top: 100px;
+  }
+  100% {
+    opacity: 0;
+    top: 100px;
+  }
+}
+@-o-keyframes messageCardFadeOut {
+  0% {
+    opacity: 1;
+    top: 100px;
+  }
+  100% {
+    opacity: 0;
+    top: 100px;
+  }
+}
+@keyframes messageCardFadeOut {
+  0% {
+    opacity: 1;
+    top: 100px;
+  }
+  100% {
+    opacity: 0;
+    top: 100px;
+  }
+}
+@-moz-keyframes skeleton-loading {
+  0% {
+    background-color: #a3b8c2;
+  }
+  100% {
+    background-color: #f0f3f5;
+  }
+}
+@-webkit-keyframes skeleton-loading {
+  0% {
+    background-color: #a3b8c2;
+  }
+  100% {
+    background-color: #f0f3f5;
+  }
+}
+@-o-keyframes skeleton-loading {
+  0% {
+    background-color: #a3b8c2;
+  }
+  100% {
+    background-color: #f0f3f5;
+  }
+}
+@keyframes skeleton-loading {
+  0% {
+    background-color: #a3b8c2;
+  }
+  100% {
+    background-color: #f0f3f5;
+  }
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  background-color: #757575;
+}
+body {
+  position: relative;
+  background-color: #fff;
+  padding-top: 90px;
+}
+.noBooking {
+  width: 1200px;
+  padding: 0 100px 0 100px;
+  margin: 0 auto;
+  height: auto;
+  display: flex;
+  top: 40px;
+  height: 100px;
+  position: relative;
+  color: #666;
+}
+@media (max-width: 1200px) {
+  .noBooking {
+    width: 90%;
+    padding: 0;
+  }
+}
+@media (max-width: 600px) {
+  .noBooking {
+    display: flex;
+    flex: wrap;
+  }
+}
+.tripInfo {
+  display: block;
+}
+.contact {
+  width: 1200px;
+  padding: 0 100px 0 100px;
+  margin: 0 auto;
+  height: auto;
+  display: flex;
+  margin-bottom: 70px;
+  color: #666;
+}
+@media (max-width: 1200px) {
+  .contact {
+    width: 90%;
+    padding: 0;
+  }
+}
+@media (max-width: 600px) {
+  .contact {
+    display: flex;
+    flex: wrap;
+  }
+}
+.contact__box {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.contact__header {
+  display: block;
+  width: 550px;
+}
+.contact__info {
+  margin-top: 30px;
+}
+.contact__photoBlock {
+  width: 550px;
+  display: flex;
+  align-items: center;
+}
+.contact__Preview {
+  width: 80px;
+  height: 80px;
+  background-color: #fff;
+  border: 1px solid #e8e8e8;
+  border-radius: 50%;
+  margin-right: 20px;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+.contact__photo {
+  max-height: 100%;
+  object-fit: cover;
+}
+.contact__button {
+  width: 80px;
+  margin-right: 20px;
+  border-radius: 20px;
+  background-color: #fff;
+  color: #757575;
+  border: 1px solid #e8e8e8;
+  transition: 0.2s;
+}
+.contact__button:hover {
+  filter: brightness(1);
+  box-shadow: 3px 3px 12px rgba(157,157,157,0.3);
+  transition: 0.2s;
+}
+.contact__upload {
+  display: none;
+}
+.confirm {
+  width: 1200px;
+  padding: 0 100px 0 100px;
+  margin: 0 auto;
+  height: auto;
+  display: flex;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+@media (max-width: 1200px) {
+  .confirm {
+    width: 90%;
+    padding: 0;
+  }
+}
+@media (max-width: 600px) {
+  .confirm {
+    display: flex;
+    flex: wrap;
+  }
+}
+.confirm__box {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.confirm .cancel {
+  margin-right: 20px;
+  background-color: #fff;
+  color: #757575;
+  border: 1px solid #757575;
+}
+.input {
+  width: 550px;
+  height: 50px;
+}
+.notice {
+  position: relative;
+  top: 0px;
+  margin: 0;
+}
+/* RWD */
+@media (max-width: 600px) {
+  .contact {
+    width: 90%;
+    margin-bottom: 30px;
+  }
+  .contact__box {
+    display: block;
+  }
+  .contact__header {
+    text-align: center;
+    width: 100%;
+  }
+  .contact__photoBlock {
+    width: 100%;
+  }
+  .input {
+    width: 100%;
+  }
+  .confirm__box {
+    width: 100%;
+    justify-content: center;
+    flex-direction: column-reverse;
+  }
+  .confirm .cancel {
+    width: 100%;
+    height: 50px;
+    margin-right: 0;
+  }
+  .confirm .save {
+    width: 100%;
+    height: 50px;
+    margin-bottom: 20px;
+  }
+}

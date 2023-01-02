@@ -186,13 +186,182 @@
   transition: 0.2s;
   display: flex;
   align-items: center;
+  text-decoration: none;
+  justify-content: center;
 }
 .navBarContainer .navBarBtn .button:hover {
   background-color: #e8e8e8;
   transition: 0.2s;
 }
+.navBarContainer .navBarBtn .navLoginBtn {
+  display: none;
+}
+.navBookBtn {
+  width: 60px;
+  position: relative;
+}
+.bookingCount {
+  width: 25px;
+  height: 18px;
+  background-color: #ff4949;
+  border-radius: 18px;
+  top: 2px;
+  right: 5px;
+  position: absolute;
+  font-size: 8px;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cartBox {
+  width: 25px;
+  height: 25px;
+  justify-content: center;
+}
+.cartBox .cart {
+  max-height: 100%;
+  object-fit: cover;
+}
+.photoBox {
+  width: 25px;
+  height: 25px;
+  background-color: #fff;
+  border: 1px solid #e8e8e8;
+  border-radius: 50%;
+  margin-right: 5px;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+.photoBox .photo {
+  max-height: 100%;
+  object-fit: cover;
+}
+.arrowBox {
+  width: 15px;
+  height: 15px;
+  margin-left: 5px;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+.arrowBox .arrow {
+  max-height: 100%;
+  object-fit: cover;
+}
+ul.menu {
+  display: inline-block;
+  list-style: none;
+  padding: 0;
+}
+ul.menu li {
+  position: relative;
+  white-space: nowrap;
+}
+.menuBtn {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.subMenu {
+/*隱藏次選單*/
+  position: absolute;
+  width: 120px;
+  top: 45px;
+  list-style: none;
+  padding: 0;
+  box-shadow: 3px 3px 12px rgba(157,157,157,0.5);
+  display: none;
+  background-color: #fff;
+  border-radius: 5px;
+  z-index: 3;
+}
+.username {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 @media (max-width: 1200px) {
   .navBarContainer {
     margin: 10px;
+    padding: 0 15px 0 15px;
+  }
+}
+@media (max-width: 600px) {
+  .navBarContainer {
+    margin: 10px;
+    padding: 0;
+  }
+  .username {
+    display: none;
+  }
+  .subMenu {
+    right: 10px;
+  }
+}
+@-moz-keyframes fadeInMenu {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fadeInMenu {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-o-keyframes fadeInMenu {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fadeInMenu {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-moz-keyframes fadeOutMenu {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@-webkit-keyframes fadeOutMenu {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@-o-keyframes fadeOutMenu {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes fadeOutMenu {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }

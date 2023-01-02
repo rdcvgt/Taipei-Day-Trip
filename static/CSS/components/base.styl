@@ -16,16 +16,6 @@ $secondary10 = #F8F8F8
 
 $dangerous = #d20000
 $pass = #018400
-
-.message
-	font-size: 10px
-	margin-bottom: 10px
-	color: $dangerous
-	
-.notice
-	font-size: 10px
-	display: none
-	color: $dangerous
 	
 .error
 	color: #d20000
@@ -137,6 +127,55 @@ $pass = #018400
 	&:focus
 		transition: 0.1s
 		border: 2px solid #1a73e8
+
+.message
+	font-size: 10px
+	margin-bottom: 10px
+	color: $dangerous
+	
+.notice
+	font-size: 10px
+	display: none
+	color: $dangerous
+
+.messageCard
+	position: fixed
+	width: 250px
+	height: 60px
+	border-radius: 70px
+	z-index: 2
+	top: 55px
+	left: 50% 
+	transform: translate(-50%, 0)
+	display: flex
+	justify-content: center
+	align-items: center
+	color: #fff
+	opacity: 0
+
+
+@keyframes messageCardFadeIn {
+  0% {
+    opacity:0;
+	top: 55px
+  }
+  100% {
+    opacity:1;
+	top: 100px
+  }
+}
+
+@keyframes messageCardFadeOut {
+  0% {
+    opacity:1;
+	top: 100px
+  }
+  100% {
+    opacity:0;
+	top: 100px
+  }
+}
+
 
 /* skeleton */
 .skeleton

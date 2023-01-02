@@ -2,8 +2,43 @@
 	<div class="navBarContainer">
 		<a class="navTitle headLine" href="/">台北一日遊</a>
 		<div class="navBarBtn bodyMedium">
-			<a class="button navBookBtn">預訂行程</a>
-			<a class="button navLoginBtn">登入/註冊</a>
+			<a class="button navBookBtn">
+				<div class="bookingCount" style="display: none"></div>
+				<div class="cartBox">
+					<img
+						class="cart"
+						src="../static/Images/components/shopping-cart.png"
+					/>
+				</div>
+			</a>
+			<a class="button navLoginBtn" style="display: flex">登入/註冊</a>
+			<div
+				class="button menuBtn"
+				style="display: none"
+				onclick="toggleSubMenu() "
+			>
+				<div class="photoBox">
+					<img
+						class="photo"
+						src="../static/Images/components/user.png"
+					/>
+				</div>
+				<div class="username"></div>
+				<div class="arrowBox">
+					<img
+						class="arrow"
+						src="../static/Images/components/down-arrow.png"
+					/>
+				</div>
+
+				<ul class="subMenu">
+					<li><a class="button" href="/history">我的行程</a></li>
+					<li><a class="button" href="/settings">個人檔案</a></li>
+					<li>
+						<a class="button navLogoutBtn">登出</a>
+					</li>
+				</ul>
+			</div>
 		</div>
 	</div>
 </navigation>

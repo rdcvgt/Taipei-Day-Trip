@@ -30,45 +30,64 @@ body
 		object-fit: cover;
 
 
-.sloganContainer
+.slogan
 	position absolute
 	margin: 0 auto
 	width: 1200px
 
-.sloganText
-	color: $secondary10
+	&__text
+		color: $secondary10
 
-	.mainSlogan
+	&__main
 		display: block
 		height: 41px
 
-	.secondSlogan
+	&__second
 		margin-top: 15px
 		display: block
 		height: 16px
 
-.sloganSearch
+.search
 	display: flex
 	margin-top: 25px
 	
-	.searchContainer
+	&__container
 		position: relative
 		
-.searchBar
-	width: 400px
-	height: 46px
-	border-radius: 5px 0px 0px 5px
-	outline-style: none
-	border: 0px;
-	padding: 15px;
-	color: $secondary50
-	box-shadow: 0px 0px 20px #AABBCC;
-	
-	&:focus + .categoryList
-		visibility: visible
-		opacity: 1		
+	&__bar
+		width: 400px
+		height: 46px
+		border-radius: 5px 0px 0px 5px
+		outline-style: none
+		border: 0px;
+		padding: 15px;
+		color: $secondary50
+		box-shadow: 0px 0px 20px #AABBCC;
+		
+		&:focus + .category
+			visibility: visible
+			opacity: 1	
 
-.categoryList
+	&__btn
+		width: 60px;
+		height: 46px;
+		border-radius: 0px 5px 5px 0px
+		background-color: $primary70
+		cursor: pointer
+		position: relative
+		transition: 0.2s
+
+		&:hover
+			filter: brightness(1.3);
+			transition: 0.2s
+
+	&__Img
+		position: absolute
+		left: 50%
+		top: 50%
+		transform: translate(-50%, -50%)
+
+.category
 	z-index: 1
 	opacity: 0
 	visibility: hidden
@@ -81,7 +100,7 @@ body
 	box-shadow: 0px 0px 20px #AABBCC;
 	margin-top: 5px
 	
-	.list
+	&__list
 		width: 120px
 		height: 40px
 		padding: 10px 15px
@@ -96,29 +115,8 @@ body
 			transition: 0.2s
 			
 
-
-.searchBtn
-	width: 60px;
-	height: 46px;
-	border-radius: 0px 5px 5px 0px
-	background-color: $primary70
-	cursor: pointer
-	position: relative
-	transition: 0.2s
-
-	&:hover
-		filter: brightness(1.3);
-		transition: 0.2s
-
-	.searchImg
-		position: absolute
-		left: 50%
-		top: 50%
-		transform: translate(-50%, -50%)
-
-
 /* attractions */
-.attractionGroup
+.att
 	width: 1200px
 	height: auto
 	display: grid
@@ -129,7 +127,7 @@ body
 	margin: 106px auto 40px auto
 	justify-content: center
 
-.attContainer
+.att__container
 	width: 270px
 	height: 242px
 	border-radius: 5px
@@ -137,29 +135,34 @@ body
 	border: 1px solid $secondary20
 	cursor: pointer
 	text-decoration: none
+	transition: 0.3s
 
-	&:hover .attImg
+	&:hover
+		box-shadow: 5px 5px 12px  rgba(157, 157, 157, 0.5)
+		transition: 0.3s
+
+	&:hover .att__Img
 		scale: 1.1
 		filter: brightness(110%);
 		transition: 0.3s
 	
 
-	.attMain
-		position: relative
-		width: 100%
-		height: 197px
+.att__topInfo
+	position: relative
+	width: 100%
+	height: 197px
+	overflow: hidden
+	
+	.att__Img
+		transition: 0.3s
 		overflow: hidden
-		
-		.attImg
-			transition: 0.3s
-			overflow: hidden
-			display: block
-			width: 100%
-			height: 100%
-			object-fit: cover;
-			aspect-ratio: unset; 
+		display: block
+		width: 100%
+		height: 100%
+		object-fit: cover;
+		aspect-ratio: unset; 
 
-.attNameArea
+.att__nameArea
 	position: absolute
 	bottom: 0
 	width: 100%
@@ -169,14 +172,14 @@ body
 	align-items: center
 	padding: 10px
 
-.attName
-	opacity: none;
-	color: #ffffff
-	overflow: hidden //超出則不顯示
-	text-overflow: ellipsis //出現刪節號
-	white-space: nowrap //不換行
+	.att__name
+		opacity: none;
+		color: #ffffff
+		overflow: hidden //超出則不顯示
+		text-overflow: ellipsis //出現刪節號
+		white-space: nowrap //不換行
 
-.attInfo
+.att__btmInfo
 	width: 100%
 	height: 45px
 	display: flex
@@ -208,13 +211,13 @@ body
 	height: 0.8rem
 	border-radius: 0.125rem
 
-.attName.skeleton-text
+.att__name.skeleton-text
 	width: 180px
 
-.attInfoTrans.skeleton-text
+.att__trans.skeleton-text
 	width: 50px
 
-.attInfoCat.skeleton-text
+.att__category.skeleton-text
 	width: 120px
 
 
@@ -222,31 +225,35 @@ body
 	.welcomeImg
 		height: 320px
 
-	.sloganContainer
+	.slogan
 		width: 90%
 
-		.searchBar
+		.search__bar
 			width: 230px
 
-		.categoryList
+		.category
 			width: 322px
 
-			.list
+			&__list
 				width: 96px
 
-	.attractionGroup
+	.att
 		width: 90%
 		grid-template-columns: repeat(2, 50%)
 		grid-template-rows: repeat(2, 242px)
 
-		.attContainer
+		&__container
 			width: 100%
 			height: 242px
 
 
 @media (max-width: 600px)
-	.attractionGroup
+
+	.att
 		width: 90%
 		grid-template-columns: repeat(1, 322px)
 		grid-template-rows: repeat(2, 280px)
+
+		&__container
+			max-width: 100%
 

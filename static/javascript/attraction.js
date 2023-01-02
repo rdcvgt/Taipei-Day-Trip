@@ -15,28 +15,28 @@ fetchAttApi();
 
 /* section 中的景點資訊 */
 function loadSection(data) {
-	const bookingBox = document.querySelector(".bookingBox");
+	const book = document.querySelector(".book");
 	//分類與捷運
 	mrt = " at " + data.mrt;
 	if (data.mrt === null) {
 		mrt = "";
 	}
 	attCat = data.category + mrt;
-	attCatStr = `<div class="attCat bodyMedium">${attCat}</div>`;
-	bookingBox.insertAdjacentHTML("afterbegin", attCatStr);
+	attCatStr = `<div class="book__attCat bodyMedium">${attCat}</div>`;
+	book.insertAdjacentHTML("afterbegin", attCatStr);
 	//景點名稱
 	attName = data.name;
 	document.title = `${attName} - 臺北一日遊`;
-	attNameStr = `<div class="attName dialogTitleBold">${attName}</div>`;
-	bookingBox.insertAdjacentHTML("afterbegin", attNameStr);
+	attNameStr = `<div class="book__attName dialogTitleBold">${attName}</div>`;
+	book.insertAdjacentHTML("afterbegin", attNameStr);
 }
 
 /* info 中的景點資訊 */
 function loadInfo(data) {
 	//敘述
-	const infoContainer = document.querySelector(".infoContainer");
-	contentStr = `<p class="content contentRegular">${data.description}</p>`;
-	infoContainer.insertAdjacentHTML("afterbegin", contentStr);
+	const info__container = document.querySelector(".info__container");
+	contentStr = `<p class="info__content contentRegular">${data.description}</p>`;
+	info__container.insertAdjacentHTML("afterbegin", contentStr);
 
 	//地址
 	const address = document.querySelector(".address");
@@ -60,8 +60,8 @@ function loadInfo(data) {
 /* 處理景點照片 */
 function loadImg(data) {
 	const imgArr = data.images;
-	const imgBar = document.querySelector(".imgBar");
-	const imgDot = document.querySelector(".imgDot");
+	const img__bar = document.querySelector(".img__bar");
+	const img__dot = document.querySelector(".img__dot");
 	const loading = document.querySelector(".loading");
 	const loading__progress = document.querySelector(".loading__progress");
 	loading__progress.textContent = "0%";
@@ -69,7 +69,7 @@ function loadImg(data) {
 	//處理輪播下方的 dot
 	for (i = 0; i < imgArr.length; i++) {
 		imgDotStr = `<input class="dot dot${i}" type="radio" name="imgDot">`;
-		imgDot.insertAdjacentHTML("beforeend", imgDotStr);
+		img__dot.insertAdjacentHTML("beforeend", imgDotStr);
 	}
 
 	//計算每個景點的一張照片佔總體的比例
@@ -78,8 +78,8 @@ function loadImg(data) {
 	let nowLoadingLimit = 0;
 	for (i = 0; i < imgArr.length; i++) {
 		//處理照片
-		imgStr = `<img class="attImg img${[i]}" src="${imgArr[i]}">`;
-		imgBar.insertAdjacentHTML("beforeend", imgStr);
+		imgStr = `<img class="img__att img${[i]}" src="${imgArr[i]}">`;
+		img__bar.insertAdjacentHTML("beforeend", imgStr);
 
 		//當前照片載入完成時，增加 loading 值
 		//當 loading 爲 100% 時，將 loading 畫面移除
@@ -108,7 +108,7 @@ function loadImg(data) {
 function moveSideBar(lastDot) {
 	const leftBtn = document.querySelector(".leftBtn");
 	const rightBtn = document.querySelector(".rightBtn");
-	const imgBar = document.querySelector(".imgBar");
+	const img__bar = document.querySelector(".img__bar");
 
 	clickTime = 0;
 	imgDotHint(clickTime); //顯示底下的 dot
@@ -118,17 +118,17 @@ function moveSideBar(lastDot) {
 		clickTime--;
 		//當 clickTime < 0代表所展示圖片爲最左邊
 		if (clickTime < 0) {
-			imgBar.style.transform += "translateX(" + -100 * lastDot + "%)";
+			img__bar.style.transform += "translateX(" + -100 * lastDot + "%)";
 			clickTime = lastDot;
 			imgDotHint(clickTime);
 			return;
 		}
-		imgBar.style.transform += "translateX(" + 100 + "%)";
+		img__bar.style.transform += "translateX(" + 100 + "%)";
 		imgDotHint(clickTime);
 
 		//清空目前累積的 style
 		if (clickTime === 0) {
-			imgBar.style.transform = null;
+			img__bar.style.transform = null;
 		}
 	});
 
@@ -137,38 +137,38 @@ function moveSideBar(lastDot) {
 		clickTime++;
 		//當 clickTime > 3代表所展示圖片爲最右邊
 		if (clickTime > lastDot) {
-			imgBar.style.transform += "translateX(" + 100 * lastDot + "%)";
+			img__bar.style.transform += "translateX(" + 100 * lastDot + "%)";
 			clickTime = 0;
-			imgBar.style.transform = null;
+			img__bar.style.transform = null;
 			imgDotHint(clickTime);
 			return;
 		}
-		imgBar.style.transform += "translateX(" + -100 + "%)";
+		img__bar.style.transform += "translateX(" + -100 + "%)";
 		imgDotHint(clickTime);
 	});
 }
 
 /* 根據目前 clickTime 來決定 dot.checked 的對象 */
 function imgDotHint(clickTime) {
-	const imgBar = document.querySelector(".imgBtn");
+	const img__btn = document.querySelector(".img__btn");
 	let dot = `.dot${clickTime}`;
 	let imgPicked = document.querySelector(dot);
 	// checked 首頁載入第一張圖片
 	imgPicked.checked = true;
 
-	imgBar.addEventListener("click", () => {
+	img__btn.addEventListener("click", () => {
 		imgPicked.checked = true;
 	});
 }
 
 /* 點擊 dot 也能切換圖片 */
 function clickImgDot() {
-	const imgDot = document.querySelector(".imgDot");
-	const imgBar = document.querySelector(".imgBar");
-	imgDot.addEventListener("click", (e) => {
+	const img__dot = document.querySelector(".img__dot");
+	const img__bar = document.querySelector(".img__bar");
+	img__dot.addEventListener("click", (e) => {
 		cutString = e.target.className.split("dot");
 		dotNum = parseInt(cutString[2]);
-		imgBar.style.transform = "translateX(" + -100 * dotNum + "%)";
+		img__bar.style.transform = "translateX(" + -100 * dotNum + "%)";
 		clickTime = dotNum;
 	});
 }
@@ -181,23 +181,23 @@ function limitDate() {
 	let dd = today.getDate();
 	today = yyyy + "-" + mm + "-" + dd;
 
-	const bookDateSelector = document.querySelector(".bookDateSelector");
-	bookDateSelector.min = today;
+	const book__dateInput = document.querySelector(".book__dateInput");
+	book__dateInput.min = today;
 }
 limitDate();
 
 /* 切換導覽時間，改變價錢 */
 function changeTourTime() {
-	const bookMorning = document.querySelector(".bookMorning");
-	const bookAfternoon = document.querySelector(".bookAfternoon");
-	const bookFeeNtd = document.querySelector(".bookFeeNtd");
+	const book__morning = document.querySelector(".book__morning");
+	const book__afternoon = document.querySelector(".book__afternoon");
+	const book__feeNtd = document.querySelector(".book__feeNtd");
 
-	bookMorning.addEventListener("click", () => {
-		bookFeeNtd.textContent = "新臺幣 2000 元";
+	book__morning.addEventListener("click", () => {
+		book__feeNtd.textContent = "新臺幣 2000 元";
 	});
 
-	bookAfternoon.addEventListener("click", () => {
-		bookFeeNtd.textContent = "新臺幣 2500 元";
+	book__afternoon.addEventListener("click", () => {
+		book__feeNtd.textContent = "新臺幣 2500 元";
 	});
 }
 changeTourTime();
@@ -208,25 +208,21 @@ function bookingTrip() {
 
 	confirmBtn.addEventListener("click", (e) => {
 		e.preventDefault();
-		removeMessage();
 
 		let token = document.cookie.split("=")[1];
 		if (token === undefined || token === "") {
-			str = `<div class="message error">抱歉！請先登入，再開始預約行程</div>`;
-			confirmBtn.insertAdjacentHTML("beforeBegin", str);
-			bookDateSelector.style.border = "2px solid #d20000";
+			showMassage("請先登入，再開始預約行程", false);
 			showLoginBox();
 			return;
 		}
 
 		attractionId = parseInt(window.location.href.split("/")[4]);
 		//確認使用者已選擇日期
-		const bookDateSelector = document.querySelector(".bookDateSelector");
-		date = bookDateSelector.value;
+		const book__dateInput = document.querySelector(".book__dateInput");
+		date = book__dateInput.value;
 		if (date === "") {
-			str = `<div class="message error">尚未選擇日期</div>`;
-			confirmBtn.insertAdjacentHTML("beforeBegin", str);
-			bookDateSelector.style.border = "2px solid #d20000";
+			showMassage("尚未選擇日期", false);
+			book__dateInput.style.border = "2px solid #d20000";
 			return;
 		}
 
@@ -255,27 +251,25 @@ function bookingTrip() {
 			.then((res) => res.json())
 			.then((res) => {
 				if (res.ok === true) {
-					str = `<div class="message success">${res.message}</div>`;
-					confirmBtn.insertAdjacentHTML("beforeBegin", str);
-					setTimeout(() => {
-						window.location.href = "/booking";
-					}, "2000");
+					showMassage(res.message, true);
 				}
 				if (res.error === true) {
-					str = `<div class="message error">${res.message}</div>`;
-					confirmBtn.insertAdjacentHTML("beforeBegin", str);
+					showMassage(res.message, false);
 				}
 			});
 	});
 }
 bookingTrip();
 
-function removeMessage() {
-	let message = document.querySelector(".message");
-	if (message === null) return;
-	if (message.parentNode) {
-		message.parentNode.removeChild(message);
-	}
-	const bookDateSelector = document.querySelector(".bookDateSelector");
-	bookDateSelector.style.border = "none";
+/* 顯示卡片提示 */
+function showMassage(messageContent, status) {
+	const color = status ? "#4ad27a" : "#ff4949";
+
+	const messageCard = document.querySelector(".messageCard");
+	messageCard.textContent = messageContent;
+	messageCard.style.background = color;
+	messageCard.style.animation = "messageCardFadeIn 0.7s both";
+	setTimeout(() => {
+		messageCard.style.animation = "messageCardFadeOut 0.7s both";
+	}, 1200);
 }

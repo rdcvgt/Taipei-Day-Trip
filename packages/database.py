@@ -29,7 +29,7 @@ def conn():
         exit(1)
 
 def selectDb(c):
-    cursor = c.cursor()
+    cursor = c.cursor(dictionary=True)
     cursor.execute("use taipei_trip;") 
     return cursor
 

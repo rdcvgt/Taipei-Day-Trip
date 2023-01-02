@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>我的行程</title>
+		{% include 'components/head.html'%}
+		<link rel="stylesheet" href="../static/CSS/pages/history.css" />
+		<style></style>
+	</head>
+
+	<body>
+		{% include 'components/navigation.html'%}
+		<headline class="headline orderTitle buttonBold">
+			<div
+				class="headline__upcoming toggleButton"
+				onclick="changeToUpcomingTrip()"
+			>
+				即將到來的行程
+			</div>
+			<div
+				class="headline__past toggleButton"
+				onclick="changeToPastTrip()"
+			>
+				歷史行程
+			</div>
+		</headline>
+		<tripInfo class="tripInfo upcomingTrip">
+			<section class="section card upcomingTrip__card"></section>
+			<div class="noOrder upcomingTrip__message bodyMedium">
+				您沒有任何即將到來的行程。
+			</div>
+		</tripInfo>
+
+		<tripInfo class="tripInfo pastTrip">
+			<section class="section card pastTrip__card"></section>
+			<div class="noOrder pastTrip__message bodyMedium">
+				您沒有任何已訂購的歷史行程。
+			</div>
+		</tripInfo>
+
+		<div>{% include 'components/sign_in.html'%}</div>
+		<div>{% include 'components/sign_up.html'%}</div>
+		<div>{% include 'components/footer.html'%}</div>
+
+		<script
+			type="text/javascript "
+			src="../static/javascript/sign_box.js "
+		></script>
+		<script
+			type="text/javascript "
+			src="../static/javascript/history.js "
+		></script>
+	</body>
+</html>

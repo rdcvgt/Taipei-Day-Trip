@@ -157,6 +157,7 @@ html {
 body {
   position: relative;
   background-color: #fff;
+  padding-top: 90px;
 }
 .headline {
   width: 1200px;
@@ -165,8 +166,6 @@ body {
   height: auto;
   display: flex;
   position: relative;
-  top: 91px;
-  height: 100px;
   color: #666;
 }
 @media (max-width: 1200px) {
@@ -214,6 +213,7 @@ body {
   height: auto;
   display: flex;
   margin-top: 40px;
+  display: block;
 }
 @media (max-width: 1200px) {
   .section {
@@ -233,8 +233,16 @@ body {
   display: flex;
   justify-content: left;
   align-items: center;
-  margin-bottom: 40px;
+  padding-bottom: 30px;
+  padding-top: 50px;
   position: relative;
+  border-bottom: 1px solid #e8e8e8;
+}
+.dayTrip:nth-child(1) {
+  border-top: 1px solid #e8e8e8;
+}
+.dayTrip:nth-last-child(1) {
+  border-bottom: 0;
 }
 .dayTrip__imgBox {
   width: 266px;
@@ -256,26 +264,57 @@ body {
   flex: auto;
   margin-left: 20px;
   height: 100%;
+  width: 60%;
 }
 .dayTrip__info {
   display: flex;
   margin-bottom: 20px;
   color: #666;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dayTrip__info:nth-of-type(4) {
+  margin-bottom: 0;
 }
 a.dayTrip__info:nth-of-type(1) {
   text-decoration: none;
-  margin-bottom: 30px;
   color: #489;
   transition: 0.2s;
+  display: inline-block;
 }
 a.dayTrip__info:nth-of-type(1):hover {
   filter: brightness(1.3);
   cursor: pointer;
   transition: 0.2s;
 }
+.dayTrip__checkboxLabel {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  display: flex;
+  align-items: center;
+  color: #909090;
+  cursor: pointer;
+}
+.dayTrip__checkboxLabel:hover {
+  filter: brightness(1.2);
+  transition: 0.2s;
+}
+.dayTrip__checkbox {
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
+}
+.dayTrip input[type='checkbox'] {
+  cursor: pointer;
+}
+.dayTrip input[type='checkbox']:checked {
+  accent-color: #489;
+}
 .dayTrip__delete {
   position: absolute;
-  top: 0;
+  top: 15px;
   right: 0;
   width: 30px;
   height: 30px;
@@ -394,9 +433,6 @@ a.dayTrip__info:nth-of-type(1):hover {
   left: 90px;
 }
 /* skeleton */
-.card {
-  display: none;
-}
 .card-template {
   display: block;
 }
@@ -422,6 +458,25 @@ a.dayTrip__info:nth-of-type(1):hover {
   border-radius: 5px;
   transition: 0.1s;
 }
+.tappay-field-focus {
+  transition: 0.1s;
+  border: 2px solid #1a73e8;
+}
+.bookNotice {
+  display: none;
+  width: 100%;
+  height: 80px;
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #ffebeb;
+  border-radius: 5px;
+  border: 1px solid #d20000;
+  align-items: center;
+  color: #d20000;
+  font-size: 14px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
 .cardNotice {
   display: none;
   width: 100%;
@@ -435,12 +490,73 @@ a.dayTrip__info:nth-of-type(1):hover {
   color: #d20000;
   font-size: 14px;
 }
+/* 交易 loading */
+.loading {
+  display: none;
+  width: 100%;
+  height: 100%;
+  -webkit-backdrop-filter: saturate(180%) blur(5px);
+  backdrop-filter: saturate(180%) blur(5px);
+  background-color: rgba(255,255,255,0.7);
+  position: absolute;
+  top: 0;
+  opacity: 0;
+  z-index: 1;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+}
+.loading__content {
+  position: sticky;
+  top: 300px;
+}
+.loading__ring {
+  display: inline-block;
+  position: relative;
+  width: 150px;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+.loading__ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  margin: 8px;
+  border: 3px solid #757575;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #757575 transparent transparent transparent;
+}
+.loading__ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.loading__ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.loading__ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+.loading__progress {
+  text-align: center;
+  color: #757575;
+  font-size: 20px;
+}
 /* RWD */
 @media (max-width: 1200px) {
+  .dayTrip__imgBox {
+    width: 266px;
+    height: 200px;
+  }
   .dayTrip__delete {
     position: absolute;
-    top: auto;
-    bottom: -30px;
+  }
+  .section {
+    display: block;
   }
 }
 @media (max-width: 600px) {
@@ -450,7 +566,6 @@ a.dayTrip__info:nth-of-type(1):hover {
     display: flex;
     flex-wrap: wrap;
     justify-content: left;
-    margin-bottom: 40px;
     position: relative;
   }
   .dayTrip__imgBox {
@@ -458,12 +573,111 @@ a.dayTrip__info:nth-of-type(1):hover {
     height: 200px;
   }
   .dayTrip__infoBox {
-    width: 100%;
+    width: 90%;
     margin-top: 30px;
     margin-left: 0;
   }
   .dayTrip____skeleton {
     margin-top: 30px;
     margin-left: 0;
+  }
+  .section {
+    display: block;
+  }
+}
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-moz-keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@-webkit-keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@-o-keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@-moz-keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@-o-keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

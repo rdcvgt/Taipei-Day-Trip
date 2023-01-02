@@ -1,7 +1,6 @@
-from flask import *
-import json
+from flask import jsonify 
 
-def errorMessage(message):
+def error_message(message):
 	error = jsonify({
 		"error": True,
 		"message": message
