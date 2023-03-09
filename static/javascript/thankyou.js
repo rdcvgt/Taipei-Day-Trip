@@ -9,14 +9,6 @@ function getTokenFromCookie() {
 }
 getTokenFromCookie();
 
-/* 顯示使用者名稱 */
-// function showUserName() {
-// 	let userInfo = JSON.parse(sessionStorage.user);
-// 	const headline_username = document.querySelector(".headline_username");
-// 	headline_username.textContent = userInfo.name;
-// }
-// showUserName();
-
 /* fetch 使用者預訂資料 */
 function fetchUserBooking() {
 	let userInfo = JSON.parse(sessionStorage.user);
@@ -39,8 +31,8 @@ function fetchUserBooking() {
 			}
 			if (res.data) {
 				showBookingInfo();
-				loadBookingInfo(res.data);
-				if (res.data.status === 0) {
+				loadBookingInfo(res);
+				if (res.status === 0) {
 					showSuccessOrderMessage();
 				} else {
 					showFailOrderMessage();
@@ -52,7 +44,7 @@ function fetchUserBooking() {
 }
 fetchUserBooking();
 
-/* 若使用者有預訂行程，顯示行程等資訊*/
+// /* 若使用者有預訂行程，顯示行程等資訊*/
 function showBookingInfo() {
 	const tripInfo = document.querySelector(".tripInfo");
 	const noOrder = document.querySelector(".noOrder");
@@ -62,64 +54,103 @@ function showBookingInfo() {
 
 /* 載入使用者預訂行程資料 */
 function loadBookingInfo(res) {
+	console.log(res);
 	let orderId = res.number;
 	let email = res.contact.email;
 	let userName = res.contact.name;
 	let phone = res.contact.phone;
 
-	let id = res.trip.attraction.id;
-	let name = res.trip.attraction.name;
-	let address = res.trip.attraction.address;
-	let url = res.trip.attraction.image;
-	let date = res.trip.date;
-	let price = res.price;
-	let time = res.trip.time;
-
-	const card = document.querySelector(".card");
-	const cardTemplate = document.querySelector(".card-template");
 	const dayTrip__orderId = document.querySelector(".dayTrip__orderId");
 	const dayTrip__username = document.querySelector(".dayTrip__username");
 	const dayTrip__phone = document.querySelector(".dayTrip__phone");
 	const dayTrip__email = document.querySelector(".dayTrip__email");
 
-	const attLink = document.querySelector(".attLink");
-	const dayTrip__img = document.querySelector(".dayTrip__img");
-	const dayTrip__imgAtt = document.querySelector(".dayTrip__imgAtt");
-	const dayTrip__name = document.querySelector(".dayTrip__name");
-	const dayTrip__date = document.querySelector(".dayTrip__date");
-	const dayTrip__time = document.querySelector(".dayTrip__time");
-	const dayTrip__address = document.querySelector(".dayTrip__address");
-	const dayTrip__fee = document.querySelector(".dayTrip__fee");
-
-	document.title = `訂單資訊 - ${name}`;
 	dayTrip__orderId.textContent = orderId;
 	dayTrip__email.textContent = email;
 	dayTrip__username.textContent = userName;
 	dayTrip__phone.textContent = phone;
 
-	dayTrip__imgAtt.href = `/attraction/${id}`;
-	dayTrip__img.src = url;
-	attLink.href = `/attraction/${id}`;
-	dayTrip__name.textContent = name;
-	dayTrip__date.textContent = date;
-	dayTrip__address.textContent = address;
-	dayTrip__fee.textContent = `新臺幣 ${price} 元`;
+	const tripSection = document.querySelector(".trip-section");
+	const cardTemplate = document.querySelector(`.card-template`);
+	res.data.forEach((att) => {
+		preload = `
+		<div class="dayTrip">
+			<div class="dayTrip__imgBox">
+				<img class="dayTrip__img skeleton">
+			</div>
+			<div class="dayTrip__infoBox">
+				<div class="dayTrip__skeleton ">
+					<div class="skeleton skeleton-text"></div>
+					<div class="skeleton skeleton-text"></div>
+					<div class="skeleton skeleton-text"></div>
+					<div class="skeleton skeleton-text"></div>
+					<div class="skeleton skeleton-text"></div>
+					<div class="skeleton skeleton-text"></div>
+				</div>
+			</div>
+		</div>
+		`;
+		cardTemplate.insertAdjacentHTML("beforeend", preload);
 
-	if (time === "morning") {
-		dayTrip__time.textContent = "早上 9 點到下午 2 點";
-	} else if (time === "afternoon") {
-		dayTrip__time.textContent = "下午 2 點到晚上 7 點";
-	}
+		let attId = att.trip.attraction.id;
+		let name = att.trip.attraction.name;
+		let address = att.trip.attraction.address;
+		let url = att.trip.attraction.image;
+		let dateText = att.trip.date;
+		let priceText = att.price;
+		let bookingId = att.trip.bookingId;
+		let timeText =
+			att.trip.time === "morning"
+				? "早上 9 點到下午 2 點"
+				: "下午 2 點到晚上 7 點";
 
-	dayTrip__img.addEventListener("load", () => {
-		card.style.display = "block";
-		cardTemplate.style.display = "none";
+		let block = `
+		<div class="dayTrip trip${bookingId}">
+			<div class="dayTrip__imgBox">
+				<a class="dayTrip__imgAtt" href="/trip.attraction/${attId}">
+					<img class="dayTrip__img" src=${url}>
+				</a>
+			</div>
+			<div class="dayTrip__infoBox">
+				<a class="dayTrip__info bodyBold" href="/attraction/${attId}">
+					<div class="dayTrip__name">${name}</div>
+				</a>
+				<div class="dayTrip__info bodyBold">
+					日期：
+					<div class="dayTrip__date bodyMedium">${dateText}</div>
+				</div>
+				<div class="dayTrip__info bodyBold">
+					時間：
+					<div class="dayTrip__time bodyMedium">${timeText}</div>
+				</div>
+				<div class="dayTrip__info bodyBold">
+					費用：
+					<div class="dayTrip__fee bodyMedium">新臺幣 ${priceText} 元</div>
+				</div>
+				<div class="dayTrip__info bodyBold">
+					地點：
+					<div class="dayTrip__address bodyMedium">${address}</div>
+				</div>
+			</div>
+		</div>
+		`;
+
+		tripSection.insertAdjacentHTML("beforeend", block);
+
+		const currentTrip = document.querySelector(`.trip${bookingId}`);
+		currentTrip.style.display = "none";
+
+		const dayTrip__img = document.querySelector(".dayTrip__img");
+		dayTrip__img.addEventListener("load", () => {
+			cardTemplate.style.display = "none";
+			currentTrip.removeAttribute("style");
+		});
 	});
 }
 
 function showSuccessOrderMessage() {
 	const orderMessage = document.querySelector(".order-message");
-	orderMessage.textContent = "付款成功！";
+	orderMessage.textContent = "訂購完成！";
 
 	const dayTrip__statusImg = document.querySelector(".dayTrip__statusImg");
 	dayTrip__statusImg.src = "../static/Images/components/success.png";
@@ -127,7 +158,7 @@ function showSuccessOrderMessage() {
 
 function showFailOrderMessage() {
 	const orderMessage = document.querySelector(".order-message");
-	orderMessage.textContent = "付款失敗，";
+	orderMessage.textContent = "訂單失敗，";
 
 	const dayTrip__statusImg = document.querySelector(".dayTrip__statusImg");
 	dayTrip__statusImg.src = "../static/Images/components/fail.png";

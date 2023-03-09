@@ -12,8 +12,8 @@ getTokenFromCookie();
 /* 顯示使用者名稱 */
 function showUserName() {
 	let userInfo = JSON.parse(sessionStorage.user);
-	const headline_username = document.querySelector(".headline_username");
-	headline_username.textContent = userInfo.name;
+	const headline = document.querySelector(".headline");
+	headline.textContent = `您好，${userInfo.name}，待預訂的行程如下：`;
 }
 showUserName();
 
@@ -32,12 +32,15 @@ function fetchUserBooking() {
 		.then((res) => {
 			//登入驗證失敗導回首頁
 			if (res.error === true) {
-				window.location.href = "/";
+				showMassage(res.message, false);
+				setTimeout(() => {
+					window.location.href = "/";
+				}, 1000);
 				return;
 			}
-			if (res.data) {
+			if (res.data.length !== 0) {
 				showBookingInfo();
-				loadBookingInfo(res);
+				loadBookingInfo(res.data);
 			}
 		});
 }
@@ -52,101 +55,175 @@ function showBookingInfo() {
 }
 
 /* 載入使用者預訂行程資料 */
-function loadBookingInfo(res) {
+function loadBookingInfo(attractions) {
+	//載入使用者資訊
 	let userInfo = JSON.parse(sessionStorage.user);
-	let id = res.data.attraction.id;
-	let name = res.data.attraction.name;
-	let address = res.data.attraction.address;
-	let url = res.data.attraction.image;
-	let date = res.data.date;
-	let price = res.data.price;
-	let time = res.data.time;
-
-	const card = document.querySelector(".card");
-	const cardTemplate = document.querySelector(".card-template");
-	const dayTrip__info = document.querySelector(".dayTrip__info");
-	const dayTrip__img = document.querySelector(".dayTrip__img");
-	const dayTrip__imgAtt = document.querySelector(".dayTrip__imgAtt");
-	const dayTrip__name = document.querySelector(".dayTrip__name");
-	const dayTrip__date = document.querySelector(".dayTrip__date");
-	const dayTrip__time = document.querySelector(".dayTrip__time");
-	const dayTrip__fee = document.querySelector(".dayTrip__fee");
-	const dayTrip__address = document.querySelector(".dayTrip__address");
 	const contact__name = document.querySelector(".contact__name");
 	const contact__email = document.querySelector(".contact__email");
-	const confirm__feeSum = document.querySelector(".confirm__feeSum");
+	const contact__phone = document.querySelector(".contact__phone");
 
-	document.title = `預訂行程 - ${name}`;
-	dayTrip__imgAtt.href = `/attraction/${id}`;
-	dayTrip__img.src = url;
-	dayTrip__info.href = `/attraction/${id}`;
-	dayTrip__name.textContent = name;
-	dayTrip__date.textContent = date;
-	dayTrip__fee.textContent = `新臺幣 ${price} 元`;
-	dayTrip__address.textContent = address;
 	contact__name.value = userInfo.name;
 	contact__email.value = userInfo.email;
-	confirm__feeSum.textContent = ` ${price} `;
+	contact__phone.value = userInfo.phone;
 
-	if (time === "morning") {
-		dayTrip__time.textContent = "早上 9 點到下午 2 點";
-	} else if (time === "afternoon") {
-		dayTrip__time.textContent = "下午 2 點到晚上 7 點";
-	}
+	//載入使用者所有預訂行程
+	const section = document.querySelector(".section");
+	const cardTemplate = document.querySelector(`.card-template`);
+	attractions.forEach((att) => {
+		preload = `
+		<div class="dayTrip">
+			<div class="dayTrip__imgBox">
+				<img class="dayTrip__img skeleton">
+			</div>
+			<div class="dayTrip__infoBox">
+				<div class="dayTrip__skeleton ">
+					<div class="skeleton skeleton-text"></div>
+					<div class="skeleton skeleton-text"></div>
+					<div class="skeleton skeleton-text"></div>
+					<div class="skeleton skeleton-text"></div>
+					<div class="skeleton skeleton-text"></div>
+					<div class="skeleton skeleton-text"></div>
+				</div>
+			</div>
+		</div>
+		`;
+		cardTemplate.insertAdjacentHTML("beforeend", preload);
 
-	dayTrip__img.addEventListener("load", () => {
-		card.style.display = "block";
-		cardTemplate.style.display = "none";
+		let attId = att.attraction.id;
+		let name = att.attraction.name;
+		let address = att.attraction.address;
+		let url = att.attraction.image;
+		let dateText = att.date;
+		let priceText = att.price;
+		let bookingId = att.bookingId;
+		let timeText =
+			att.time === "morning"
+				? "早上 9 點到下午 2 點"
+				: "下午 2 點到晚上 7 點";
+
+		let block = `
+		<div class="dayTrip trip${bookingId}">
+			<div class="dayTrip__imgBox">
+				<a class="dayTrip__imgAtt" href="/attraction/${attId}">
+					<img class="dayTrip__img" src=${url}>
+				</a>
+			</div>
+			<div class="dayTrip__infoBox">
+				<a class="dayTrip__info bodyBold" href="/attraction/${attId}">
+					<div class="dayTrip__name">${name}</div>
+				</a>
+				<div class="dayTrip__info bodyBold">
+					日期：
+					<div class="dayTrip__date bodyMedium">${dateText}</div>
+				</div>
+				<div class="dayTrip__info bodyBold">
+					時間：
+					<div class="dayTrip__time bodyMedium">${timeText}</div>
+				</div>
+				<div class="dayTrip__info bodyBold">
+					費用：
+					<div class="dayTrip__fee bodyMedium">新臺幣 ${priceText} 元</div>
+				</div>
+				<div class="dayTrip__info bodyBold">
+					地點：
+					<div class="dayTrip__address bodyMedium">${address}</div>
+				</div>
+				<label class='dayTrip__checkboxLabel bodyMedium'>
+					<input type="checkbox" class="dayTrip__checkbox" name="trip" value="${bookingId}" /> 選擇此行程
+				</label>
+				
+				<div class="dayTrip__delete delete-${bookingId}">
+					<img class="dayTrip__deleteIcon" src="../static/Images/components/delete.png" alt="">
+				</div>
+			</div>
+		</div>
+		`;
+
+		section.insertAdjacentHTML("beforeend", block);
+
+		const currentTrip = document.querySelector(`.trip${bookingId}`);
+		currentTrip.style.display = "none";
+
+		const dayTrip__img = document.querySelector(".dayTrip__img");
+		dayTrip__img.addEventListener("load", () => {
+			cardTemplate.style.display = "none";
+			currentTrip.removeAttribute("style");
+		});
 	});
 
-	orderData = {
-		order: {
-			price: time === "morning" ? 2000 : 4000,
-			trip: {
-				attraction: {
-					id,
-					name,
-					address,
-					image: url,
-				},
-				date,
-				time,
-			},
-		},
-	};
-
-	deleteBookingTrip(id);
-	examineAllInput(orderData);
+	updateFeeSum();
 }
 
 /* 刪除行程並且重新整理頁面 */
-function deleteBookingTrip(id) {
+function deleteBookingTrip() {
 	let userInfo = JSON.parse(sessionStorage.user);
 	let token = getTokenFromCookie();
 
-	const dayTrip__delete = document.querySelector(".dayTrip__delete");
-	dayTrip__delete.addEventListener("click", () => {
+	const card = document.querySelector(".card");
+	card.addEventListener("click", (e) => {
+		if (e.target.tagName !== "IMG") return;
+		let bookingId = e.target.parentNode.className.split("-")[1];
 		fetch("/api/booking", {
 			method: "DELETE",
 			headers: {
 				authorization: `Bearer ${token}`,
 				userId: `${userInfo.id}`,
+				bookingId: `${bookingId}`,
 			},
 		})
 			.then((res) => res.json())
 			.then((res) => {
 				//登入驗證失敗導回首頁
 				if (res.error === true) {
-					window.location.href = "/";
+					showMassage(res.message, false);
+					setTimeout(() => {
+						window.location.href = "/";
+					}, 1000);
 					return;
 				}
-				window.location.reload("/booking");
+				//顯示移除成功訊息
+				showMassage("刪除成功！", true);
+
+				//移除已刪除的行程欄位
+				const currentTrip = document.querySelector(`.trip${bookingId}`);
+				currentTrip.parentNode.removeChild(currentTrip);
+
+				//若預訂行程已完全刪除，則重新整理頁面
+				const card = document.querySelector(".card");
+				if (card.children.length === 1) {
+					setTimeout(() => {
+						window.location.reload("/booking");
+					}, 1000);
+				}
 			});
+	});
+}
+deleteBookingTrip();
+
+/* 根據所選行程改變總價 */
+function updateFeeSum() {
+	const confirm__fee = document.querySelector(".confirm__fee");
+	const dayTrip__checkbox = document.querySelectorAll(".dayTrip__checkbox");
+	let feeSum = 0;
+	dayTrip__checkbox.forEach((checkbox) => {
+		checkbox.addEventListener("change", (e) => {
+			price = parseInt(
+				e.target.parentNode.parentNode.children[3].children[0].textContent.split(
+					" "
+				)[1]
+			);
+			if (e.currentTarget.checked) {
+				feeSum += price;
+			} else {
+				feeSum -= price;
+			}
+			confirm__fee.textContent = `總價：新臺幣 ${feeSum} 元`;
+		});
 	});
 }
 
 /* 驗證頁面中所有 input，分別驗證與點擊付款時驗證 */
-function examineAllInput(orderData) {
+function examineAllInput() {
 	//姓名欄位
 	const contact__name = document.querySelector(".contact__name");
 	contact__name.addEventListener("blur", () => {
@@ -173,11 +250,9 @@ function examineAllInput(orderData) {
 		let userName = examineName(contact__name);
 		let email = examineEmail(contact__email);
 		let phone = examinePhone(contact__phone);
-		let phoneNumber = contact__phone.value;
-
-		if (userName && email && phone) {
-			primeStatus = getPrime(orderData, phoneNumber);
-			console.log(primeStatus);
+		let booking = examineOrder();
+		if (userName && email && phone && booking) {
+			primeStatus = getPrime();
 			if (!primeStatus) {
 				enableCardErrMessage();
 			}
@@ -185,9 +260,10 @@ function examineAllInput(orderData) {
 		//todo: false 驗證
 	});
 }
+examineAllInput();
 
 /* 取得 prime */
-function getPrime(orderData, phoneNumber) {
+function getPrime() {
 	// 取得 TapPay Fields 的 status
 	const tappayStatus = TPDirect.card.getTappayFieldsStatus();
 
@@ -199,27 +275,50 @@ function getPrime(orderData, phoneNumber) {
 	let prime;
 	TPDirect.card.getPrime((result) => {
 		if (result.status !== 0) {
-			// console.log("get prime error " + result.msg);
 			return false;
 		}
 		prime = result.card.prime;
-		sendOrderToBackend(prime, orderData, phoneNumber);
+		sendOrderToBackend(prime);
+		showLoadingStatus();
 	});
 
 	return true;
 }
 
 /* 將使用用的訂單資訊及 prime 傳送至 /api/orders */
-function sendOrderToBackend(prime, { order }, phoneNumber) {
+function sendOrderToBackend(prime) {
+	const dayTrip__checkbox = document.querySelectorAll(
+		".dayTrip__checkbox:checked"
+	);
+
+	let data = [];
+	let price = 0;
+	dayTrip__checkbox.forEach((trip) => {
+		price += parseInt(
+			trip.parentNode.parentNode.children[3].children[0].textContent.split(
+				" "
+			)[1]
+		);
+		data.push(trip.value);
+	});
+
 	let userInfo = JSON.parse(sessionStorage.user);
+	const name = document.querySelector(".contact__name").value;
+	const email = document.querySelector(".contact__email").value;
+	const phone = document.querySelector(".contact__phone").value;
 	let token = getTokenFromCookie();
 	orderData = {
 		prime,
-		order,
+		order: {
+			price,
+			trip: {
+				data,
+			},
+		},
 		contact: {
-			name: userInfo.name,
-			email: userInfo.email,
-			phone: phoneNumber,
+			name,
+			email,
+			phone,
 		},
 	};
 
@@ -235,12 +334,43 @@ function sendOrderToBackend(prime, { order }, phoneNumber) {
 		.then((res) => res.json())
 		.then((res) => {
 			if (res.data) {
+				hideLoadingStatus();
 				location.href = `/thankyou?number=${res.data.number}`;
 			}
 			if (res.error === true) {
 				console.log("失敗"); //todo
 			}
 		});
+}
+
+function showLoadingStatus() {
+	const loading = document.querySelector(".loading");
+	loading.style.display = "flex";
+	loading.style.animation = "fadeIn 0.3s forwards";
+}
+
+function hideLoadingStatus() {
+	const loading = document.querySelector(".loading");
+	loading.style.animation = "fadeOut 0.3s forwards";
+	setTimeout(() => {
+		loading.removeAttribute = "style";
+	}, 300);
+}
+
+/* 驗證是否有選擇行程 */
+function examineOrder() {
+	const confirm__fee = document.querySelector(".confirm__fee");
+	fee = confirm__fee.textContent.indexOf("0");
+	if (fee === 7) {
+		const bookNotice = document.querySelector(".bookNotice");
+		bookNotice.style.display = "flex";
+		window.scrollTo({ top: 0, behavior: "smooth" });
+		return false;
+	} else {
+		const bookNotice = document.querySelector(".bookNotice");
+		bookNotice.removeAttribute("style");
+		return true;
+	}
 }
 
 /* 姓名欄位的驗證細節 */
@@ -326,4 +456,17 @@ function disableNotice(className) {
 	className.nextElementSibling.textContent = "";
 	className.nextElementSibling.style.display = "none";
 	className.removeAttribute("style");
+}
+
+/* 顯示卡片提示 */
+function showMassage(messageContent, status) {
+	const color = status ? "#4ad27a" : "#ff4949";
+
+	const messageCard = document.querySelector(".messageCard");
+	messageCard.textContent = messageContent;
+	messageCard.style.background = color;
+	messageCard.style.animation = "messageCardFadeIn 0.7s both";
+	setTimeout(() => {
+		messageCard.style.animation = "messageCardFadeOut 0.7s both";
+	}, 1200);
 }

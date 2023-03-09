@@ -1,16 +1,34 @@
 <div class="boxBG"></div>
-<div class="boxContainer boxForSignIn">
-	<div class="box">
-		<div class="boxTopBar"></div>
-		<div class="boxTitle dialogTitleBold">登入會員帳號</div>
-		<img class="boxCloseBtn closeSignIn" src="../static/Images/components/close.png" alt="關閉">
-		<form class="boxForm signInForm">
-			<input class="input signInEmail bodyMedium" type="text" placeholder="輸入電子信箱">
-			<div class="notice "></div>
-			<input class="input signInPassword bodyMedium" type="password" placeholder="輸入密碼" maxlength="20">
-			<div class="notice "></div>
+<div class="box signIn">
+	<div class="box__container">
+		<div class="box__topBar"></div>
+		<div class="box__title dialogTitleBold">登入會員帳號</div>
+		<img
+			class="box__closeBtn signIn__closeBtn"
+			src="../static/Images/components/close.png"
+			alt="關閉"
+		/>
+		<form class="box__form signIn__form">
+			<input
+				class="input signIn__Email bodyMedium"
+				type="text"
+				placeholder="輸入電子信箱"
+			/>
+			<div class="notice"></div>
+			<input
+				class="input signIn__password bodyMedium"
+				type="password"
+				placeholder="輸入密碼"
+				maxlength="20"
+			/>
+			<div class="notice"></div>
 			<div class="message"></div>
-			<button class="Btn confirmBtn signInBtn buttonRegular" type="submit">登入帳戶</button>
+			<button
+				class="btn confirmBtn signIn__btn buttonRegular"
+				type="submit"
+			>
+				登入帳戶
+			</button>
 			<div class="goToText goToSignUp bodyMedium">
 				還沒有帳戶？ 點此註冊
 			</div>

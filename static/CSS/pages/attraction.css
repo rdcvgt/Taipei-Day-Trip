@@ -163,7 +163,7 @@ body {
   align-items: center;
   margin-bottom: 128px;
 }
-.sectionContainer {
+.section__container {
   width: 1200px;
   display: flex;
   justify-content: space-between;
@@ -171,20 +171,20 @@ body {
   padding: 0 15px 0 15px;
 }
 /* section - 輪播照片 */
-.imgBox {
+.img {
   width: 540px;
   height: 406px;
   position: relative;
   border-radius: 5px;
   overflow: hidden;
 }
-.imgChange {
+.img__change {
   width: 100%;
   height: 100%;
   overflow: hidden;
   position: relative;
 }
-.imgChange .imgBar {
+.img__bar {
   width: auto;
   height: 100%;
   display: flex;
@@ -192,28 +192,28 @@ body {
   left: 0px;
   transition: 0.5s cubic-bezier(0.65, 0.05, 0.36, 1);
 }
-.imgChange .imgBar .attImg {
+.img__att {
   object-fit: cover;
   max-width: 100%;
   min-width: 100%;
   display: block;
 }
-.imgBtn {
+.img__btn {
   cursor: pointer;
 }
-.imgBtn .leftBtn {
+.img__btn .leftBtn {
   position: absolute;
   top: 50%;
   left: 10px;
   transform: translate(0, -50%);
 }
-.imgBtn .rightBtn {
+.img__btn .rightBtn {
   position: absolute;
   top: 50%;
   right: 10px;
   transform: translate(0, -50%);
 }
-.imgDot {
+.img__dot {
   width: auto;
   height: 20px;
   position: absolute;
@@ -224,7 +224,7 @@ body {
   justify-content: space-evenly;
   align-items: center;
 }
-.imgDot input[type='radio'] {
+.img__dot input[type='radio'] {
   -webkit-appearance: none;
   margin: 3px;
   width: 12px;
@@ -234,7 +234,7 @@ body {
   outline: none;
   cursor: pointer;
 }
-.imgDot input[type='radio']:checked:after {
+.img__dot input[type='radio']:checked:after {
   width: 10px;
   height: 10px;
   border-radius: 10px;
@@ -247,30 +247,30 @@ body {
   background-color: rgba(0,0,0,0.8);
 }
 /* section - 右側資訊區 */
-.bookingBox {
+.book {
   width: 600px;
   color: #666;
 }
-.attName {
+.book__attName {
   margin-bottom: 15px;
 }
-.attCat {
+.book__attCat {
   margin-bottom: 20px;
 }
-.grayArea {
+.book__container {
   width: 600px;
   height: auto;
   background-color: #e8e8e8;
   padding: 15px 20px 15px 20px;
   border-radius: 5px;
 }
-.bookTitle {
+.book__title {
   margin-bottom: 15px;
 }
-.bookDate {
+.book__date {
   margin: 24px 5px 24px 0;
 }
-.bookDate .bookDateSelector {
+.book__dateInput {
   position: relative;
   width: 193px;
   height: 35px;
@@ -280,18 +280,32 @@ body {
   cursor: pointer;
   transition: 0.3s;
 }
-.bookDate .bookDateSelector:focus {
+.book__dateInput:focus {
   border: none;
   transition: 0.3s;
 }
-.bookDate input[type="date"]:focus {
+.book__dateInput input[type="date"]:focus {
   border: none;
 }
-.bookTime {
+.book__time {
   margin-bottom: 15px;
   margin-right: 5px;
   display: flex;
   align-items: center;
+}
+.book__timeBox {
+  margin-right: 10px;
+}
+.book__fee {
+  margin-bottom: 25px;
+  margin-right: 5px;
+  display: flex;
+  align-items: center;
+}
+.message {
+  font-size: 14px;
+  position: relative;
+  top: -10px;
 }
 .radioBtnBox {
   display: flex;
@@ -317,20 +331,6 @@ body {
   display: inline-block;
   border: 2px solid #fff;
 }
-.bookMorningBox {
-  margin-right: 10px;
-}
-.message {
-  font-size: 14px;
-  position: relative;
-  top: -10px;
-}
-.bookFee {
-  margin-bottom: 25px;
-  margin-right: 5px;
-  display: flex;
-  align-items: center;
-}
 /* info */
 .info {
   display: flex;
@@ -339,28 +339,29 @@ body {
   margin-top: 50px;
   margin-bottom: 120px;
 }
-.infoContainer {
+.info__container {
   width: 1200px;
   color: #666;
   line-height: 1.5em;
 }
-.infoContainer .content {
+.info__content {
   margin-bottom: 20px;
   white-space: pre-wrap;
 }
-.infoContainer .address {
+.address {
   margin-bottom: 20px;
 }
-.infoContainer .address .addressTitle {
+.address .address__title {
   line-height: 32px;
 }
-.infoContainer .transTitle {
+.trans__Title {
   line-height: 32px;
 }
 /* 照片 loading */
 .loading {
   width: 540px;
   height: 406px;
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
   backdrop-filter: saturate(180%) blur(20px);
   background-color: rgba(255,255,255,0.7);
   position: absolute;
@@ -431,14 +432,15 @@ body {
     min-width: 100%;
     top: 54px;
   }
-  .sectionContainer {
+  .section__container {
     width: 100%;
     flex-wrap: wrap;
     padding: 0px;
   }
-  .imgBox {
+  .img {
     width: 100%;
     height: 500px;
+    border-radius: 0px;
   }
   .loading {
     width: 100%;
@@ -448,20 +450,20 @@ body {
   .hr {
     width: 90%;
   }
-  .infoContainer {
+  .info__container {
     width: 90%;
   }
-  .bookingBox {
+  .book {
     width: 90%;
     margin: 0 auto;
     margin-top: 20px;
   }
-  .grayArea {
+  .book__container {
     width: 100%;
   }
 }
 @media (max-width: 600px) {
-  .imgBox {
+  .img {
     height: 350px;
   }
   .loading {

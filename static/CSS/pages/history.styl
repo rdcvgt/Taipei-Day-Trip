@@ -1,0 +1,265 @@
+@import "../components/base.styl"
+
+mainWidth()
+	width: 1200px
+	padding: 0 100px 0 100px
+	margin: 0 auto
+	height: auto
+	display: flex
+	@media (max-width: 1200px)
+		width: 90%
+		padding: 0
+	@media (max-width: 600px)
+		display: flex
+		flex: wrap
+
+
+*
+	box-sizing: border-box
+
+html
+	background-color #757575
+body
+	position:relative
+	background-color #fff
+	padding-top: 90px
+
+
+.headline
+	mainWidth()
+	position: relative
+	color: $secondary50
+
+	&__upcoming
+		margin-right: 30px
+		width: 220px
+		background-color: $primary70
+		color: #fff
+
+	&__past
+		width: 150px
+
+.toggleButton
+	height: 50px
+	border-radius: 50px
+	display: flex
+	align-items: center
+	justify-content: center
+	cursor: pointer
+	border: 1px solid $secondary20
+	transition: 0.2s
+	
+	&:hover
+		filter: brightness(1.3);
+		box-shadow: 3px 3px 12px  rgba(157, 157, 157, 0.3)
+		transition: 0.2s
+
+
+
+
+.noOrder
+	mainWidth()
+	top: 40px
+	height: 100px
+	position: relative
+	color: $secondary70
+	left: 10px
+
+.tripInfo
+	margin-bottom: 60px
+
+.upcomingTrip
+	display: block
+
+.pastTrip
+	display: none
+
+.section
+	mainWidth()
+	margin-top: 40px
+
+.dateBar
+	width: 100%
+	height: 60px
+	border-radius: 5px
+	border: 1px solid $secondary20
+	display: flex
+	align-items: center
+	justify-content: space-between
+	padding: 15px
+	margin-bottom: 20px
+	cursor: pointer
+	user-select: none
+	position: sticky
+	top: 70px
+	z-index 1
+	-webkit-backdrop-filter:saturate(180%) blur(20px);
+	backdrop-filter: saturate(180%) blur(20px)
+	background-color: rgba(240, 240, 240, 0.70)
+	box-shadow: 3px 3px 12px  rgba(157, 157, 157, 0.3)
+
+	
+	&__info
+		display: flex
+		align-items: center
+
+	&__date
+		margin-right: 20px
+		color: $secondary70
+
+	&__trip
+		color: $secondary50
+
+
+	&__imgBox
+		width: 25px
+		height: 25px
+	
+	&__img
+		width: 100%
+		height: 100%
+
+
+
+.dayTrip
+	width: 100%
+	height: auto
+
+	&__container
+		width: 100%
+		height: auto
+		display: flex
+		justify-content: left
+		align-items: center
+		padding-left: 20px
+		padding-right: 20px
+		padding-bottom: 60px
+		margin-top: 30px
+		position: relative
+		border-bottom: 1px solid $secondary20
+
+		&:nth-last-child(1)
+			border-bottom: 0
+
+	&__imgBox
+		width: 266px
+		height: 200px
+		overflow: hidden
+		border-radius: 5px
+		overflow hidden
+	
+	&__imgAtt
+		cursor:pointer
+		
+	&__img
+		width: 100%
+		height: 100%
+		object-fit: cover
+		transition: 0.2s
+
+	&__infoBox
+		flex:auto
+		margin-left: 20px
+		height: 100%
+		width: 60%
+
+	&__info
+		display: flex
+		margin-bottom: 20px
+		color: $secondary70
+		overflow: hidden
+		text-overflow: ellipsis 
+		white-space: nowrap 
+
+		&:nth-of-type(4)
+			margin-bottom: 0
+		
+		a&:nth-of-type(1)
+			text-decoration: none
+			color: $primary70
+			transition: 0.2s
+			display: inline-block
+
+			&:hover
+				filter: brightness(1.3);
+				cursor: pointer
+				transition: 0.2s
+
+.backToOrder
+	position: absolute
+	bottom: 20px
+	right: 20px
+	text-decoration: none
+	
+
+.hr
+	margin-top: 30px
+	margin-bottom: 30px
+
+.input
+	width: 200px
+	height: 38px
+
+.notice
+	position relative
+	top:0px
+	left: 90px
+
+
+/* skeleton */
+.card
+	display: block
+
+.card-template
+	display: block
+
+.dayTrip__skeleton
+	width: 100%
+	height: auto
+
+.skeleton-text
+	width: 90%
+	height: 0.7rem
+	border-radius: 0.125rem
+	margin-bottom: 20px;
+
+	&:nth-child(1) 
+		width: 70%
+
+
+/* RWD */
+@media (max-width: 1200px)
+	.dayTrip__imgBox
+		width: 266px
+		height: 200px
+
+	.backToOrder
+		bottom: 20px
+
+
+@media (max-width: 600px)
+	.dayTrip
+		&__container
+			width: 100%
+			height: auto
+			display: flex
+			flex-wrap: wrap
+			justify-content: left
+			margin-bottom: 40px 
+			position: relative
+			padding-bottom: 50px
+
+		&__imgBox
+			width: 100%
+			height: 200px
+
+		&__infoBox
+			width: 100%
+			margin-top: 30px
+			margin-left: 0
+
+		&____skeleton
+			margin-top: 30px
+			margin-left: 0
+		
+

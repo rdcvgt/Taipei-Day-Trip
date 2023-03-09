@@ -1,54 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<title>臺北一日遊</title>
+		{% include 'components/head.html'%}
+		<link rel="stylesheet" href="../static/CSS/pages/index.css" />
+	</head>
 
-<head>
-	<title>臺北一日遊</title>
-	{% include 'components/head.html'%}
-	<link rel="stylesheet" href="../static/CSS/pages/index.css">
-</head>
+	<body>
+		{% include 'components/navigation.html'%}
 
-<body>
-	{% include 'components/navigation.html'%}
-
-	<heroSection class="heroSection">
-		<div class="sectionImgBox">
-			<img class="welcomeImg" src="../static/Images/components/welcome.png" alt="首頁圖片">
-		</div>
-		<div class="sloganContainer">
-			<div class="sloganText">
-				<div class="mainSlogan sloganTitle ">
-					輕鬆享受台北一日悠閒
+		<heroSection class="heroSection">
+			<div class="sectionImgBox">
+				<img
+					class="welcomeImg"
+					src="../static/Images/components/welcome.png"
+					alt="首頁圖片"
+				/>
+			</div>
+			<div class="slogan">
+				<div class="slogan__text">
+					<div class="slogan__main sloganTitle">
+						輕鬆享受台北一日悠閒
+					</div>
+					<div class="slogan__second bodyBold">
+						探索每個角落，體驗城市的深度旅遊行程
+					</div>
 				</div>
-				<div class="secondSlogan bodyBold ">
-					探索每個角落，體驗城市的深度旅遊行程
+				<div class="search">
+					<div class="search__container">
+						<input
+							class="search__bar bodyBold"
+							type="text"
+							placeholder="輸入景點名稱查詢"
+						/>
+						<div class="category"></div>
+					</div>
+					<a class="search__btn">
+						<img
+							class="search__Img"
+							src="../static/Images/components/search.png"
+							alt="搜尋"
+						/>
+					</a>
 				</div>
 			</div>
-			<div class="sloganSearch">
-				<div class="searchContainer">
-					<input class="searchBar bodyBold" type="text" placeholder="輸入景點名稱查詢">
-					<div class="categoryList"></div>
-				</div>
-				<a class="searchBtn">
-					<img class="searchImg" src="../static/Images/components/search.png" alt="搜尋">
-				</a>
-			</div>
-
-		</div>
-	</heroSection>
-	<attractions class="attractionGroup">
-	</attractions>
-	<div class="endMessage"></div>
-	<div>
-		{% include 'components/sign_in.html'%}
-	</div>
-	<div>
-		{% include 'components/sign_up.html'%}
-	</div>
-	<div>
-		{% include 'components/footer.html'%}
-	</div>
-	<script type="text/javascript" src="../static/javascript/login.js"></script>
-	<script type="text/javascript" src="../static/javascript/index.js"></script>
-</body>
-
+		</heroSection>
+		<attractions class="att"> </attractions>
+		<div class="endMessage"></div>
+		<div>{% include 'components/sign_in.html'%}</div>
+		<div>{% include 'components/sign_up.html'%}</div>
+		<div>{% include 'components/footer.html'%}</div>
+		<script
+			type="text/javascript"
+			src="../static/javascript/sign_box.js"
+		></script>
+		<script
+			type="text/javascript"
+			src="../static/javascript/index.js"
+		></script>
+	</body>
 </html>
