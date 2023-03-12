@@ -24,8 +24,17 @@ Test password: Admin123
 - [API Doc](#api-doc)
 - [Contact](#contact)
 
-#Demo
+# Demo
+### Infinite Scroll Attractions and Attraction Image Carousel with Preloader
+![home](https://user-images.githubusercontent.com/75289113/224555787-d9ac4644-2650-43ab-8e3b-4f702b035e62.gif)
 
+
+### Booking a Trip and Checking in Shopping Cart
+![booking](https://user-images.githubusercontent.com/75289113/224556017-4a2591c3-3141-4dbb-b513-95d32e22f7c3.gif)
+
+
+### Ordering a Trip and Reviewing the Order History
+![order](https://user-images.githubusercontent.com/75289113/224555551-b4e7feba-d1c7-43ec-9f49-9224928b243d.gif)
 
 
 # Main Features
