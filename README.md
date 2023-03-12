@@ -43,3 +43,10 @@ Test password: Admin123
 # Architecture
 <img width="860" alt="截圖 2023-03-12 下午6 09 50" src="https://user-images.githubusercontent.com/75289113/224537984-405262b5-1d5e-42b7-a15a-b63428b661be.png">
 
+# API Doc
+[API Doc](https://app.swaggerhub.com/apis-docs/padax/taipei-day-trip/1.1.0)
+
+# Contact
+Sheng-Wei, Peng
+
+Email: weilllyox1020@gmail.com
