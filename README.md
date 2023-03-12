@@ -12,12 +12,12 @@ Test account: admin@gmail.com
 Test password: Admin123
 
 Test Credit Card Infomation:
-- Credit Card number（卡片號碼）:4242 4242 4242 4242
+- Credit Card number（卡片號碼）: 4242 4242 4242 4242
 - Credit Card Expiration Dates （過期時間）: 02/42
 - Credit Card CVV Code （驗證密碼）: 424
 
 # Table of Contents
-- Demo
+- [Demo](#demo)
 - [Main Features](#main-features)
 - [Frontend Technique](#frontend-technique)
 - [Backend Technique]((#backend-technique))
