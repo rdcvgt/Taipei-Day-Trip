@@ -77,6 +77,7 @@ Test Credit Card Information:
 - JWT authentication
 - Third-party Payment Service
 - MVC Pattern
+- Third normal form (3NF)
 
 ### Environment
 - Python (flask)
@@ -97,6 +98,8 @@ Test Credit Card Information:
 # Database Schema
 [(back to top)](#table-of-contents)
 
+
+- Third normal form (3NF)
 ![截圖 2023-03-14 上午1 24 02](https://user-images.githubusercontent.com/75289113/224778917-fa2bc9fa-dfa6-4f86-b713-7bed74038480.png)
 
 
