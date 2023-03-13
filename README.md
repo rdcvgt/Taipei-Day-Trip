@@ -45,14 +45,19 @@ Test Credit Card Information:
 # Main Features
 [(back to top)](#table-of-contents)
 
-- User membership system with basic regex form validation to ensure data accuracy.
-- Ability for user to search for related attractions with keywords.
-- Responsive web design for optimal viewing on all devices.
-- Implementation of infinite scroll with lazy loading for faster page loading experience.
-- Custom image carousel for showcasing attractions.
-- Shopping cart system for adding and managing selected items.
-- Online payment system with Tappay for easy and secure transactions.
-- Order history review functionality for users to view both upcoming and past bookings.
+- Attraction
+  - Ability for user to search for related attractions with keywords.
+  - Implementation of infinite scroll with lazy loading for faster page loading experience.
+  - Custom image carousel for showcasing attractions.
+
+- Membership System
+  - User membership system with regex form validation to ensure data accuracy.
+  - Member verification uses JSON Web Tokens.
+  - Order history review functionality for users to view both upcoming and past bookings.
+
+- Order and payment
+  - Shopping cart system for adding and managing selected items.
+  - Online payment system with [Tappay](https://www.tappaysdk.com/en/) for easy and secure transactions.
 
 
 # Frontend Technique
@@ -61,9 +66,16 @@ Test Credit Card Information:
 - HTML
 - Javascript
 - CSS (Stylus) applied BEM methodology
+- RWD
+- AJAX
 
 # Backend Technique
 [(back to top)](#table-of-contents)
+
+### Key Points
+- JWT authentication
+- Third-party Payment Service
+- MVC Pattern
 
 ### Environment
 - Python (flask)
@@ -87,6 +99,8 @@ Test Credit Card Information:
 [API Doc](https://app.swaggerhub.com/apis-docs/padax/taipei-day-trip/1.1.0)
 
 # Contact
-Sheng-Wei, Peng
+Developer: Sheng-Wei, Peng (Finley Peng)
 
 Email: weilllyox1020@gmail.com
+
+Linkedin: [Finley Peng](https://www.linkedin.com/in/sheng-wei-finley-peng-9015931b2/)
