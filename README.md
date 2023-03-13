@@ -26,6 +26,7 @@ Test Credit Card Information:
   - [Cloud Services](#cloud-services)
   - [Version Control](#version-control)
 - [Architecture](#architecture)
+- [Database Schema](#database-schema)
 - [API Doc](#api-doc)
 - [Contact](#contact)
 
@@ -92,6 +93,12 @@ Test Credit Card Information:
 [(back to top)](#table-of-contents)
 
 <img width="860" alt="截圖 2023-03-12 下午6 09 50" src="https://user-images.githubusercontent.com/75289113/224537984-405262b5-1d5e-42b7-a15a-b63428b661be.png">
+
+# Database Schema
+[(back to top)](#table-of-contents)
+
+![截圖 2023-03-14 上午1 24 02](https://user-images.githubusercontent.com/75289113/224778917-fa2bc9fa-dfa6-4f86-b713-7bed74038480.png)
+
 
 # API Doc
 [(back to top)](#table-of-contents)
